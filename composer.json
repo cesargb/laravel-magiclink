@@ -1,10 +1,18 @@
 {
     "name": "cesargb/laravel-magiclink",
-    "description": "Links magic for auto auth in Laravel",
+    "description": "Create link for authenticate in Laravel without password",
     "keywords": [
         "laravel",
         "auth",
         "link"
+    ],
+    "homepage": "https://github.com/cesargb/laravel-magiclink",
+    "authors": [
+	{
+		"name": "Cesar Garcia",
+		"email": "cesargb@gmail.com",
+		"homepage": "https://github.com/cesargb"
+	}
     ],
     "license": "MIT",
     "require": {
