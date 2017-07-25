@@ -1,6 +1,7 @@
 <?php
 
 namespace Cesargb\MagicLink\Test;
+
 use Cesargb\MagicLink\MagicLink;
 
 class MagicLinkTest extends TestCase
@@ -8,7 +9,7 @@ class MagicLinkTest extends TestCase
     /** @test **/
     public function it_can_create_magiclink()
     {
-        $this->assertContains('/magiclink/',$this->testUser->create_magiclink(5));
+        $this->assertContains('/magiclink/', $this->testUser->create_magiclink(5));
     }
 
     /** @test **/
@@ -21,7 +22,7 @@ class MagicLinkTest extends TestCase
     /** @test **/
     public function it_can_delete_all_magiclink()
     {
-        $magiclink=new MagicLink();
+        $magiclink = new MagicLink();
         $magiclink->delete_all();
         $this->assertTrue(true);
     }
@@ -29,7 +30,7 @@ class MagicLinkTest extends TestCase
     /** @test **/
     public function it_can_delete_expired_magiclink()
     {
-        $magiclink=new MagicLink();
+        $magiclink = new MagicLink();
         $magiclink->delete_expired();
         $this->assertTrue(true);
     }
@@ -37,7 +38,7 @@ class MagicLinkTest extends TestCase
     /** @test **/
     public function it_can_get_magiclink2()
     {
-        $url=$this->testUser->create_magiclink(5);
+        $url = $this->testUser->create_magiclink(5);
         $response = $this->get($url);
         $response->assertStatus(302);
     }
