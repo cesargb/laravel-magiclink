@@ -2,10 +2,9 @@
 
 namespace Cesargb\MagicLink\Test;
 
-use Cesargb\MagicLink\MagicLink;
+use Cesargb\MagicLink\MagicLinkServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Cesargb\MagicLink\MagicLinkServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -66,5 +65,4 @@ abstract class TestCase extends Orchestra
 
         User::create(['email' => 'test@user.com']);
     }
-
 }

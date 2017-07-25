@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ return [
     |
     */
     'user_primarykey' => 'id',
-    'token' => [
+    'token'           => [
         /*
         |--------------------------------------------------------------------------
         | Token lifetime default
@@ -72,6 +73,6 @@ return [
         | the redirect when token is invalid.
         |
         */
-        'redirect_error' => 'magiclink/error'
+        'redirect_error' => 'magiclink/error',
     ],
 ];
