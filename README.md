@@ -110,7 +110,7 @@ return [
 You can publish migration with command:
 
 ```bash
-php artisan vendor:publish --provider="Cesargb\MagicLink\MagicLinkServiceProvider" --tag=migration
+php artisan vendor:publish --provider="Cesargb\MagicLink\MagicLinkServiceProvider" --tag=migrations
 ```
 
 After the migration has been published you can create the table by running the migrations:
