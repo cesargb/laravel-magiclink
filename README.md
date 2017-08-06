@@ -26,7 +26,7 @@ You can publish config file with:
 ```
 php artisan vendor:publish --provider="Cesargb\MagicLink\MagicLinkServiceProvider" --tag=config
 ```
-This is the contents of the published config/permission.php config file:
+This is the contents of the published config/magiclink.php config file:
 
 ```php
 return [
