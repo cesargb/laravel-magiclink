@@ -70,7 +70,7 @@ return [
         | to remain active.
         |
         */
-        'lifetime' => 30,
+        'lifetime' => 4320,
     ],
     'url' => [
         /*
