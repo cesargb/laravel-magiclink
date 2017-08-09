@@ -141,10 +141,12 @@ This package allows for users to be associated with magiklick.
 After add this trait, you can create a magiclink for a user, with this command:
 
 ```php
-$redirect_to='/dashboard';
-$minutes_forexpire_link=4320;
-$user->create_magiclink($redirect_to,$minutes_forexpire_link);
+$redirect_to = '/dashboard';
+$minutes_forexpire_link = 4320;
+$full_url_to_access_without_password = $user->create_magiclink($redirect_to, $minutes_forexpire_link);
 ```
+
+Now, you can send notify at user to login with this magic link (`$full_url_to_access_without_password`).
 
 ## License
 
