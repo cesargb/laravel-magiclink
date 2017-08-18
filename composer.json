@@ -18,10 +18,10 @@
     "license": "MIT",
     "require": {
         "php" : ">=7.0",
-        "illuminate/auth": "~5.4 || ~5.5",
-        "illuminate/container": "~5.4 || ~5.5",
-        "illuminate/contracts": "~5.4 || ~5.5",
-        "illuminate/database": "~5.4 || ~5.5"
+        "illuminate/auth": "~5.4.0 <5.6",
+        "illuminate/container": "~5.4.0 <5.6",
+        "illuminate/contracts": "~5.4.0 <5.6",
+        "illuminate/database": "~5.4.0 <5.6"
     },
     "autoload": {
         "psr-4": {
