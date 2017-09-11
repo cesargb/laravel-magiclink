@@ -10,7 +10,7 @@ trait HasMagicLink
     {
         $magiclink = new \Cesargb\MagicLink\MagicLink();
 
-        return $magiclink->add($this, $expires_in, $redirect_url = '');
+        return $magiclink->add($this, $expires_in, $redirect_url);
     }
 
     public function magiclinks()
