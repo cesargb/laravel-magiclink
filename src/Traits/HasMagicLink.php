@@ -15,6 +15,6 @@ trait HasMagicLink
 
     public function magiclinks()
     {
-        return $this->hasMany(MagicLink::class, 'user_id', config('magiclink.user_primarykey', 'id'));
+        return $this->hasMany(\Cesargb\MagicLink\Models\MagicLink::class, 'user_id', config('magiclink.user_primarykey', 'id'));
     }
 }
