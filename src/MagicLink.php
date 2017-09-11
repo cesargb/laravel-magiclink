@@ -1,6 +1,6 @@
 <?php
 
-namespace Cesargb\MagicLink
+namespace Cesargb\MagicLink;
     
 use Cesargb\MagicLink\Models\MagicLink;
 
