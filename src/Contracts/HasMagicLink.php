@@ -8,7 +8,6 @@ interface HasMagicLink
      * Create Auth Link.
      *
      * @param int  $expired_in
-     * @param bool $checkIpAddress
      *
      * @return bool|string
      */
