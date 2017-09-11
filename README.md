@@ -1,4 +1,4 @@
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-update.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 [![Build Status](https://img.shields.io/travis/cesargb/laravel-magiclink/master.svg?style=flat-square)](https://travis-ci.org/cesargb/laravel-magiclink)
 [![StyleCI](https://styleci.io/repos/98337902/shield)](https://styleci.io/repos/98337902)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
