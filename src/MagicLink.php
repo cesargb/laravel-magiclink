@@ -1,6 +1,8 @@
 <?php
 
-namespace Cesargb\MagicLink;
+namespace Cesargb\MagicLink
+    
+use \Cesargb\MagicLink\Models\MagicLink;
 
 class MagicLink
 {
@@ -11,7 +13,7 @@ class MagicLink
 
     public function add($user, $redirect_url = '', $lifetime = 0)
     {
-        $MagicLink = new \Cesargb\MagicLink\Models\MagicLink();
+        $MagicLink = new MagicLink();
         if (is_int($user)) {
             $MagicLink->user_id = $user;
         } else {
@@ -41,7 +43,7 @@ class MagicLink
             return false;
         }
 
-        $MagicLink = \Cesargb\MagicLink\Models\MagicLink::find($data[0]);
+        $MagicLink = MagicLink::find($data[0]);
         if (!$MagicLink) {
             return false;
         }
@@ -66,11 +68,11 @@ class MagicLink
 
     public function delete_all()
     {
-        \Cesargb\MagicLink\Models\MagicLink::truncate();
+        MagicLink::truncate();
     }
 
     public function delete_expired()
     {
-        \Cesargb\MagicLink\Models\MagicLink::where('available_at', '<', \Carbon\Carbon::now())->delete();
+        MagicLink::where('available_at', '<', \Carbon\Carbon::now())->delete();
     }
 }
