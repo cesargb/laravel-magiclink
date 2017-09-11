@@ -17,7 +17,7 @@ You can install the package via composer:
 composer require cesargb/laravel-magiclink
 ```
 
-Now add the service provider in config/app.php file:
+If you have Laravel 5.4, you must add the service provider in config/app.php file:
 
 ```php
 'providers' => [
