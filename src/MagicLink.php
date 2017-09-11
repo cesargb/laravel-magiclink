@@ -2,7 +2,7 @@
 
 namespace Cesargb\MagicLink
     
-use \Cesargb\MagicLink\Models\MagicLink;
+use Cesargb\MagicLink\Models\MagicLink;
 
 class MagicLink
 {
