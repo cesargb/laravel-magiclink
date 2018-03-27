@@ -36,7 +36,7 @@ class MagicLinkTest extends TestCase
         $url = $this->testUser->create_magiclink(5);
         $response = $this->get($url);
         $response->assertStatus(302);
-        $this->assertEquals(auth()->user()->id,$this->testUser->id);
+        $this->assertEquals(auth()->user()->id, $this->testUser->id);
     }
 
     public function test_url_error_return_403()
