@@ -32,7 +32,7 @@ class MagicLink
         }
         $MagicLink->save();
 
-        return url(config('magiclink.url.validate_path   ', 'magiclink')).'/'.$MagicLink->id.':'.$MagicLink->token;
+        return url(config('magiclink.url.validate_path', 'magiclink')).'/'.$MagicLink->id.':'.$MagicLink->token;
     }
 
     public function auth($token)
