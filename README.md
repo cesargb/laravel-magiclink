@@ -1,7 +1,44 @@
+**You don't need this package if use Laravel 5.6.12 or higher, if you use this version of Laravel you can use [Signed URLs](https://laravel.com/docs/5.6/urls#signed-urls), this is an example:**
+
+Add a new route in file `route/web.php` to Auth:
+
+```php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/autologin', function (Request $request) {
+    if (! $request->hasValidSignature()) {
+        abort(401);
+    }
+
+    Auth::loginUsingId($request->input('user_id'));
+
+    return response()->redirect($request->input('url', '/'));
+})
+```
+
+Create a link to authenticate
+
+```php
+use Illuminate\Support\Facades\URL;
+
+$url_to_auth = URL::temporarySignedRoute(
+    'autologin', now()->addDay(), [
+        'user' => 1,
+        'url' => '/dashboard',
+    ]
+);
+```
+
+**If you use Laravel 5.6.11 or minor continue.**
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 [![Build Status](https://img.shields.io/travis/cesargb/laravel-magiclink/master.svg?style=flat-square)](https://travis-ci.org/cesargb/laravel-magiclink)
 [![StyleCI](https://styleci.io/repos/98337902/shield)](https://styleci.io/repos/98337902)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
+
+
+
 
 # Create link for authenticate in Laravel without password
 
