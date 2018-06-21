@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/autologin', function (Request $request) {
     if (! $request->hasValidSignature()) {
-        abort(401);
+        abort(403);
     }
 
     Auth::loginUsingId($request->input('user_id'));
 
-    return response()->redirect($request->input('url', '/'));
+    return response()->redirect($request->input('url_redirect', '/'));
 })
 ```
 
@@ -24,9 +24,9 @@ use Illuminate\Support\Facades\URL;
 
 $url_to_auth = URL::temporarySignedRoute(
     'autologin', now()->addDay(), [
-        'user' => 1,
-        'url' => '/dashboard',
-    ]
+        'user_id'       => 1,
+        'url_redirect'  => '/dashboard',
+    ],
 );
 ```
 
