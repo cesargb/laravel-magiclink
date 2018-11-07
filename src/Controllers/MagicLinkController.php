@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace Cesargb\MagicLink\Controllers;
 
 use Illuminate\Http\Response;
@@ -7,7 +8,7 @@ use Illuminate\Routing\Controller;
 class MagicLinkController extends Controller
 {
     /**
-     * Return error response
+     * Return error response.
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -17,7 +18,7 @@ class MagicLinkController extends Controller
     }
 
     /**
-     * Return error response
+     * Return validation redirect.
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -27,10 +28,10 @@ class MagicLinkController extends Controller
 
         $result = $magicLink->auth($token);
 
-        if ($result == false)
+        if ($result == false) {
             return redirect(config('magiclink.url.redirect_error', '/magiclink/error'));
-        else 
+        } else {
             return redirect($result);
-        
+        }
     }
 }
