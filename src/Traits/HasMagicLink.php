@@ -6,11 +6,11 @@ use Cesargb\MagicLink\MagicLink;
 
 trait HasMagicLink
 {
-    public function create_magiclink($expires_in, $redirect_url = '')
+    public function create_magiclink($redirect_url = '', $expires_in = 0)
     {
         $magiclink = new MagicLink();
 
-        return $magiclink->add($this, $expires_in, $redirect_url);
+        return $magiclink->add($this, $redirect_url, $expires_in);
     }
 
     public function magiclinks()
