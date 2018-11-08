@@ -3,6 +3,7 @@
 namespace Cesargb\MagicLink\Test;
 
 use Cesargb\MagicLink\MagicLink;
+use Carbon\Carbon;
 
 class MagicLinkTest extends TestCase
 {
@@ -36,7 +37,7 @@ class MagicLinkTest extends TestCase
         $this->testUser->create_magiclink();
 
         $link1 = $this->testUser->magiclinks()->first();
-        $link1->available_at = now()->yesterday();
+        $link1->available_at = Carbon::yesterday();
         $link1->save();
 
         $magiclink->delete_expired();
@@ -89,7 +90,7 @@ class MagicLinkTest extends TestCase
         $url = $this->testUser->create_magiclink();
 
         $link1 = $this->testUser->magiclinks()->first();
-        $link1->available_at = now()->yesterday();
+        $link1->available_at = Carbon::yesterday();
         $link1->save();
 
         $response = $this->get($url);
