@@ -82,7 +82,6 @@ class MagicLinkTest extends TestCase
         $this->assertNull(auth()->user());
         $response->assertStatus(302);
         $response->assertRedirect(config('magiclink.url.redirect_error', 'magiclink/error'));
-
     }
 
     public function test_fail_with_token_expired()
@@ -98,6 +97,5 @@ class MagicLinkTest extends TestCase
         $this->assertNull(auth()->user());
         $response->assertStatus(302);
         $response->assertRedirect(config('magiclink.url.redirect_error', 'magiclink/error'));
-
     }
 }
