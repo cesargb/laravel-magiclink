@@ -43,20 +43,19 @@ class MagicLink
             return false;
         }
 
-        $MagicLink = MagicLinkModel::find($data[0]);
-        if (!$MagicLink) {
-            return false;
-        }
-        $MagicLink->where('available_at', '>=', \Carbon\Carbon::now())
+        $magicLink = MagicLinkModel::where('id', $data[0])
+                    ->where('available_at', '>=', \Carbon\Carbon::now())
                     ->where('token', $data[1])
                     ->first();
 
-        if ($MagicLink) {
-            $user = config('auth.providers.users.model')::find($MagicLink->user_id);
+        if ($magicLink) {
+            $user = config('auth.providers.users.model')::find($magicLink->user_id);
+
             if ($user) {
-                app()->make('auth')->loginUsingId($MagicLink->user_id);
-                if ($MagicLink->redirect_url !== null && $MagicLink->redirect_url != '') {
-                    return $MagicLink->redirect_url;
+                app()->make('auth')->loginUsingId($magicLink->user_id);
+
+                if ($magicLink->redirect_url !== null && $magicLink->redirect_url != '') {
+                    return $magicLink->redirect_url;
                 }
 
                 return config('magiclink.url.redirect_default');
