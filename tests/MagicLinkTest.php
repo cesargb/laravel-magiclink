@@ -2,8 +2,8 @@
 
 namespace Cesargb\MagicLink\Test;
 
-use Cesargb\MagicLink\MagicLink;
 use Carbon\Carbon;
+use Cesargb\MagicLink\MagicLink;
 
 class MagicLinkTest extends TestCase
 {
