@@ -10,7 +10,7 @@ abstract class TestCase extends Orchestra
 {
     protected $testUser;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
