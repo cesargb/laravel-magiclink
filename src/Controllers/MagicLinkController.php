@@ -10,11 +10,11 @@ class MagicLinkController extends Controller
     /**
      * Return error response.
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return void
      */
     public function error()
     {
-        return abort(403);
+        abort(403);
     }
 
     /**
