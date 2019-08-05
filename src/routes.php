@@ -1,6 +1,5 @@
 <?php
 
-
 Route::group(['middleware' => ['web']], function () {
     Route::any(
         config('magiclink.url.redirect_error', 'magiclink/error'),
