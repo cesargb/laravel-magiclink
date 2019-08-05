@@ -44,7 +44,7 @@ $url_to_auth = URL::temporarySignedRoute(
 
 This package permit create a link for authenticate without user or password.
 
-## Instalation
+## Installation
 
 This package can be used in Laravel 5.4 or higher.
 
