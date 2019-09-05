@@ -9,7 +9,7 @@ class MagicLinkTest extends TestCase
 {
     public function test_it_can_create_magiclink()
     {
-        $this->assertContains('/magiclink/', $this->testUser->create_magiclink(5));
+        $this->assertStringContainsString('/magiclink/', $this->testUser->create_magiclink(5));
     }
 
     public function test_it_can_get_magiclink()

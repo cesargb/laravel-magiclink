@@ -3,6 +3,7 @@
 namespace Cesargb\MagicLink;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Cesargb\MagicLink\Models\MagicLink as MagicLinkModel;
 
 class MagicLink
@@ -21,7 +22,7 @@ class MagicLink
             $MagicLink->user_id = $user->id;
         }
 
-        $MagicLink->token = str_random(config('magiclink.token.length', 64));
+        $MagicLink->token = Str::random(config('magiclink.token.length', 64));
 
         $MagicLink->available_at = Carbon::now()->addMinute(
             ((int) $lifetime > 0 ? $lifetime : config('magiclink.token.lifetime', 120))
