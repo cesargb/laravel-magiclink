@@ -2,6 +2,7 @@
 
 namespace Cesargb\MagicLink;
 
+use Carbon\Carbon;
 use Cesargb\MagicLink\Models\MagicLink as MagicLinkModel;
 
 class MagicLink
@@ -22,7 +23,7 @@ class MagicLink
 
         $MagicLink->token = str_random(config('magiclink.token.length', 64));
 
-        $MagicLink->available_at = \Carbon\Carbon::now()->addMinute(
+        $MagicLink->available_at = Carbon::now()->addMinute(
             ((int) $lifetime > 0 ? $lifetime : config('magiclink.token.lifetime', 120))
         );
         if ($redirect_url != '') {
@@ -44,7 +45,7 @@ class MagicLink
         }
 
         $magicLink = MagicLinkModel::where('id', $data[0])
-                    ->where('available_at', '>=', \Carbon\Carbon::now())
+                    ->where('available_at', '>=', Carbon::now())
                     ->where('token', $data[1])
                     ->first();
 
@@ -72,6 +73,6 @@ class MagicLink
 
     public function delete_expired()
     {
-        MagicLinkModel::where('available_at', '<', \Carbon\Carbon::now())->delete();
+        MagicLinkModel::where('available_at', '<', Carbon::now())->delete();
     }
 }

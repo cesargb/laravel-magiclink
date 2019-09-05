@@ -34,7 +34,8 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan --no-progress src tests"
     },
     "extra": {
         "laravel": {
@@ -45,6 +46,7 @@
     },
     "require-dev": {
         "orchestra/testbench": "~3.4.2|^3.8.0",
-        "phpunit/phpunit": "^6.2|^7.0"
+        "phpunit/phpunit": "^6.2|^7.0",
+        "phpstan/phpstan": "^0.11.8"
     }
 }

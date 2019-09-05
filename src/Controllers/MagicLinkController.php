@@ -2,7 +2,7 @@
 
 namespace Cesargb\MagicLink\Controllers;
 
-use Illuminate\Http\Response;
+use Cesargb\MagicLink\MagicLink;
 use Illuminate\Routing\Controller;
 
 class MagicLinkController extends Controller
@@ -24,7 +24,7 @@ class MagicLinkController extends Controller
      */
     public function validate($token)
     {
-        $magicLink = new \Cesargb\MagicLink\MagicLink();
+        $magicLink = new MagicLink;
 
         $result = $magicLink->auth($token);
 
