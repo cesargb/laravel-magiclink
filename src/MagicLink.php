@@ -3,8 +3,8 @@
 namespace Cesargb\MagicLink;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Cesargb\MagicLink\Models\MagicLink as MagicLinkModel;
+use Illuminate\Support\Str;
 
 class MagicLink
 {
