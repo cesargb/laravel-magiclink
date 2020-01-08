@@ -8,6 +8,6 @@ class MagicLink extends Model
 {
     public function user()
     {
-        return $this->hasOne(config('auth.providers.users.model'), config('magiclink.user_primarykey', 'id'), 'users_id');
+        return $this->hasOne(config(config('magicklink.auth_provider').'.model'), config('magiclink.user_primarykey', 'id'), 'users_id');
     }
 }

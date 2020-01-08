@@ -19,7 +19,7 @@ class MagicLink
         if (is_int($user)) {
             $MagicLink->user_id = $user;
         } else {
-            $MagicLink->user_id = $user->id;
+            $MagicLink->user_id = $user->getKey();
         }
 
         $MagicLink->token = Str::random(config('magiclink.token.length', 64));
@@ -51,10 +51,12 @@ class MagicLink
                     ->first();
 
         if ($magicLink) {
-            $user = config('auth.providers.users.model')::find($magicLink->user_id);
+            $authProviderModel = config('magicklink.auth_provider').".model";
+
+            $user = config($authProviderModel)::find($magicLink->user_id);
 
             if ($user) {
-                app()->make('auth')->loginUsingId($magicLink->user_id);
+                app()->make('auth')->guard(config('magicklink.auth_guard'), 'web')->loginUsingId($magicLink->user_id);
 
                 if ($magicLink->redirect_url !== null && $magicLink->redirect_url != '') {
                     return $magicLink->redirect_url;
