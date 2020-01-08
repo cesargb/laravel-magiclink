@@ -51,12 +51,13 @@ class MagicLink
                     ->first();
 
         if ($magicLink) {
-            $authProviderModel = config('magicklink.auth_provider').".model";
+            
+            $authProvider = "auth.providers." . config('magiclink.auth_provider').".model";
 
-            $user = config($authProviderModel)::find($magicLink->user_id);
+            $user = config($authProvider)::find($magicLink->user_id);
 
             if ($user) {
-                app()->make('auth')->guard(config('magicklink.auth_guard'), 'web')->loginUsingId($magicLink->user_id);
+                app()->make('auth')->guard(config('magiclink.auth_guard'))->loginUsingId($magicLink->user_id);
 
                 if ($magicLink->redirect_url !== null && $magicLink->redirect_url != '') {
                     return $magicLink->redirect_url;
