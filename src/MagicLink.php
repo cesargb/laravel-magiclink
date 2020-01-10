@@ -60,6 +60,13 @@ class MagicLink
                 app()->make('auth')->guard(config('magiclink.auth_guard'))->loginUsingId($magicLink->user_id);
 
                 if ($magicLink->redirect_url !== null && $magicLink->redirect_url != '') {
+                    
+                    if(!empty(request()->all())) {
+
+                        return $magicLink->redirect_url. "?". http_build_query(request()->all());
+
+                    }
+
                     return $magicLink->redirect_url;
                 }
 
