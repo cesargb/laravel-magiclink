@@ -53,7 +53,7 @@ class MagicLink
                     ->first();
 
         if ($magicLink) {
-            $user = config('auth.providers.users.model')::find($magicLink->user_id);
+            $user = config('auth.providers.users.model', 'users')::find($magicLink->user_id);
 
             if ($user) {
                 app()->make('auth')->loginUsingId($magicLink->user_id);
@@ -62,7 +62,7 @@ class MagicLink
                     return $magicLink->redirect_url;
                 }
 
-                return config('magiclink.url.redirect_default');
+                return config('magiclink.url.redirect_default', '/');
             }
         }
 
