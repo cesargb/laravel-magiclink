@@ -19,7 +19,9 @@ class MagicLink
         if (is_int($user)) {
             $MagicLink->user_id = $user;
         } else {
-            $MagicLink->user_id = $user->id;
+            $userKey = config('magiclink.user_primarykey', 'id');
+
+            $MagicLink->user_id = $user->$userKey;
         }
 
         $MagicLink->token = Str::random(config('magiclink.token.length', 64));
