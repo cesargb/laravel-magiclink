@@ -59,6 +59,10 @@ class MagicLink
             if ($user) {
                 app()->make('auth')->guard(config('magiclink.auth_guard'))->loginUsingId($magicLink->user_id);
 
+                //invalidating link after clicked once
+                $magicLink->available_at = Carbon::now()->subMinute();
+                $magicLink->save();
+
                 if ($magicLink->redirect_url !== null && $magicLink->redirect_url != '') {
                     
                     return $magicLink->redirect_url;
