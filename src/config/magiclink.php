@@ -1,6 +1,21 @@
 <?php
 
 return [
+     /*
+    |--------------------------------------------------------------------------
+    | Application auth provider
+    |--------------------------------------------------------------------------
+    |
+    | By default users is auth provider (can be found at config/auth with providers key).
+    | If you want magick link for other auth guard you can change that here.
+    | 
+    |
+    */
+
+    'auth_provider' => 'users', 
+
+    'auth_guard' => 'web',  
+
     /*
     |--------------------------------------------------------------------------
     | Application magiclink Table
