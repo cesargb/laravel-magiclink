@@ -2,7 +2,7 @@
 
 namespace Cesargb\MagicLink\Controllers;
 
-use Cesargb\MagicLink\MagicLink;
+use Cesargb\MagicLink\Models\MagicLink;
 use Illuminate\Routing\Controller;
 
 class MagicLinkController extends Controller
@@ -14,24 +14,20 @@ class MagicLinkController extends Controller
      */
     public function error()
     {
-        abort(403);
+        return response(null, 403);
     }
 
     /**
      * Return validation redirect.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function validate($token)
     {
-        $magicLink = new MagicLink;
+        $magiclink = MagicLink::getValidMagicLinkByToken($token);
 
-        $result = $magicLink->auth($token);
-
-        if ($result == false) {
+        if (! $magiclink) {
             return redirect(config('magiclink.url.redirect_error', '/magiclink/error'));
-        } else {
-            return redirect($result);
         }
+
+        return $magiclink->run();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => ['web']], function () {
     Route::any(
         config('magiclink.url.redirect_error', 'magiclink/error'),

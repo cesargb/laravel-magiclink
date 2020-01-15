@@ -39,14 +39,17 @@ abstract class TestCase extends Orchestra
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('app.key', 'base64:mJlbzP1TMXUPouK3KK6e9zS/VvxtWTfzfVlkn1JTqpM=');
+
         $app['config']->set('auth.providers.users.model', 'Cesargb\MagicLink\Test\User');
-        $app['config']->set('magiclink.auth_provider', 'users');
+
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+
+        $app['config']->set('view.paths', [__DIR__.'/resources/views']);
     }
 
     /**
@@ -61,7 +64,7 @@ abstract class TestCase extends Orchestra
             $table->string('email');
         });
 
-        include_once __DIR__.'/../src/databases/migrations/create_table_magic_links.php';
+        include_once __DIR__.'/../databases/migrations/create_table_magic_links.php';
 
         (new \CreateTableMagicLinks)->up();
 
