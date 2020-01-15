@@ -16,6 +16,13 @@ return [
 
     'auth_guard' => 'web',  
 
+      /*
+    |
+    | Expire link after user open the link, so that link cannot be visited more than once.
+    |
+    */
+    'expire_onclick'=> false,
+
     /*
     |--------------------------------------------------------------------------
     | Application magiclink Table
