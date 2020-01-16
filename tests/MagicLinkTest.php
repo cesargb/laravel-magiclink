@@ -32,8 +32,6 @@ class MagicLinkTest extends TestCase
         $this->get($magiclink->url.'bad')
                 ->assertStatus(302)
                 ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
-
-        $this->assertNull(auth()->user());
     }
 
     public function test_fail_login_when_token_is_bad_defined()
@@ -59,8 +57,6 @@ class MagicLinkTest extends TestCase
         $this->get($magiclink->url)
                 ->assertStatus(302)
                 ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
-
-        $this->assertNull(auth()->user());
     }
 
     public function test_redirect_to_403_when_max_visits_completed()
@@ -74,8 +70,6 @@ class MagicLinkTest extends TestCase
         $this->get($magiclink->url)
                 ->assertStatus(302)
                 ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
-
-        $this->assertNull(auth()->user());
     }
 
     public function test_ok_when_max_visits_is_minor_num_visits()
@@ -89,8 +83,6 @@ class MagicLinkTest extends TestCase
         $this->get($magiclink->url)
                 ->assertStatus(302)
                 ->assertRedirect('/');
-
-        $this->assertNotNull(auth()->user());
     }
 
     public function test_ok_when_max_visits_is_null()
@@ -104,8 +96,6 @@ class MagicLinkTest extends TestCase
         $this->get($magiclink->url)
                 ->assertStatus(302)
                 ->assertRedirect('/');
-
-        $this->assertNotNull(auth()->user());
     }
 
     public function test_increment_num_visits()

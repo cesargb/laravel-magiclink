@@ -17,9 +17,7 @@ class LoginTest extends TestCase
                 ->assertStatus(302)
                 ->assertRedirect('/');
 
-        $this->assertNotNull(auth()->user());
-
-        $this->assertEquals(auth()->user()->id, User::first()->id);
+        $this->assertAuthenticatedAs(User::first());
     }
 
     public function test_auth_and_redirect_to_other_link()
@@ -30,8 +28,6 @@ class LoginTest extends TestCase
                 ->assertStatus(302)
                 ->assertRedirect('/test');
 
-        $this->assertNotNull(auth()->user());
-
-        $this->assertEquals(auth()->user()->id, User::first()->id);
+        $this->assertAuthenticatedAs(User::first());
     }
 }
