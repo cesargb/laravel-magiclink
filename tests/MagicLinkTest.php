@@ -4,7 +4,6 @@ namespace Cesargb\MagicLink\Test;
 
 use Cesargb\MagicLink\Actions\LoginAction;
 use Cesargb\MagicLink\Models\MagicLink;
-use Cesargb\MagicLink\Test\User;
 
 class MagicLinkTest extends TestCase
 {
