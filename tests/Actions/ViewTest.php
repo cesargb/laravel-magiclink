@@ -2,7 +2,7 @@
 
 namespace Cesargb\MagicLink\Test\Actions;
 
-use Cesargb\MagicLink\Actions\View;
+use Cesargb\MagicLink\Actions\ViewAction;
 use Cesargb\MagicLink\Models\MagicLink;
 use Cesargb\MagicLink\Test\TestCase;
 
@@ -10,7 +10,7 @@ class ViewTest extends TestCase
 {
     public function test_view()
     {
-        $magiclink = MagicLink::create(new View('view'));
+        $magiclink = MagicLink::create(new ViewAction('view'));
 
         $this->get($magiclink->url)
                 ->assertStatus(200)
@@ -20,7 +20,7 @@ class ViewTest extends TestCase
     public function test_view_with_data()
     {
         $magiclink = MagicLink::create(
-            new View('data', ['data' => 'Lorem, ipsum dolor.'])
+            new ViewAction('data', ['data' => 'Lorem, ipsum dolor.'])
         );
 
         $this->get($magiclink->url)

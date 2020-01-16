@@ -2,10 +2,9 @@
 
 namespace Cesargb\MagicLink\Actions;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Login extends Action implements ActionInterface
+class LoginAction extends Action implements ActionInterface
 {
     /**
      * @var \Illuminate\Database\Eloquent\Model

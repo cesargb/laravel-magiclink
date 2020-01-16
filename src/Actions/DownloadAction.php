@@ -4,7 +4,7 @@ namespace Cesargb\MagicLink\Actions;
 
 use Illuminate\Support\Facades\Storage;
 
-class Download extends Action implements ActionInterface
+class DownloadAction extends Action implements ActionInterface
 {
     protected $path;
 

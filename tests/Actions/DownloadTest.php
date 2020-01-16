@@ -2,18 +2,15 @@
 
 namespace Cesargb\MagicLink\Test\Actions;
 
-use Cesargb\MagicLink\Actions\Download;
+use Cesargb\MagicLink\Actions\DownloadAction;
 use Cesargb\MagicLink\Models\MagicLink;
 use Cesargb\MagicLink\Test\TestCase;
-use Illuminate\Support\Facades\Storage;
 
 class DownloadTest extends TestCase
 {
     public function test_download_file()
     {
-        $magiclink = MagicLink::create(new Download(
-            'text.txt'
-        ));
+        $magiclink = MagicLink::create(new DownloadAction('text.txt'));
 
         $this->get($magiclink->url)
                 ->assertStatus(200)
@@ -22,10 +19,7 @@ class DownloadTest extends TestCase
 
     public function test_download_file_with_customname()
     {
-        $magiclink = MagicLink::create(new Download(
-            'text.txt',
-            'other.txt'
-        ));
+        $magiclink = MagicLink::create(new DownloadAction('text.txt', 'other.txt'));
 
         $this->get($magiclink->url)
                 ->assertStatus(200)

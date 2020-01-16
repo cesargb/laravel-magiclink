@@ -2,7 +2,7 @@
 
 namespace Cesargb\MagicLink\Test;
 
-use Cesargb\MagicLink\Actions\Login;
+use Cesargb\MagicLink\Actions\LoginAction;
 use Cesargb\MagicLink\Models\MagicLink;
 use Cesargb\MagicLink\Test\User;
 
@@ -10,7 +10,7 @@ class MagicLinkTest extends TestCase
 {
     public function test_fail_login_when_token_is_bad()
     {
-        $magiclink = MagicLink::create(new Login(User::first()));
+        $magiclink = MagicLink::create(new LoginAction(User::first()));
 
         $this->get($magiclink->url.'bad')
                 ->assertStatus(302)

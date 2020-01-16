@@ -2,7 +2,7 @@
 
 namespace Cesargb\MagicLink\Actions;
 
-class View extends Action implements ActionInterface
+class ViewAction extends Action implements ActionInterface
 {
     protected $view;
 
