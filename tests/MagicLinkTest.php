@@ -13,7 +13,7 @@ class MagicLinkTest extends TestCase
 
         $this->assertLessThanOrEqual(
             1,
-            now()->addHour()->diffInSeconds($magiclink->available_at),
+            now()->addHour()->diffInSeconds($magiclink->available_at)
         );
     }
 
