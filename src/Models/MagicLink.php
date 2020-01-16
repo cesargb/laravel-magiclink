@@ -9,14 +9,27 @@ use Illuminate\Support\Str;
 
 class MagicLink extends Model
 {
-    public function getActionsAttribute($value)
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = (string) Str::uuid();
+        });
+    }
+
+    public function getActionAttribute($value)
     {
         return unserialize($value);
     }
 
-    public function setActionsAttribute($value)
+    public function setActionAttribute($value)
     {
-        $this->attributes['actions'] = serialize($value);
+        $this->attributes['action'] = serialize($value);
     }
 
     public function getUrlAttribute()
@@ -42,7 +55,7 @@ class MagicLink extends Model
             $lifetime ?? config('magiclink.token.lifetime', 120)
         );
 
-        $magiclink->actions = $action;
+        $magiclink->action = $action;
 
         $magiclink->save();
 
@@ -56,7 +69,7 @@ class MagicLink extends Model
      */
     public function run()
     {
-        return $this->actions->run();
+        return $this->action->run();
     }
 
     /**
