@@ -23,6 +23,23 @@ class MagicLinkDeleteTest extends TestCase
         $this->assertEquals(1, MagicLink::count());
     }
 
+    public function test_delete_magiclink_when_max_visits_is_completed()
+    {
+        MagicLink::create(new LoginAction(User::first()));
+
+        $magiclink = MagicLink::create(new LoginAction(User::first()));
+
+        $magiclink->num_visits = 2;
+        $magiclink->max_visits = 2;
+        $magiclink->save();
+
+        $this->assertEquals(2, MagicLink::count());
+
+        MagicLink::deleteMagicLinkExpired();
+
+        $this->assertEquals(1, MagicLink::count());
+    }
+
     public function test_delete_magiclink_when_is_expired_after_create()
     {
         MagicLink::create(new LoginAction(User::first()));

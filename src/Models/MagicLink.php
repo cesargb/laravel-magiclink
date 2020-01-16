@@ -38,12 +38,13 @@ class MagicLink extends Model
     }
 
     /**
-     * Undocumented function.
+     * Create a magiclink.
      *
      * @param int|null $lifetime
+     * @param int|null $numMaxVisits
      * @return Cesargb\MagicLink\Models\MagicLink;
      */
-    public static function create(Action $action, $lifetime = null)
+    public static function create(Action $action, $lifetime = null, $numMaxVisits = null)
     {
         self::deleteMagicLinkExpired();
 
@@ -54,6 +55,10 @@ class MagicLink extends Model
         $magiclink->available_at = Carbon::now()->addMinute(
             $lifetime ?? config('magiclink.token.lifetime', 120)
         );
+
+        if ($numMaxVisits) {
+            $magiclink->max_visits = (int) $numMaxVisits;
+        }
 
         $magiclink->action = $action;
 
@@ -69,6 +74,8 @@ class MagicLink extends Model
      */
     public function run()
     {
+        $this->increment('num_visits');
+
         return $this->action->run();
     }
 
@@ -88,6 +95,11 @@ class MagicLink extends Model
 
         return self::where('id', $data[0])
                     ->where('available_at', '>=', Carbon::now())
+                    ->where(function ($query) {
+                        $query
+                            ->whereNull('max_visits')
+                            ->orWhereRaw('max_visits > num_visits');
+                    })
                     ->where('token', $data[1])
                     ->first();
     }
@@ -99,7 +111,16 @@ class MagicLink extends Model
      */
     public static function deleteMagicLinkExpired()
     {
-        self::where('available_at', '<', Carbon::now())->delete();
+        self::where(function ($query) {
+            $query
+                ->where('available_at', '<', Carbon::now())
+                ->orWhere(function ($query) {
+                    $query
+                        ->whereNotNull('max_visits')
+                        ->whereRaw('max_visits <= num_visits');
+                });
+        })
+        ->delete();
     }
 
     /**
