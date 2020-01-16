@@ -2,9 +2,6 @@
 
 namespace Cesargb\MagicLink\Actions;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-
 class View extends Action implements ActionInterface
 {
     protected $view;

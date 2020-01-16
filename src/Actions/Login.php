@@ -33,8 +33,6 @@ class Login extends Action implements ActionInterface
 
     /**
      * Execute Action.
-     *
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function run()
     {

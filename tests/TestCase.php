@@ -49,7 +49,8 @@ abstract class TestCase extends Orchestra
             'prefix'   => '',
         ]);
 
-        $app['config']->set('view.paths', [__DIR__.'/resources/views']);
+        $app['config']->set('view.paths', [__DIR__.'/stubs/resources/views']);
+        $app['config']->set('filesystems.disks.local.root', __DIR__.'/stubs/storage/app');
     }
 
     /**

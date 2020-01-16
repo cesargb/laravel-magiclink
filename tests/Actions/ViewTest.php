@@ -2,11 +2,9 @@
 
 namespace Cesargb\MagicLink\Test\Actions;
 
-use Cesargb\MagicLink\Actions\Login;
 use Cesargb\MagicLink\Actions\View;
 use Cesargb\MagicLink\Models\MagicLink;
 use Cesargb\MagicLink\Test\TestCase;
-use Cesargb\MagicLink\Test\User;
 
 class ViewTest extends TestCase
 {
