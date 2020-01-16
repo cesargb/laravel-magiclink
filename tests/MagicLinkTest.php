@@ -11,9 +11,9 @@ class MagicLinkTest extends TestCase
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()), 60);
 
-        $this->assertEquals(
-            now()->addHour()->toDateTimeString(),
-            $magiclink->available_at->toDateTimeString()
+        $this->assertLessThanOrEqual(
+            1,
+            now()->addHour()->diffInSeconds($magiclink->available_at),
         );
     }
 
