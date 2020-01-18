@@ -1,50 +1,7 @@
 <?php
 
 return [
-    /*
-    |--------------------------------------------------------------------------
-    | Application auth provider
-    |--------------------------------------------------------------------------
-    |
-    | By default users is auth provider (can be found at config/auth with providers key).
-    | If you want magick link for other auth guard you can change that here.
-    |
-    */
 
-    'auth_provider' => 'users',
-
-    'auth_guard' => 'web',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application magiclink Table
-    |--------------------------------------------------------------------------
-    |
-    | This is the magiklink table used by the application to save links to the
-    | database.
-    |
-    */
-    'magiclink_table' => 'magic_links',
-    /*
-    |--------------------------------------------------------------------------
-    | Application Users Table
-    |--------------------------------------------------------------------------
-    |
-    | This is the users table used by the application to save users to the
-    | database.
-    |
-    */
-    'user_table' => 'users',
-    /*
-    |--------------------------------------------------------------------------
-    | Application Primary Key of Users Table
-    |--------------------------------------------------------------------------
-    |
-    | This is the primary key of users table used by the application to save
-    | users to the database.
-    |
-    */
-    'user_primarykey' => 'id',
     'token'           => [
         /*
         |--------------------------------------------------------------------------
@@ -57,6 +14,7 @@ return [
         */
         'lifetime' => 4320,
     ],
+
     'url' => [
         /*
         |--------------------------------------------------------------------------

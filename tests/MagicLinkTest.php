@@ -17,6 +17,13 @@ class MagicLinkTest extends TestCase
         );
     }
 
+    public function test_create_magiclink_with_null_lifetime()
+    {
+        $magiclink = MagicLink::create(new LoginAction(User::first()), null);
+
+        $this->assertNull($magiclink->available_at);
+    }
+
     public function test_create_magiclink_with_max_visits()
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()), null, 1);
@@ -36,7 +43,7 @@ class MagicLinkTest extends TestCase
 
     public function test_fail_login_when_token_is_bad_defined()
     {
-        $this->get('/magiclink/badtoken')
+        $this->get('/magiclink/bad_token')
                 ->assertStatus(302)
                 ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
     }

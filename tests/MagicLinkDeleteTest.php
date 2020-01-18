@@ -56,6 +56,17 @@ class MagicLinkDeleteTest extends TestCase
         $this->assertEquals(2, MagicLink::count());
     }
 
+    public function test_not_expired_magiclink_when_lifetime_is_null()
+    {
+        MagicLink::create(new LoginAction(User::first()), null);
+
+        $this->assertEquals(1, MagicLink::count());
+
+        MagicLink::deleteMagicLinkExpired();
+
+        $this->assertEquals(1, MagicLink::count());
+    }
+
     public function test_delete_all_magiclink()
     {
         MagicLink::create(new LoginAction(User::first()));

@@ -35,7 +35,12 @@ class MagicLink extends Model
 
     public function getUrlAttribute()
     {
-        return url(config('magiclink.url.validate_path', 'magiclink')).'/'.$this->id.':'.$this->token;
+        return url(sprintf(
+            '%s/%s:%s',
+            config('magiclink.url.validate_path', 'magiclink'),
+            $this->id,
+            $this->token
+        ));
     }
 
     /**
@@ -45,16 +50,17 @@ class MagicLink extends Model
      * @param int|null $numMaxVisits
      * @return Cesargb\MagicLink\Models\MagicLink;
      */
-    public static function create(ActionInterface $action, $lifetime = null, $numMaxVisits = null)
+    public static function create(ActionInterface $action, $lifetime = 120, $numMaxVisits = null)
     {
         self::deleteMagicLinkExpired();
 
         $magiclink = new self();
 
         $magiclink->token = Str::random(config('magiclink.token.length', 64));
-        $magiclink->available_at = Carbon::now()->addMinute(
-            $lifetime ?? config('magiclink.token.lifetime', 120)
-        );
+
+        if ($lifetime) {
+            $magiclink->available_at = Carbon::now()->addMinute($lifetime);
+        }
 
         if ($numMaxVisits) {
             $magiclink->max_visits = (int) $numMaxVisits;
