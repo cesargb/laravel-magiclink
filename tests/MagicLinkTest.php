@@ -116,5 +116,6 @@ class MagicLinkTest extends TestCase
 
     public function test_increment_num_visits_exceeded()
     {
+        $this->markTestSkipped();
     }
 }

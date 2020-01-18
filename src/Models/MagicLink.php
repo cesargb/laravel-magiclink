@@ -4,6 +4,7 @@ namespace Cesargb\MagicLink\Models;
 
 use Carbon\Carbon;
 use Cesargb\MagicLink\Actions\Action;
+use Cesargb\MagicLink\Actions\ActionInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -44,14 +45,13 @@ class MagicLink extends Model
      * @param int|null $numMaxVisits
      * @return Cesargb\MagicLink\Models\MagicLink;
      */
-    public static function create(Action $action, $lifetime = null, $numMaxVisits = null)
+    public static function create(ActionInterface $action, $lifetime = null, $numMaxVisits = null)
     {
         self::deleteMagicLinkExpired();
 
         $magiclink = new self();
 
         $magiclink->token = Str::random(config('magiclink.token.length', 64));
-
         $magiclink->available_at = Carbon::now()->addMinute(
             $lifetime ?? config('magiclink.token.lifetime', 120)
         );
@@ -61,7 +61,6 @@ class MagicLink extends Model
         }
 
         $magiclink->action = $action;
-
         $magiclink->save();
 
         return $magiclink;
