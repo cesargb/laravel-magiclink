@@ -80,4 +80,20 @@ class LoginTest extends TestCase
 
         $this->assertAuthenticatedAs(User::first());
     }
+
+    public function test_auth_with_response_json()
+    {
+        $magiclink = MagicLink::create(
+            new LoginAction(
+                User::first(),
+                response()->json(['message' => 'json message'], 213)
+            )
+        );
+
+        $this->get($magiclink->url)
+                ->assertStatus(213)
+                ->assertJson(['message' => 'json message']);
+
+        $this->assertAuthenticatedAs(User::first());
+    }
 }
