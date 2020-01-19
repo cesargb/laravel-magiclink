@@ -46,4 +46,8 @@ return [
         */
         'redirect_error' => 'magiclink/error',
     ],
+
+    'response' => [
+        'error' => abort(403),
+    ],
 ];

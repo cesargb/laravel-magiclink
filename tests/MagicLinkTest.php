@@ -32,29 +32,21 @@ class MagicLinkTest extends TestCase
         $this->assertEquals(0, $magiclink->num_visits);
     }
 
-    public function test_fail_login_when_token_is_bad()
+    public function test_fail_when_token_is_bad()
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
         $this->get($magiclink->url.'bad')
-                ->assertStatus(302)
-                ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
-    }
-
-    public function test_fail_login_when_token_is_bad_defined()
-    {
-        $this->get('/magiclink/bad_token')
-                ->assertStatus(302)
-                ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
-    }
-
-    public function test_get_status_403_when_access_to_error_page()
-    {
-        $this->get(config('magiclink.url.redirect_error', '/magiclink/error'))
                 ->assertStatus(403);
     }
 
-    public function test_redirect_to_403_when_date_is_expired()
+    public function test_fail_when_token_is_bad_defined()
+    {
+        $this->get('/magiclink/bad_token')
+                ->assertStatus(403);
+    }
+
+    public function test_fails_when_date_is_expired()
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
@@ -62,11 +54,10 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
+                ->assertStatus(403);
     }
 
-    public function test_redirect_to_403_when_max_visits_completed()
+    public function test_fail_when_max_visits_completed()
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
@@ -75,8 +66,7 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect(config('magiclink.url.redirect_error', '/magiclink/error'));
+                ->assertStatus(403);
     }
 
     public function test_ok_when_max_visits_is_minor_num_visits()

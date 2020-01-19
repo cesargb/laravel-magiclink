@@ -3,13 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['web']], function () {
-    Route::any(
-        config('magiclink.url.redirect_error', 'magiclink/error'),
-        'Cesargb\MagicLink\Controllers\MagicLinkController@error'
-    );
-
-    Route::any(
+    Route::get(
         config('magiclink.url.validate_path', 'magiclink').'/{token}',
-        'Cesargb\MagicLink\Controllers\MagicLinkController@validate'
+        'Cesargb\MagicLink\Controllers\MagicLinkController@access'
     );
 });

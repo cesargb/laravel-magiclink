@@ -7,24 +7,13 @@ use Illuminate\Routing\Controller;
 
 class MagicLinkController extends Controller
 {
-    /**
-     * Return error response.
-     *
-     * @return void
-     */
-    public function error()
-    {
-        return response(null, 403);
-    }
-
-    /**
-     * Return validation redirect.
-     */
-    public function validate($token)
+    public function access($token)
     {
         $magiclink = MagicLink::getValidMagicLinkByToken($token);
 
         if (! $magiclink) {
+            return config('magiclink.response.error', abort(403));
+
             return redirect(config('magiclink.url.redirect_error', '/magiclink/error'));
         }
 
