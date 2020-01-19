@@ -20,7 +20,7 @@ class DownloadFileAction implements ActionInterface
      * @param  array|null  $headers
      * @return void
      */
-    public function __construct($path, $name = null, $headers = [])
+    public function __construct(string $path, ?string $name = null, ?array $headers = [])
     {
         $this->path = $path;
         $this->name = $name;

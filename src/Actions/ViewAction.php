@@ -17,7 +17,7 @@ class ViewAction implements ActionInterface
      * @param \Illuminate\Contracts\Support\Arrayable|array $data
      * @param array $mergeData
      */
-    public function __construct($view, $data = [], $mergeData = [])
+    public function __construct(string $view, $data = [], $mergeData = [])
     {
         $this->view = $view;
 

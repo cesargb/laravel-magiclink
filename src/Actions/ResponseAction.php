@@ -47,7 +47,7 @@ class ResponseAction implements ActionInterface
     protected function formattedResponse($response)
     {
         if (is_null($response)) {
-            return redirect('/');
+            return redirect(config('magiclink.url.redirect_default', '/'));
         }
 
         if (is_callable($response)) {

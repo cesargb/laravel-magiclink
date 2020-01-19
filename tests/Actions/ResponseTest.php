@@ -16,7 +16,7 @@ class ResponseTest extends TestCase
 
         $this->get($magiclink->url)
                 ->assertStatus(302)
-                ->assertRedirect('/');
+                ->assertRedirect(config('magiclink.url.redirect_default', '/'));
     }
 
     public function test_response_callable()

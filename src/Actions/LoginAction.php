@@ -2,11 +2,8 @@
 
 namespace Cesargb\MagicLink\Actions;
 
-use Closure;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
-use Opis\Closure\SerializableClosure;
-use Symfony\Component\HttpFoundation\Response;
 
 class LoginAction extends ResponseAction implements ActionInterface
 {
@@ -20,10 +17,10 @@ class LoginAction extends ResponseAction implements ActionInterface
     /**
      * Constructor to action.
      *
-     * @param \Illuminate\Database\Eloquent\Model $user
+     * @param Illuminate\Contracts\Auth\Authenticatable $user
      * @param string|\Symfony\Component\HttpFoundation\Response $response
      */
-    public function __construct($user, $response = null, $guard = 'web')
+    public function __construct(Authenticatable $user, $response = null, string $guard = 'web')
     {
         $this->user = $user;
 

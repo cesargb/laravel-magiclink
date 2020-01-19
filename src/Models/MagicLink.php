@@ -50,7 +50,7 @@ class MagicLink extends Model
      * @param int|null $numMaxVisits
      * @return Cesargb\MagicLink\Models\MagicLink;
      */
-    public static function create(ActionInterface $action, $lifetime = 120, $numMaxVisits = null)
+    public static function create(ActionInterface $action, ?int $lifetime = 4320, ?int $numMaxVisits = null)
     {
         self::deleteMagicLinkExpired();
 
