@@ -13,8 +13,6 @@ class MagicLinkController extends Controller
 
         if (! $magiclink) {
             return config('magiclink.response.error', abort(403));
-
-            return redirect(config('magiclink.url.redirect_error', '/magiclink/error'));
         }
 
         return $magiclink->run();

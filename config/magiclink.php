@@ -35,19 +35,19 @@ return [
         |
         */
         'redirect_default' => '/',
-        /*
-        |--------------------------------------------------------------------------
-        | Path default to redirect when token is invalid
-        |--------------------------------------------------------------------------
-        |
-        | Here you may specify the name of the path you'd like to use so that
-        | the redirect when token is invalid.
-        |
-        */
-        'redirect_error' => 'magiclink/error',
     ],
 
     'response' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Response when token is invalid or magik link was expired
+        |--------------------------------------------------------------------------
+        |
+        | Here you may specify the response when magic link is incorrect.
+        | Samples:
+        |   response()->json(['message', 'forbidden'], 403)
+        |   view('error')
+        */
         'error' => abort(403),
     ],
 ];
