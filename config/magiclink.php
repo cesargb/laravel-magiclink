@@ -48,6 +48,6 @@ return [
         |   response()->json(['message', 'forbidden'], 403)
         |   view('error')
         */
-        'error' => abort(403),
+        'error' => response('forbidden', 403),
     ],
 ];

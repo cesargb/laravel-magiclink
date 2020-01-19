@@ -67,16 +67,10 @@ class ResponseAction implements ActionInterface
 
     protected function callResponse($response)
     {
-        if ($response instanceof Response) {
-            return $response;
-        }
-
         if (is_callable($response)) {
             return $response();
         }
 
-        if (is_string($response)) {
-            return $response;
-        }
+        return $response;
     }
 }

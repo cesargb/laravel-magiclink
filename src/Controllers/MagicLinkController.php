@@ -12,7 +12,7 @@ class MagicLinkController extends Controller
         $magiclink = MagicLink::getValidMagicLinkByToken($token);
 
         if (! $magiclink) {
-            return config('magiclink.response.error', abort(403));
+            return config('magiclink.response.error', response('forbidden', 403));
         }
 
         return $magiclink->run();
