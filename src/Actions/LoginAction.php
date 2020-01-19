@@ -18,7 +18,8 @@ class LoginAction extends ResponseAction implements ActionInterface
      * Constructor to action.
      *
      * @param Illuminate\Contracts\Auth\Authenticatable $user
-     * @param string|\Symfony\Component\HttpFoundation\Response $response
+     * @param null|string|\Symfony\Component\HttpFoundation\Response $response
+     * @param null|string $guard
      */
     public function __construct(Authenticatable $user, $response = null, string $guard = 'web')
     {
