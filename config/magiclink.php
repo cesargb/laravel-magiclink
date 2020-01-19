@@ -5,14 +5,13 @@ return [
     'token'           => [
         /*
         |--------------------------------------------------------------------------
-        | Token lifetime default
+        | Token size
         |--------------------------------------------------------------------------
         |
-        | Here you may specifiy the number of minutes you wish the default token
-        | to remain active.
+        | Here you may specifiy the length of token to verify the identify.
         |
         */
-        'lifetime' => 4320,
+        'length' => 64,
     ],
 
     'url' => [
