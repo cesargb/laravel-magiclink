@@ -1,19 +1,22 @@
 {
     "name": "cesargb/laravel-magiclink",
-    "description": "Create link for authenticate in Laravel without password",
+    "description": "Create secure link for access to private data or login in Laravel without password",
     "keywords": [
         "laravel",
         "auth",
-        "link"
+        "login",
+        "link",
+        "download",
+        "file"
     ],
     "homepage": "https://github.com/cesargb/laravel-magiclink",
     "authors": [
-	{
-		"name": "Cesar Garcia",
-		"email": "cesargb@gmail.com",
-		"homepage": "https://github.com/cesargb",
+    {
+        "name": "Cesar Garcia",
+        "email": "cesargb@gmail.com",
+        "homepage": "https://github.com/cesargb",
         "role": "Developer"
-	}
+    }
     ],
     "license": "MIT",
     "require": {
@@ -21,7 +24,8 @@
         "illuminate/auth": "^5.5|^6.0",
         "illuminate/container": "^5.5|^6.0",
         "illuminate/contracts": "^5.5|^6.0",
-        "illuminate/database": "^5.5|^6.0"
+        "illuminate/database": "^5.5|^6.0",
+        "opis/closure": "^3.1"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +39,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "phpstan": "vendor/bin/phpstan --no-progress src tests"
+        "stan": "vendor/bin/phpstan --no-progress src tests"
     },
     "extra": {
         "laravel": {
