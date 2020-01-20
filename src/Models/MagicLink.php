@@ -3,7 +3,6 @@
 namespace Cesargb\MagicLink\Models;
 
 use Carbon\Carbon;
-use Cesargb\MagicLink\Actions\Action;
 use Cesargb\MagicLink\Actions\ActionInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -44,11 +43,12 @@ class MagicLink extends Model
     }
 
     /**
-     * Create a magiclink.
+     * Create makiglink.
      *
+     * @param ActionInterface $action
      * @param int|null $lifetime
      * @param int|null $numMaxVisits
-     * @return Cesargb\MagicLink\Models\MagicLink;
+     * @return self
      */
     public static function create(ActionInterface $action, ?int $lifetime = 4320, ?int $numMaxVisits = null)
     {
