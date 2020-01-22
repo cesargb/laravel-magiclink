@@ -1,9 +1,9 @@
 <?php
 
-namespace Cesargb\MagicLink\Test;
+namespace MagicLink\Test;
 
-use Cesargb\MagicLink\Actions\LoginAction;
-use Cesargb\MagicLink\MagicLink;
+use MagicLink\Actions\LoginAction;
+use MagicLink\MagicLink;
 
 class MagicLinkTest extends TestCase
 {

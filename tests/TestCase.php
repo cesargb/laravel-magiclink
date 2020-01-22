@@ -1,9 +1,9 @@
 <?php
 
-namespace Cesargb\MagicLink\Test;
+namespace MagicLink\Test;
 
-use Cesargb\MagicLink\MagicLinkServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use MagicLink\MagicLinkServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -40,7 +40,7 @@ abstract class TestCase extends Orchestra
     {
         $app['config']->set('app.key', 'base64:mJlbzP1TMXUPouK3KK6e9zS/VvxtWTfzfVlkn1JTqpM=');
 
-        $app['config']->set('auth.providers.users.model', 'Cesargb\MagicLink\Test\User');
+        $app['config']->set('auth.providers.users.model', 'MagicLink\Test\User');
 
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [

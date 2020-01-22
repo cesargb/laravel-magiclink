@@ -1,6 +1,6 @@
 <?php
 
-namespace Cesargb\MagicLink\Actions;
+namespace MagicLink\Actions;
 
 use Closure;
 use Illuminate\View\View;

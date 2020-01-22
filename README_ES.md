@@ -31,7 +31,8 @@ login en tu aplicación con el usuario deseado:
 <?php
 
 use App\User;
-use Cesargb\MagicLink\Models\MagicLink;
+use MagicLink\Actions\LoginAction;
+use MagicLink\MagicLink;
 
 
 public function getUrlToLogin(User $user): string
@@ -44,7 +45,7 @@ public function getUrlToLogin(User $user): string
 
 ## Uso
 
-Mediante la clase `Cesargb\MagicLink\Models\MagicLink` podemos crear una
+Mediante la clase `MagicLink\MagicLink` podemos crear una
 url segura que tras ser visitada está llevará acciones determinadas, que
 nos permitirá ofrecer contenido seguro e incluso hacer login en la
 aplicación.
@@ -79,8 +80,8 @@ aplicación.
 Ejemplo:
 
 ```php
-use Cesargb\MagicLink\Actions\LoginAction;
-use Cesargb\MagicLink\Models\MagicLink;
+use MagicLink\Actions\LoginAction;
+use MagicLink\MagicLink;
 
 // Login and redirect to dash board
 $action = new LoginAction(User::first(), redirec('/dashboard'));
@@ -93,26 +94,6 @@ $action = new LoginAction(User::first(), view('dashboard'));
 $urlShowView = MagicLink::create($action)->url;
 ```
 
-### DownloadFileAction
-
-Con está acción podremos realizar una descarga de un fichero tras
-acceder a la URL generada por la clase `MagicLink`.
-
-Su constructor admite 3 argumentos:
-
-* `$path`; path del fichero a descargar
-* `$name`; opcionalmente el nombre del fichero
-* `$headers`; opcionalmente array para las cabeceras HTTP de respuesta
-
-```php
-use Cesargb\MagicLink\Actions\DownloadFileAction;
-use Cesargb\MagicLink\Models\MagicLink;
-
-// Login and redirect to dash board
-$action = new DownloadFileAction('/app/private/file.txt');
-
-$url = MagicLink::create($action)->url;
-```
 
 ## License
 

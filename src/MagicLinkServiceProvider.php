@@ -1,6 +1,6 @@
 <?php
 
-namespace Cesargb\MagicLink;
+namespace MagicLink;
 
 use Illuminate\Support\ServiceProvider;
 

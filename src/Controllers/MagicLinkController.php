@@ -1,9 +1,9 @@
 <?php
 
-namespace Cesargb\MagicLink\Controllers;
+namespace MagicLink\Controllers;
 
-use Cesargb\MagicLink\MagicLink;
 use Illuminate\Routing\Controller;
+use MagicLink\MagicLink;
 
 class MagicLinkController extends Controller
 {

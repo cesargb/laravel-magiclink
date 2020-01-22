@@ -1,6 +1,6 @@
 <?php
 
-namespace Cesargb\MagicLink\Test;
+namespace MagicLink\Test;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;

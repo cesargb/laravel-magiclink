@@ -1,6 +1,6 @@
 <?php
 
-namespace Cesargb\MagicLink\Actions;
+namespace MagicLink\Actions;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;

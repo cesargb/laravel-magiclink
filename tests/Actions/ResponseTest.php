@@ -1,13 +1,13 @@
 <?php
 
-namespace Cesargb\MagicLink\Test\Actions;
+namespace MagicLink\Test\Actions;
 
-use Cesargb\MagicLink\Actions\ResponseAction;
-use Cesargb\MagicLink\MagicLink;
-use Cesargb\MagicLink\Test\TestCase;
-use Cesargb\MagicLink\Test\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use MagicLink\Actions\ResponseAction;
+use MagicLink\MagicLink;
+use MagicLink\Test\TestCase;
+use MagicLink\Test\User;
 
 class ResponseTest extends TestCase
 {
