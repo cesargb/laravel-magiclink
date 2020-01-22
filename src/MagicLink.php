@@ -1,6 +1,6 @@
 <?php
 
-namespace Cesargb\MagicLink\Models;
+namespace Cesargb\MagicLink;
 
 use Carbon\Carbon;
 use Cesargb\MagicLink\Actions\ActionInterface;
@@ -88,7 +88,7 @@ class MagicLink extends Model
      * Get valid MagicLink by token.
      *
      * @param string $token
-     * @return null|\Cesargb\MagicLink\Models\MagicLink
+     * @return null|\Cesargb\MagicLink\MagicLink
      */
     public static function getValidMagicLinkByToken($token)
     {

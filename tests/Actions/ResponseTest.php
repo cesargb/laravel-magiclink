@@ -3,12 +3,15 @@
 namespace Cesargb\MagicLink\Test\Actions;
 
 use Cesargb\MagicLink\Actions\ResponseAction;
-use Cesargb\MagicLink\Models\MagicLink;
+use Cesargb\MagicLink\MagicLink;
 use Cesargb\MagicLink\Test\TestCase;
+use Cesargb\MagicLink\Test\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ResponseTest extends TestCase
 {
-    public function test_null_response()
+    public function test_response_null()
     {
         $magiclink = MagicLink::create(new ResponseAction());
 
@@ -30,7 +33,7 @@ class ResponseTest extends TestCase
                 ->assertSeeText('callback called');
     }
 
-    public function test_auth_with_response_redirect()
+    public function test_response_redirect()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(redirect('/test'))
@@ -41,7 +44,7 @@ class ResponseTest extends TestCase
                 ->assertRedirect('/test');
     }
 
-    public function test_auth_with_response_view()
+    public function test_response_view()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(
@@ -54,7 +57,7 @@ class ResponseTest extends TestCase
                 ->assertSeeText('Lorem, ipsum dolor.');
     }
 
-    public function test_auth_with_response_string()
+    public function test_response_string()
     {
         $magiclink = MagicLink::create(
             new ResponseAction('Lorem ipsum dolor sit')
@@ -65,7 +68,7 @@ class ResponseTest extends TestCase
                 ->assertSeeText('Lorem ipsum dolor sit');
     }
 
-    public function test_auth_with_response_json()
+    public function test_response_json()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(
@@ -76,5 +79,48 @@ class ResponseTest extends TestCase
         $this->get($magiclink->url)
                 ->assertStatus(213)
                 ->assertJson(['message' => 'json message']);
+    }
+
+    public function test_response_callable_download()
+    {
+        $magiclink = MagicLink::create(
+            new ResponseAction(function () {
+                return Storage::download('text.txt');
+            })
+        );
+
+        $this->get($magiclink->url)
+                ->assertStatus(200)
+                ->assertHeader('content-disposition', 'attachment; filename=text.txt');
+    }
+
+    public function test_response_callable_login()
+    {
+        $magiclink = MagicLink::create(
+            new ResponseAction(function () {
+                Auth::login(User::first());
+
+                return redirect('/change_password');
+            })
+        );
+
+        $this->get($magiclink->url)
+                ->assertStatus(302)
+                ->assertRedirect('/change_password');
+
+        $this->assertAuthenticatedAs(User::first());
+    }
+
+    public function test_response_callable_view()
+    {
+        $magiclink = MagicLink::create(
+            new ResponseAction(function () {
+                return view('data', ['data' => 'Lorem, ipsum dolor.']);
+            })
+        );
+
+        $this->get($magiclink->url)
+                ->assertStatus(200)
+                ->assertSeeText('Lorem, ipsum dolor.');
     }
 }

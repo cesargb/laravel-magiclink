@@ -4,7 +4,7 @@ namespace Cesargb\MagicLink\Test;
 
 use Cesargb\MagicLink\Actions\ResponseAction;
 use Cesargb\MagicLink\Controllers\MagicLinkController;
-use Cesargb\MagicLink\Models\MagicLink;
+use Cesargb\MagicLink\MagicLink;
 
 class ConfigTest extends TestCase
 {

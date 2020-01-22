@@ -2,7 +2,7 @@
 
 namespace Cesargb\MagicLink\Controllers;
 
-use Cesargb\MagicLink\Models\MagicLink;
+use Cesargb\MagicLink\MagicLink;
 use Illuminate\Routing\Controller;
 
 class MagicLinkController extends Controller

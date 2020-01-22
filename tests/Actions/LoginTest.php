@@ -3,7 +3,7 @@
 namespace Cesargb\MagicLink\Test\Actions;
 
 use Cesargb\MagicLink\Actions\LoginAction;
-use Cesargb\MagicLink\Models\MagicLink;
+use Cesargb\MagicLink\MagicLink;
 use Cesargb\MagicLink\Test\TestCase;
 use Cesargb\MagicLink\Test\User;
 
