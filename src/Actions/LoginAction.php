@@ -18,14 +18,14 @@ class LoginAction extends ResponseAction implements ActionInterface
      * Constructor to action.
      *
      * @param Illuminate\Contracts\Auth\Authenticatable $user
-     * @param null|string|\Symfony\Component\HttpFoundation\Response $response
+     * @param mixed $httpResponse
      * @param null|string $guard
      */
-    public function __construct(Authenticatable $user, $response = null, string $guard = 'web')
+    public function __construct(Authenticatable $user, $httpResponse = null, string $guard = 'web')
     {
         $this->user = $user;
 
-        $this->response = $this->serializeResponse($response);
+        $this->httpResponse = $this->serializeResponse($httpResponse);
 
         $this->guard = $guard;
     }
@@ -37,6 +37,6 @@ class LoginAction extends ResponseAction implements ActionInterface
     {
         Auth::guard($this->guard)->login($this->user);
 
-        return $this->callResponse(unserialize($this->response));
+        return $this->callResponse(unserialize($this->httpResponse));
     }
 }

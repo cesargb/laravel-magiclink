@@ -14,7 +14,7 @@ class ResponseAction implements ActionInterface
      */
     protected $user;
 
-    protected $response;
+    protected $httpResponse;
 
     protected $guard;
 
@@ -22,26 +22,26 @@ class ResponseAction implements ActionInterface
      * Constructor to action.
      *
      * @param \Illuminate\Database\Eloquent\Model $user
-     * @param string|\Symfony\Component\HttpFoundation\Response $response
+     * @param mixed $httpResponse
      */
-    public function __construct($response = null)
+    public function __construct($httpResponse = null)
     {
-        $this->response = $this->serializeResponse($response);
+        $this->httpResponse = $this->serializeResponse($httpResponse);
     }
 
-    protected function serializeResponse($response)
+    protected function serializeResponse($httpResponse)
     {
-        $response = $this->formattedResponse($response);
+        $httpResponse = $this->formattedResponse($httpResponse);
 
-        if ($response instanceof Closure) {
-            return serialize(new SerializableClosure($response));
+        if ($httpResponse instanceof Closure) {
+            return serialize(new SerializableClosure($httpResponse));
         }
 
-        if ($response instanceof View) {
-            return serialize($response->render());
+        if ($httpResponse instanceof View) {
+            return serialize($httpResponse->render());
         }
 
-        return serialize($response);
+        return serialize($httpResponse);
     }
 
     protected function formattedResponse($response)
@@ -62,15 +62,15 @@ class ResponseAction implements ActionInterface
      */
     public function run()
     {
-        return $this->callResponse(unserialize($this->response));
+        return $this->callResponse(unserialize($this->httpResponse));
     }
 
-    protected function callResponse($response)
+    protected function callResponse($httpResponse)
     {
-        if (is_callable($response)) {
-            return $response();
+        if (is_callable($httpResponse)) {
+            return $httpResponse();
         }
 
-        return $response;
+        return $httpResponse;
     }
 }
