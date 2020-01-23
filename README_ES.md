@@ -7,7 +7,7 @@
 # Introducción
 
 Mediante la clase `MagicLink` podemos crear un enlace seguro que tras
-ser visitado conellvará acciones determinadas, que nos permitirá
+ser visitado realizará acciones determinadas, que nos permitirá
 ofrecer contenido seguro e incluso hacer login en la aplicación.
 
 ## Instalación
@@ -48,17 +48,18 @@ Este método require de una acción a realizar.
 Cada MagicLink está asociado a una acción, que es la que se realizará
 una vez se visite el enlace.
 
-* [LoginAction](#loginaction)
-* [ResponseAction](#responseaction)
+* [Login](#login)
+* [Http Reponse](#httpresponse)
 
-### LoginAction
+### Login
 
-Está acción permite logarse en la aplicación mediante el enlace generado
+Mediante la acción `LoginAction` permite logarse en la aplicación mediante el enlace generado
 por `MagicLink`.
 
 Su constructor admite el usuario que hará login. Opcionalmente podemos
 especificarle la [respuesta HTTP](https://laravel.com/docs/master/responses)
 mediante el argumento `$httpResponse` y especificar el `$guard`.
+
 
 Ejemplos:
 
@@ -89,11 +90,11 @@ $urlShowView = MagicLink::create(
 )->url;
 ```
 
-### ResponseAction
+### Http Reponse
 
-Está acción nos permite acceder a contenido privado sin necesidad
+Mediante la accion `ResponseAction` podems acceder a contenido privado sin necesidad
 de realizar login. Su constructor acepta como argumento la
-[respuesta HTTP](https://laravel.com/docs/master/responses)
+[respuesta HTTP](https://laravel.com/docs/master/responses) a la que accederemos.
 
 Ejemplos:
 
@@ -125,16 +126,26 @@ $urlToCustomFunction = MagicLink::create(
 ## Tiempo de vida del enlace MagicLink
 
 Por defecto un enlace estará disponible durante 24 horas despues de su
-creación. Podemos modificar el tiempo de vida en minutos del enlace, mediante
+creación. Podemos modificar el tiempo de vida en minutos del enlace mediante
 la opción `$timelife` disponible en el método `create`. Este argummento acepta
 el valor `null` para que no expire en el tiempo.
 
 ```php
 $lifetime = 60; // 60 minutes
 
-$magiclink = MagicLink::create(new ResponseAction(), 60);
+$magiclink = MagicLink::create(new ResponseAction(), $lifetime);
 ```
 
+Tambien disponemos de otra opción `$numMaxVisits`, con la cual podemos definir
+el número de veces que el enlace puede ser visitado. Por defecto `null`que
+indica que no hay limites de visitas.
+
+```php
+$lifetime = null; // not expired in the time
+$numMaxVisits = 1; // Only can visit one time
+
+$magiclink = MagicLink::create(new ResponseAction(), lifetime, $numMaxVisits);
+```
 
 
 ## License
