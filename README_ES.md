@@ -48,8 +48,8 @@ Este método require de una acción a realizar.
 Cada MagicLink está asociado a una acción, que es la que se realizará
 una vez se visite el enlace.
 
-* [LoginAction](#login-action)
-* [ResponseAction](#response-action)
+* [LoginAction](#loginaction)
+* [ResponseAction](#responseaction)
 
 ### LoginAction
 
@@ -58,7 +58,7 @@ por `MagicLink`.
 
 Su constructor admite el usuario que hará login. Opcionalmente podemos
 especificarle la [respuesta HTTP](https://laravel.com/docs/master/responses)
-mediante el argumento `$httpResponse`] y especificar el `$guard`.
+mediante el argumento `$httpResponse` y especificar el `$guard`.
 
 Ejemplos:
 
@@ -107,7 +107,7 @@ $urlToViewContenct = MagicLink::create(
     )
 )->url;
 
-$urlToDownLoadFile = MAgicLink::create(
+$urlToDownLoadFile = MagicLink::create(
     new ResponseAction(function () {
         return Storage::download('private/docs.pdf');
     })
@@ -121,6 +121,21 @@ $urlToCustomFunction = MagicLink::create(
     })
 );
 ```
+
+## Tiempo de vida del enlace MagicLink
+
+Por defecto un enlace estará disponible durante 24 horas despues de su
+creación. Podemos modificar el tiempo de vida en minutos del enlace, mediante
+la opción `$timelife` disponible en el método `create`. Este argummento acepta
+el valor `null` para que no expire en el tiempo.
+
+```php
+$lifetime = 60; // 60 minutes
+
+$magiclink = MagicLink::create(new ResponseAction(), 60);
+```
+
+
 
 ## License
 
