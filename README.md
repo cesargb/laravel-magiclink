@@ -1,14 +1,14 @@
 
 # MagicLink for Laravels App
 
+Through the `MagicLink` class we can create a secure link that later
+being visited will perform certain actions, which will allow us
+offer secure content and even log in to the application.
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 [![Build Status](https://travis-ci.org/cesargb/laravel-magiclink.svg?branch=2.x)](https://travis-ci.org/cesargb/laravel-magiclink)
 [![StyleCI](https://github.styleci.io/repos/98337902/shield?branch=2.x)](https://github.styleci.io/repos/98337902)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
-
-Through the `MagicLink` class we can create a secure link that later
-being visited will perform certain actions, which will allow us
-offer secure content and even log in to the application.
 
 ## Installation
 
@@ -24,7 +24,8 @@ You can publish migration with command:
 php artisan vendor:publish --provider="Cesargb\MagicLink\MagicLinkServiceProvider" --tag=migrations
 ```
 
-After the migration has been published you can create the table by running the migrations:
+After the migration has been published you can create the table by running the
+migrations:
 
 ```bash
 php artisan migrate
@@ -32,8 +33,8 @@ php artisan migrate
 
 ## Use case
 
-With this example you can create a link to auto login on your
-application with the desired user:
+With this example you can create a link to auto login on your application with
+the desired user:
 
 ```php
 use MagicLink\Actions\LoginAction;
@@ -54,17 +55,17 @@ This method requires the action to be performed.
 Each MagicLink is associated with an action, which is what will be performed
 once the link is visited.
 
-* [Login](#login)
-* [Http Reponse](#httpresponse)
+* [Login Action](#login-action)
+* [Http Reponse Action](#http-response-action)
 
-### Login
+### Login Action
 
 Through the `LoginAction` action, you can log in to the application using the generated link
 by `MagicLink`.
 
 Your constructor supports the user who will login. Optionally we can specify
 the [HTTP response](https://laravel.com/docs/master/responses) using the
-`$httpResponse` argument and specify the` $guard`.
+`$httpResponse` argument and specify the `$guard`.
 
 Examples:
 
@@ -95,12 +96,12 @@ $urlShowView = MagicLink::create(
 )->url;
 ```
 
-### Http Reponse
+### Http Response Action
 
 Through the `ResponseAction` action we can access private content without need
 login. Its constructor accepts as argument the
 [HTTP response](https://laravel.com/docs/master/responses)
-which will be the response of the petition.
+which will be the response of the request.
 
 Examples:
 
@@ -132,8 +133,8 @@ $urlToCustomFunction = MagicLink::create(
 ## MagicLink link lifetime
 
 By default a link will be available for 24 hours after your creation. We can
-modify the life time in minutes of the link by the `$ lifetime` option
-available in the` create` method. This argument accepts the value `null` so
+modify the life time in minutes of the link by the `$lifetime` option
+available in the `create` method. This argument accepts the value `null` so
 that it does not expire in time.
 
 ```php
@@ -143,7 +144,7 @@ $magiclink = MagicLink::create(new ResponseAction(), $lifetime);
 ```
 
 We also have another option `$numMaxVisits`, with which we can define the
-number of times the link can be visited. `Null` default indicates that there
+number of times the link can be visited, `null` by default indicates that there
 are no visit limits.
 
 ```php
