@@ -92,9 +92,10 @@ $urlShowView = MagicLink::create(
 
 ### Http Reponse
 
-Mediante la accion `ResponseAction` podems acceder a contenido privado sin necesidad
+Mediante la accion `ResponseAction` podemos acceder a contenido privado sin necesidad
 de realizar login. Su constructor acepta como argumento la
-[respuesta HTTP](https://laravel.com/docs/master/responses) a la que accederemos.
+[respuesta HTTP](https://laravel.com/docs/master/responses) que será la respuesta de
+la petición.
 
 Ejemplos:
 
@@ -127,7 +128,7 @@ $urlToCustomFunction = MagicLink::create(
 
 Por defecto un enlace estará disponible durante 24 horas despues de su
 creación. Podemos modificar el tiempo de vida en minutos del enlace mediante
-la opción `$timelife` disponible en el método `create`. Este argummento acepta
+la opción `$lifetime` disponible en el método `create`. Este argummento acepta
 el valor `null` para que no expire en el tiempo.
 
 ```php
