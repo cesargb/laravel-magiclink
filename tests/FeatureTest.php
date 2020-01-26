@@ -54,4 +54,15 @@ class FeatureTest extends TestCase
             ->assertStatus(200)
             ->assertSeeText('Lorem, ipsum dolor.');
     }
+
+    public function test_create_response_callable()
+    {
+        $this->get('/create/callback')->assertStatus(200);
+
+        $this->get(MagicLink::first()->url)
+            ->assertStatus(200)
+            ->assertSeeText(MagicLink::skip(1)->first()->url);
+
+        $this->assertEquals(2, MagicLink::count());
+    }
 }

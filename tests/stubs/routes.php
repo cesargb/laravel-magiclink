@@ -27,6 +27,6 @@ Route::post('/create/view', function (Request $request) {
 
 Route::get('/create/callback', function () {
     return MagicLink::create(new ResponseAction(function () {
-        return 'a';
+        return MagicLink::create(new ResponseAction('test'))->url;
     }))->url;
 });
