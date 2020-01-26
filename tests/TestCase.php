@@ -8,15 +8,13 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
-    protected $testUser;
-
     public function setUp(): void
     {
         parent::setUp();
 
         $this->setUpDatabase($this->app);
 
-        $this->testUser = User::first();
+        // $this->loadRoutes();
     }
 
     /**
@@ -47,6 +45,7 @@ abstract class TestCase extends Orchestra
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'prefix'   => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ]);
 
         $app['config']->set('view.paths', [__DIR__.'/stubs/resources/views']);
@@ -70,5 +69,10 @@ abstract class TestCase extends Orchestra
         (new \CreateTableMagicLinks)->up();
 
         User::create(['email' => 'test@user.com']);
+    }
+
+    protected function loadRoutes()
+    {
+        include __DIR__.'/stubs/routes.php';
     }
 }

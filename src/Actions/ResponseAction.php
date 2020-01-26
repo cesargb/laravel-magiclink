@@ -3,9 +3,9 @@
 namespace MagicLink\Actions;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Opis\Closure\SerializableClosure;
-use Symfony\Component\HttpFoundation\Response;
 
 class ResponseAction implements ActionInterface
 {
@@ -39,6 +39,13 @@ class ResponseAction implements ActionInterface
 
         if ($httpResponse instanceof View) {
             return serialize($httpResponse->render());
+        }
+
+        if ($httpResponse instanceof RedirectResponse) {
+            return serialize($httpResponse->create(
+                $httpResponse->getTargetUrl(),
+                $httpResponse->getStatusCode()
+            ));
         }
 
         return serialize($httpResponse);

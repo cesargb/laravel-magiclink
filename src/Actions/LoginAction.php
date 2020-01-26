@@ -37,6 +37,6 @@ class LoginAction extends ResponseAction implements ActionInterface
     {
         Auth::guard($this->guard)->login($this->user);
 
-        return $this->callResponse(unserialize($this->httpResponse));
+        return parent::run();
     }
 }
