@@ -6,7 +6,7 @@ use MagicLink\MagicLink;
 
 class FeatureTest extends TestCase
 {
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -62,6 +62,17 @@ class FeatureTest extends TestCase
         $this->get(MagicLink::first()->url)
             ->assertStatus(200)
             ->assertSeeText(MagicLink::skip(1)->first()->url);
+
+        $this->assertEquals(2, MagicLink::count());
+    }
+
+    public function test_create_response_download()
+    {
+        $this->get('/create/download')->assertStatus(200);
+
+        $this->get(MagicLink::first()->url)
+            ->assertStatus(200)
+            ->assertHeader('content-disposition', 'attachment; filename=text.txt');
 
         $this->assertEquals(2, MagicLink::count());
     }

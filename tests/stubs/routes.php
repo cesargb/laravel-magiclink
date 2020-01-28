@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\LoginAction;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
@@ -28,5 +28,11 @@ Route::post('/create/view', function (Request $request) {
 Route::get('/create/callback', function () {
     return MagicLink::create(new ResponseAction(function () {
         return MagicLink::create(new ResponseAction('test'))->url;
+    }))->url;
+});
+
+Route::get('/create/download', function () {
+    return MagicLink::create(new ResponseAction(function () {
+        return Storage::download('tests/stubs/text.txt');
     }))->url;
 });
