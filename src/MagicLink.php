@@ -4,6 +4,7 @@ namespace MagicLink;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 use MagicLink\Actions\ActionInterface;
 
@@ -79,7 +80,10 @@ class MagicLink extends Model
      */
     public function run()
     {
-        $this->increment('num_visits');
+        try {
+            $this->increment('num_visits');
+        } catch (QueryException $e) {}
+
 
         return $this->action->run();
     }

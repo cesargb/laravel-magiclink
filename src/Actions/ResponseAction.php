@@ -31,34 +31,31 @@ class ResponseAction implements ActionInterface
 
     protected function serializeResponse($httpResponse)
     {
-        $httpResponse = $this->formattedResponse($httpResponse);
-
-        if ($httpResponse instanceof Closure) {
-            return serialize(new SerializableClosure($httpResponse));
-        }
-
-        if ($httpResponse instanceof View) {
-            return serialize($httpResponse->render());
-        }
-
-        if ($httpResponse instanceof RedirectResponse) {
-            return serialize($httpResponse->create(
-                $httpResponse->getTargetUrl(),
-                $httpResponse->getStatusCode()
-            ));
-        }
-
-        return serialize($httpResponse);
+        return serialize($this->formattedResponse($httpResponse));
     }
 
     protected function formattedResponse($response)
     {
         if (is_null($response)) {
-            return redirect(config('magiclink.url.redirect_default', '/'));
+            return RedirectResponse::create(
+                config('magiclink.url.redirect_default', '/'),
+                302
+            );
+        }
+
+        if ($response instanceof RedirectResponse) {
+            return $response->create(
+                $response->getTargetUrl(),
+                $response->getStatusCode()
+            );
         }
 
         if (is_callable($response)) {
-            return Closure::fromCallable($response);
+            return new SerializableClosure(Closure::fromCallable($response));
+        }
+
+        if ($response instanceof View) {
+            return $response->render();
         }
 
         return $response;
