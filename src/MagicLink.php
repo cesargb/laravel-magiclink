@@ -82,7 +82,8 @@ class MagicLink extends Model
     {
         try {
             $this->increment('num_visits');
-        } catch (QueryException $e) {}
+        } catch (QueryException $e) {
+        }
 
 
         return $this->action->run();
