@@ -73,7 +73,5 @@ class FeatureTest extends TestCase
         $this->get(MagicLink::first()->url)
             ->assertStatus(200)
             ->assertHeader('content-disposition', 'attachment; filename=text.txt');
-
-        $this->assertEquals(2, MagicLink::count());
     }
 }

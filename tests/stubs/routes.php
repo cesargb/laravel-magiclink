@@ -33,6 +33,6 @@ Route::get('/create/callback', function () {
 
 Route::get('/create/download', function () {
     return MagicLink::create(new ResponseAction(function () {
-        return Storage::download('tests/stubs/text.txt');
+        return Storage::download('text.txt');
     }))->url;
 });
