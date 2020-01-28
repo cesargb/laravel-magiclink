@@ -85,7 +85,6 @@ class MagicLink extends Model
         } catch (QueryException $e) {
         }
 
-
         return $this->action->run();
     }
 
