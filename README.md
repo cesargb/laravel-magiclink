@@ -31,6 +31,9 @@ migrations:
 php artisan migrate
 ```
 
+Note: If you have the version 1 installed,
+[read this](https://github.com/cesargb/laravel-magiclink/blob/v1/README.md).
+
 ## Use case
 
 With this example you can create a link to auto login on your application with
