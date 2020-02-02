@@ -122,7 +122,7 @@ $urlToDownLoadFile = MagicLink::create(
     new ResponseAction(function () {
         return Storage::download('private/docs.pdf');
     })
-);
+)->url;
 
 $urlToCustomFunction = MagicLink::create(
     new ResponseAction(function () {
@@ -130,7 +130,7 @@ $urlToCustomFunction = MagicLink::create(
 
         return redirect('/change_password');
     })
-);
+)->url;
 ```
 
 ## MagicLink link lifetime
@@ -144,6 +144,8 @@ that it does not expire in time.
 $lifetime = 60; // 60 minutes
 
 $magiclink = MagicLink::create(new ResponseAction(), $lifetime);
+
+$urlToSend = $magiclink->url;
 ```
 
 We also have another option `$numMaxVisits`, with which we can define the
@@ -155,6 +157,8 @@ $lifetime = null; // not expired in the time
 $numMaxVisits = 1; // Only can visit one time
 
 $magiclink = MagicLink::create(new ResponseAction(), lifetime, $numMaxVisits);
+
+$urlToSend = $magiclink->url;
 ```
 
 ## Testing
