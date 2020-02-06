@@ -59,6 +59,7 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
+        $this->artisan('migrate');
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
