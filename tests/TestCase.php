@@ -64,10 +64,6 @@ abstract class TestCase extends Orchestra
             $table->string('email');
         });
 
-        include_once __DIR__.'/../databases/migrations/create_table_magic_links.php';
-
-        (new \CreateTableMagicLinks)->up();
-
         User::create(['email' => 'test@user.com']);
     }
 
