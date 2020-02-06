@@ -59,12 +59,13 @@ Each MagicLink is associated with an action, which is what will be performed
 once the link is visited.
 
 * [Login Action](#login-action)
+* [Download file Action](#download-file-action)
+* [View Action](#view-action)
 * [Http Reponse Action](#http-response-action)
 
 ### Login Action
 
-Through the `LoginAction` action, you can log in to the application using the generated link
-by `MagicLink`.
+Through the `LoginAction` action, you can log in to the application using the generated link by `MagicLink`.
 
 Your constructor supports the user who will login. Optionally we can specify
 the [HTTP response](https://laravel.com/docs/master/responses) using the
@@ -99,6 +100,40 @@ $urlShowView = MagicLink::create(
 )->url;
 ```
 
+### Download file Action
+
+This action, `DownloadFileAction`, permit create a link to download a private file.
+
+The constructor require the file path.
+
+Example:
+
+```php
+use MagicLink\Actions\DownloadFileAction;
+use MagicLink\MagicLink;
+
+// Url to download the file storage_app('private_document.pdf')
+$url = MagicLink::create(new DownloadFileAction('private_document.pdf'))->url;
+```
+
+### View Action
+
+With the action `ViewAction`, you can provide access to the view. You can use
+in his constructor the same arguments than method `view` of Laravel.
+
+Example:
+
+```php
+use MagicLink\Actions\ViewAction;
+use MagicLink\MagicLink;
+
+// Url to view a internal.blade.php
+$url = MagicLink::create(new ViewAction('internal', [
+    'data' => 'Your private custom content',
+]))->url;
+```
+
+
 ### Http Response Action
 
 Through the `ResponseAction` action we can access private content without need
@@ -111,18 +146,6 @@ Examples:
 ```php
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
-
-$urlToViewContenct = MagicLink::create(
-    new ResponseAction(
-        view('promotion.code', ['code' => 'YOUR_CODE'])
-    )
-)->url;
-
-$urlToDownLoadFile = MagicLink::create(
-    new ResponseAction(function () {
-        return Storage::download('private/docs.pdf');
-    })
-)->url;
 
 $urlToCustomFunction = MagicLink::create(
     new ResponseAction(function () {
