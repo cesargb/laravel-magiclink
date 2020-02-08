@@ -46,8 +46,8 @@ class FeatureTest extends TestCase
     public function test_create_response_view_withdata()
     {
         $this->post('/create/view', [
-            'view' => 'data',
-            'data' => ['data' => 'Lorem, ipsum dolor.'],
+            'view' => 'view',
+            'data' => ['text' => 'Lorem, ipsum dolor.'],
         ])->assertStatus(200);
 
         $this->get(MagicLink::first()->url)

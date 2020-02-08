@@ -20,7 +20,7 @@ class ViewTest extends TestCase
     public function test_view_with_data()
     {
         $magiclink = MagicLink::create(
-            new ViewAction('data', ['data' => 'Lorem, ipsum dolor.'])
+            new ViewAction('view', ['text' => 'Lorem, ipsum dolor.'])
         );
 
         $this->get($magiclink->url)

@@ -48,7 +48,7 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(
             new ResponseAction(
-                view('data', ['data' => 'Lorem, ipsum dolor.'])
+                view('view', ['text' => 'Lorem, ipsum dolor.'])
             )
         );
 
@@ -115,7 +115,7 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(
             new ResponseAction(function () {
-                return view('data', ['data' => 'Lorem, ipsum dolor.']);
+                return view('view', ['text' => 'Lorem, ipsum dolor.']);
             })
         );
 

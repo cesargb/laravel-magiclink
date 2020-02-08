@@ -8,5 +8,13 @@
 </head>
 <body>
     <h1>This is a tests view</h1>
+
+    @if(isset($text))
+    <div>{{ $text }}</div>
+    @endif
+
+    @if(isset($user))
+    <div>Email: {{ $user->email }}</div>
+    @endif
 </body>
 </html>
