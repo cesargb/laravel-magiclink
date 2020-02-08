@@ -115,12 +115,12 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(
             new ResponseAction(function () {
-                return view('view', ['text' => 'Lorem, ipsum dolor.']);
+                return view('view', ['user' => User::first()]);
             })
         );
 
         $this->get($magiclink->url)
                 ->assertStatus(200)
-                ->assertSeeText('Lorem, ipsum dolor.');
+                ->assertSeeText('Email: '.User::first()->email);
     }
 }

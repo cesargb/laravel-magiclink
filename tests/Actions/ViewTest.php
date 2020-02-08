@@ -5,6 +5,7 @@ namespace MagicLink\Test\Actions;
 use MagicLink\Actions\ViewAction;
 use MagicLink\MagicLink;
 use MagicLink\Test\TestCase;
+use MagicLink\Test\User;
 
 class ViewTest extends TestCase
 {
@@ -26,5 +27,18 @@ class ViewTest extends TestCase
         $this->get($magiclink->url)
                 ->assertStatus(200)
                 ->assertSeeText('Lorem, ipsum dolor.');
+    }
+
+    public function test_view_with_object()
+    {
+        $user = User::first();
+
+        $magiclink = MagicLink::create(
+            new ViewAction('view', ['user' => $user])
+        );
+
+        $this->get($magiclink->url)
+                ->assertStatus(200)
+                ->assertSeeText('Email: '.$user->email);
     }
 }
