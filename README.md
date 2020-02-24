@@ -184,6 +184,13 @@ $magiclink = MagicLink::create(new ResponseAction(), lifetime, $numMaxVisits);
 $urlToSend = $magiclink->url;
 ```
 
+## Events
+
+MagicLink fires two events:
+
+* `MagicLink\Events\MagicLinkWasCreated`
+* `MagicLink\Events\MagicLinkWasVisited`
+
 ## Testing
 
 Run the tests with:
