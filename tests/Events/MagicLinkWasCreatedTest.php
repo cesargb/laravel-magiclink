@@ -1,6 +1,5 @@
 <?php
 
-
 namespace MagicLink\Test\Events;
 
 use Illuminate\Support\Facades\Event;
@@ -14,7 +13,7 @@ class MagicLinkWasCreatedTest extends TestCase
     public function test_event_dispatched_when_link_is_created()
     {
         Event::fake([
-            MagicLinkWasCreated::class
+            MagicLinkWasCreated::class,
         ]);
 
         $magiclink = MagicLink::create(new ResponseAction());
