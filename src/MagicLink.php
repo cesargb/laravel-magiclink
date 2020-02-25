@@ -5,8 +5,11 @@ namespace MagicLink;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use MagicLink\Actions\ActionInterface;
+use MagicLink\Events\MagicLinkWasCreated;
+use MagicLink\Events\MagicLinkWasVisited;
 
 class MagicLink extends Model
 {
@@ -70,6 +73,8 @@ class MagicLink extends Model
         $magiclink->action = $action;
         $magiclink->save();
 
+        Event::dispatch(new MagicLinkWasCreated($magiclink));
+
         return $magiclink;
     }
 
@@ -84,6 +89,8 @@ class MagicLink extends Model
             $this->increment('num_visits');
         } catch (QueryException $e) {
         }
+
+        Event::dispatch(new MagicLinkWasVisited($this));
 
         return $this->action->run();
     }
