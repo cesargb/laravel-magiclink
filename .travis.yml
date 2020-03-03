@@ -1,13 +1,48 @@
 language: php
 
-php:
-  - 7.2
-  - 7.3
-  - 7.4
+matrix:
+  include:
+    - php: '7.2'
+      env: LARAVEL='5.5.*' ORCHESTRA="3.5.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.2'
+      env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-lowest'
+    - php: '7.2'
+      env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.2'
+      env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-lowest'
+    - php: '7.2'
+      env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.3'
+      env: LARAVEL='5.5.*' ORCHESTRA="3.5.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.3'
+      env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-lowest'
+    - php: '7.3'
+      env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.3'
+      env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-lowest'
+    - php: '7.3'
+      env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.4'
+      env: LARAVEL='5.5.*' ORCHESTRA="3.5.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.4'
+      env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-lowest'
+    - php: '7.4'
+      env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-stable'
+    - php: '7.4'
+      env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-lowest'
+    - php: '7.4'
+      env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-stable'
 
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  
+install:
+  - composer require "illuminate/auth:${LARAVEL}" --no-interaction --no-update
+  - composer require "illuminate/container:${LARAVEL}" --no-interaction --no-update
+  - composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
+  - composer require "illuminate/database:${LARAVEL}" --no-interaction --no-update
+  - composer require "orchestra/testbench:${ORCHESTRA}" --no-interaction --no-update
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
