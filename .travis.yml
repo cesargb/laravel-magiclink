@@ -25,11 +25,7 @@ matrix:
     - php: '7.4'
       env: LARAVEL='5.5.*' ORCHESTRA="3.5.*" COMPOSER_FLAGS='--prefer-stable'
     - php: '7.4'
-      env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-lowest'
-    - php: '7.4'
       env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-stable'
-    - php: '7.4'
-      env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-lowest'
     - php: '7.4'
       env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-stable'
 
