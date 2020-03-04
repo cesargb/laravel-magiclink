@@ -22,7 +22,9 @@ class MagicLink extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
+            $model->id = method_exists(new Str(), 'uuid')
+                ? (string) Str::uuid()
+                : \Ramsey\Uuid\Uuid::uuid4();
         });
     }
 
