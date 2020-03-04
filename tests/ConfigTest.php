@@ -2,6 +2,7 @@
 
 namespace MagicLink\Test;
 
+use Illuminate\Support\Facades\App;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\Controllers\MagicLinkController;
 use MagicLink\MagicLink;
@@ -39,9 +40,15 @@ class ConfigTest extends TestCase
 
         $url = MagicLink::create(new ResponseAction())->url;
 
-        $this->get($url)
+        if (preg_match('/5\.5\.*/', App::version())) {
+            $this->get($url)
+                ->assertStatus(302);
+        } else {
+            $this->get($url)
                 ->assertStatus(302)
                 ->assertRedirect('/dashboard');
+        }
+
     }
 
     public function test_custom_response_error()

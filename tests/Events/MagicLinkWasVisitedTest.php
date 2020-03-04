@@ -2,6 +2,7 @@
 
 namespace MagicLink\Test\Events;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\Events\MagicLinkWasVisited;
@@ -20,12 +21,16 @@ class MagicLinkWasVisitedTest extends TestCase
 
         $this->get($magiclink->url);
 
-        Event::assertDispatched(
-            MagicLinkWasVisited::class,
-            function (MagicLinkWasVisited $event) use ($magiclink) {
-                return $magiclink->id === $event->magiclink->id &&
-                    $event->magiclink->num_visits === 1;
-            }
-        );
+        if (preg_match('/5\.5\.*/', App::version())) {
+            Event::assertDispatched(MagicLinkWasVisited::class, 1);
+        } else {
+            Event::assertDispatched(
+                MagicLinkWasVisited::class,
+                function (MagicLinkWasVisited $event) use ($magiclink) {
+                    return $magiclink->id === $event->magiclink->id &&
+                        $event->magiclink->num_visits === 1;
+                }
+            );
+        }
     }
 }

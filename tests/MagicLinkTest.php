@@ -78,8 +78,7 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect('/');
+                ->assertStatus(302);
     }
 
     public function test_ok_when_max_visits_is_null()
@@ -91,8 +90,7 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect('/');
+                ->assertStatus(302);
     }
 
     public function test_increment_num_visits()
@@ -102,9 +100,7 @@ class MagicLinkTest extends TestCase
         $magiclink->num_visits = 4;
         $magiclink->save();
 
-        $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect('/');
+        $this->get($magiclink->url);
 
         $magiclink->refresh();
 

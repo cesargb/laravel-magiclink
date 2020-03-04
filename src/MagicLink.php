@@ -61,7 +61,7 @@ class MagicLink extends Model
     {
         self::deleteMagicLinkExpired();
 
-        $magiclink = new self();
+        $magiclink = new static();
 
         $magiclink->token = Str::random(config('magiclink.token.length', 64));
 
@@ -74,6 +74,11 @@ class MagicLink extends Model
         }
 
         $magiclink->action = $action;
+
+        if (preg_match('/5\.5\.*/', App::version())) {
+            $magiclink->id = \Ramsey\Uuid\Uuid::uuid4();
+        }
+
         $magiclink->save();
 
         Event::dispatch(new MagicLinkWasCreated($magiclink));

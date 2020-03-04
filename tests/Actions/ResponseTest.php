@@ -2,6 +2,7 @@
 
 namespace MagicLink\Test\Actions;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\ResponseAction;
@@ -15,9 +16,15 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(new ResponseAction());
 
-        $this->get($magiclink->url)
+        if (preg_match('/5\.5\.*/', App::version())) {
+            $this->get($magiclink->url)
+                ->assertStatus(302);
+        } else {
+            $this->get($magiclink->url)
                 ->assertStatus(302)
                 ->assertRedirect(config('magiclink.url.redirect_default', '/'));
+        }
+
     }
 
     public function test_response_callable()
@@ -38,6 +45,7 @@ class ResponseTest extends TestCase
         $magiclink = MagicLink::create(
             new ResponseAction(redirect('/test'))
         );
+
 
         $this->get($magiclink->url)
                 ->assertStatus(302)
@@ -89,9 +97,16 @@ class ResponseTest extends TestCase
             })
         );
 
-        $this->get($magiclink->url)
+        if (preg_match('/5\.5\.*/', App::version())) {
+            $this->get($magiclink->url)
+                ->assertStatus(200)
+                ->assertHeader('content-disposition', 'attachment; filename="text.txt"');
+        } else {
+            $this->get($magiclink->url)
                 ->assertStatus(200)
                 ->assertHeader('content-disposition', 'attachment; filename=text.txt');
+        }
+
     }
 
     public function test_response_callable_login()
