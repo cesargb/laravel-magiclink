@@ -48,7 +48,6 @@ class ConfigTest extends TestCase
                 ->assertStatus(302)
                 ->assertRedirect('/dashboard');
         }
-
     }
 
     public function test_custom_response_error()

@@ -97,6 +97,5 @@ class FeatureTest extends TestCase
                 ->assertStatus(200)
                 ->assertHeader('content-disposition', 'attachment; filename=text.txt');
         }
-
     }
 }

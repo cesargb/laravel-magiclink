@@ -24,7 +24,6 @@ class ResponseTest extends TestCase
                 ->assertStatus(302)
                 ->assertRedirect(config('magiclink.url.redirect_default', '/'));
         }
-
     }
 
     public function test_response_callable()
@@ -45,7 +44,6 @@ class ResponseTest extends TestCase
         $magiclink = MagicLink::create(
             new ResponseAction(redirect('/test'))
         );
-
 
         $this->get($magiclink->url)
                 ->assertStatus(302)
@@ -106,7 +104,6 @@ class ResponseTest extends TestCase
                 ->assertStatus(200)
                 ->assertHeader('content-disposition', 'attachment; filename=text.txt');
         }
-
     }
 
     public function test_response_callable_login()

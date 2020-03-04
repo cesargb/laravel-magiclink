@@ -28,7 +28,6 @@ class DownloadFileTest extends TestCase
                     'attachment; filename=text.txt'
                 );
         }
-
     }
 
     public function test_download_file_with_custom_name()
