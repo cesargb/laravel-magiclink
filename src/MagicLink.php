@@ -5,6 +5,7 @@ namespace MagicLink;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use MagicLink\Actions\ActionInterface;
@@ -22,9 +23,9 @@ class MagicLink extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = method_exists(new Str(), 'uuid')
-                ? (string) Str::uuid()
-                : \Ramsey\Uuid\Uuid::uuid4();
+            $model->id = preg_match('/5\.5\.*/', App::version())
+                ? (string) \Ramsey\Uuid\Uuid::uuid4()
+                : (string) Str::uuid();
         });
     }
 
