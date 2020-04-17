@@ -179,7 +179,7 @@ are no visit limits.
 $lifetime = null; // not expired in the time
 $numMaxVisits = 1; // Only can visit one time
 
-$magiclink = MagicLink::create(new ResponseAction(), lifetime, $numMaxVisits);
+$magiclink = MagicLink::create(new ResponseAction(), $lifetime, $numMaxVisits);
 
 $urlToSend = $magiclink->url;
 ```
