@@ -79,7 +79,7 @@ use MagicLink\MagicLink;
 
 // Sample 1; Login and redirect to dash board
 $urlToDashBoard = MagicLink::create(
-    new LoginAction(User::first(), redirec('/dashboard'))
+    new LoginAction(User::first(), redirect('/dashboard'))
 )->url;
 
 // Sample 2; Login and view forms to password reset and use guard web
@@ -179,7 +179,7 @@ are no visit limits.
 $lifetime = null; // not expired in the time
 $numMaxVisits = 1; // Only can visit one time
 
-$magiclink = MagicLink::create(new ResponseAction(), lifetime, $numMaxVisits);
+$magiclink = MagicLink::create(new ResponseAction(), $lifetime, $numMaxVisits);
 
 $urlToSend = $magiclink->url;
 ```
