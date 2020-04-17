@@ -79,7 +79,7 @@ use MagicLink\MagicLink;
 
 // Sample 1; Login and redirect to dash board
 $urlToDashBoard = MagicLink::create(
-    new LoginAction(User::first(), redirec('/dashboard'))
+    new LoginAction(User::first(), redirect('/dashboard'))
 )->url;
 
 // Sample 2; Login and view forms to password reset and use guard web
