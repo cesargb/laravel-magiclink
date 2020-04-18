@@ -111,20 +111,20 @@ class MagicLink extends Model
      */
     public static function getValidMagicLinkByToken($token)
     {
-        $data = explode(':', $token);
+        [$tokenId, $tokenSecret] = explode(':', "{$token}:");
 
-        if (count($data) < 2) {
+        if (empty($tokenSecret)) {
             return;
         }
 
-        return self::where('id', $data[0])
+        return self::where('id', $tokenId)
+                    ->where('token', $tokenSecret)
                     ->where('available_at', '>=', Carbon::now())
                     ->where(function ($query) {
                         $query
                             ->whereNull('max_visits')
                             ->orWhereRaw('max_visits > num_visits');
                     })
-                    ->where('token', $data[1])
                     ->first();
     }
 
