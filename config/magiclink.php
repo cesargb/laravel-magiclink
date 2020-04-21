@@ -37,17 +37,4 @@ return [
         'redirect_default' => '/',
     ],
 
-    'response' => [
-        /*
-        |--------------------------------------------------------------------------
-        | Response when token is invalid or magik link was expired
-        |--------------------------------------------------------------------------
-        |
-        | Here you may specify the response when magic link is incorrect.
-        | Samples:
-        |   response()->json(['message', 'forbidden'], 403)
-        |   view('error')
-        */
-        'error' => response('forbidden', 403),
-    ],
 ];
