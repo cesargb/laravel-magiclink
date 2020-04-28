@@ -158,7 +158,7 @@ $urlToCustomFunction = MagicLink::create(
 
 ## MagicLink link lifetime
 
-By default a link will be available for 24 hours after your creation. We can
+By default a link will be available for 72 hours after your creation. We can
 modify the life time in minutes of the link by the `$lifetime` option
 available in the `create` method. This argument accepts the value `null` so
 that it does not expire in time.
