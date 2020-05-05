@@ -40,7 +40,10 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('auth.providers.users.model', 'MagicLink\Test\User');
 
-        $app['config']->set('database.default', 'sqlite');
+        $app['config']->set('view.paths', [__DIR__.'/stubs/resources/views']);
+
+        $app['config']->set('filesystems.disks.local.root', __DIR__.'/stubs/storage/app');
+
         $app['config']->set('database.connections.sqlite', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
@@ -48,8 +51,31 @@ abstract class TestCase extends Orchestra
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ]);
 
-        $app['config']->set('view.paths', [__DIR__.'/stubs/resources/views']);
-        $app['config']->set('filesystems.disks.local.root', __DIR__.'/stubs/storage/app');
+        $app['config']->set('database.connections.pgsql', [
+            'driver'   => 'pgsql',
+            'host' => '127.0.0.1',
+            'port' => '54320',
+            'username' => 'postgres',
+            'password' => 'mysecretpassword',
+            'database' => 'test',
+        ]);
+
+        $app['config']->set('database.connections.mysql', [
+            'driver'   => 'mysql',
+            'host' => '127.0.0.1',
+            'port' => '3306',
+            'username' => 'root',
+            'password' => '',
+            'database' => 'test',
+        ]);
+
+        $app['config']->set('database.default', 'sqlite');
+
+        if (getenv('DB_DRIVER') === 'pgsql') {
+            $app['config']->set('database.default', 'pgsql');
+        } elseif (getenv('DB_DRIVER') === 'mysql') {
+            $app['config']->set('database.default', 'mysql');
+        }
     }
 
     /**
@@ -59,7 +85,14 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
+        if ($app['config']->get('database.default') !== 'sqlite') {
+            $app['db']->connection()->getSchemaBuilder()->dropIfExists('users');
+            $app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
+            $app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
+        }
+
         $this->artisan('migrate');
+
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
