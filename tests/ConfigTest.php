@@ -49,16 +49,4 @@ class ConfigTest extends TestCase
                 ->assertRedirect('/dashboard');
         }
     }
-
-    public function test_custom_response_error()
-    {
-        $this->app['config']->set(
-            'magiclink.response.error',
-            response()->json(['message' => 'text json'], 422)
-        );
-
-        $response = (new MagicLinkController())->access('test');
-
-        $this->assertEquals(422, $response->getStatusCode());
-    }
 }
