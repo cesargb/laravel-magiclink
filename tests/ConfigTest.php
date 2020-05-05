@@ -3,6 +3,7 @@
 namespace MagicLink\Test;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\Controllers\MagicLinkController;
 use MagicLink\MagicLink;
@@ -60,5 +61,24 @@ class ConfigTest extends TestCase
         $response = (new MagicLinkController())->access('test');
 
         $this->assertEquals(422, $response->getStatusCode());
+    }
+
+    public function test_save_action_serialize()
+    {
+        MagicLink::create(new ResponseAction());
+
+        $action = DB::table('magic_links')->first(['action'])->action;
+
+        if (getenv('DB_DRIVER') === 'pgsql') {
+            $this->assertInstanceOf(
+                ResponseAction::class,
+                unserialize(base64_decode($action))
+            );
+        } else {
+            $this->assertInstanceOf(
+                ResponseAction::class,
+                unserialize($action)
+            );
+        }
     }
 }
