@@ -44,7 +44,6 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.local.root', __DIR__.'/stubs/storage/app');
 
-
         $app['config']->set('database.connections.sqlite', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
@@ -74,7 +73,7 @@ abstract class TestCase extends Orchestra
 
         if (getenv('DB_DRIVER') === 'pgsql') {
             $app['config']->set('database.default', 'pgsql');
-        } else if (getenv('DB_DRIVER') === 'mysql') {
+        } elseif (getenv('DB_DRIVER') === 'mysql') {
             $app['config']->set('database.default', 'mysql');
         }
     }
