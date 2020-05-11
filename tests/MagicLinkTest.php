@@ -3,14 +3,11 @@
 namespace MagicLink\Test;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use MagicLink\Actions\LoginAction;
 use MagicLink\MagicLink;
 
 class MagicLinkTest extends TestCase
 {
-    use WithoutMiddleware;
-
     public function test_create_magiclink_with_lifetime()
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()), 60);
@@ -38,8 +35,6 @@ class MagicLinkTest extends TestCase
 
     public function test_fail_when_token_is_bad()
     {
-        $this->withMiddleware(VerifyCsrfToken::class);
-
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
         $this->get($magiclink->url.'bad')
@@ -48,8 +43,6 @@ class MagicLinkTest extends TestCase
 
     public function test_fail_when_token_is_bad_defined()
     {
-        $this->withMiddleware(VerifyCsrfToken::class);
-
         $this->get('/magiclink/bad_token')
                 ->assertStatus(403);
     }

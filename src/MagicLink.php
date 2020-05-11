@@ -31,12 +31,18 @@ class MagicLink extends Model
 
     public function getActionAttribute($value)
     {
+        if ($this->getConnection()->getDriverName() === 'pgsql') {
+            return unserialize(base64_decode($value));
+        }
+
         return unserialize($value);
     }
 
     public function setActionAttribute($value)
     {
-        $this->attributes['action'] = serialize($value);
+        $this->attributes['action'] = $this->getConnection()->getDriverName() === 'pgsql'
+                                        ? base64_encode(serialize($value))
+                                        : serialize($value);
     }
 
     public function getUrlAttribute()
