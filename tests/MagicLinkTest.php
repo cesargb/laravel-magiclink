@@ -49,8 +49,6 @@ class MagicLinkTest extends TestCase
 
     public function test_fails_when_date_is_expired()
     {
-        $this->withMiddleware(VerifyCsrfToken::class);
-
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
         $magiclink->available_at = now()->subMinute();
@@ -62,8 +60,6 @@ class MagicLinkTest extends TestCase
 
     public function test_fail_when_max_visits_completed()
     {
-        $this->withMiddleware(VerifyCsrfToken::class);
-
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
         $magiclink->max_visits = 2;

@@ -99,14 +99,17 @@ class MagicLink extends Model
      */
     public function run()
     {
+        return $this->action->run();
+    }
+
+    public function visited()
+    {
         try {
             $this->increment('num_visits');
         } catch (QueryException $e) {
         }
 
         Event::dispatch(new MagicLinkWasVisited($this));
-
-        return $this->action->run();
     }
 
     /**
@@ -131,6 +134,25 @@ class MagicLink extends Model
                             ->whereNull('max_visits')
                             ->orWhereRaw('max_visits > num_visits');
                     })
+                    ->first();
+    }
+
+    /**
+     * Get MagicLink by token.
+     *
+     * @param string $token
+     * @return null|\MagicLink\MagicLink
+     */
+    public static function getMagicLinkByToken($token)
+    {
+        [$tokenId, $tokenSecret] = explode(':', "{$token}:");
+
+        if (empty($tokenSecret)) {
+            return;
+        }
+
+        return self::where('id', $tokenId)
+                    ->where('token', $tokenSecret)
                     ->first();
     }
 

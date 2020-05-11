@@ -12,7 +12,11 @@ class MagiclinkMiddleware
     {
         $token = $request->route('token');
 
-        if (MagicLink::getValidMagicLinkByToken($token)) {
+        $magicLink = MagicLink::getValidMagicLinkByToken($token);
+
+        if ($magicLink) {
+            $magicLink->visited();
+
             return $next($request);
         }
 
