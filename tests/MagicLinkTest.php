@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test;
 
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use MagicLink\Actions\LoginAction;
 use MagicLink\MagicLink;
 
