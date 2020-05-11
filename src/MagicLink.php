@@ -102,6 +102,11 @@ class MagicLink extends Model
         return $this->action->run();
     }
 
+    /**
+     * Call when magiclink has been visited.
+     *
+     * @return void
+     */
     public function visited()
     {
         try {
