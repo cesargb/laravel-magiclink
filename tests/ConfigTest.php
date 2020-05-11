@@ -5,7 +5,6 @@ namespace MagicLink\Test;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ResponseAction;
-use MagicLink\Controllers\MagicLinkController;
 use MagicLink\MagicLink;
 
 class ConfigTest extends TestCase
