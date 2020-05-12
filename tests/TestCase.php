@@ -14,7 +14,7 @@ abstract class TestCase extends Orchestra
 
         $this->setUpDatabase($this->app);
 
-        $this->loadRoutes();
+        // $this->loadRoutes();
     }
 
     /**

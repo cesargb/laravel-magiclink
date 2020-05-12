@@ -40,7 +40,7 @@ Route::get('/create/download', function () {
 });
 
 Route::get('/config_response', function () {
-    config()->set('magiclink.reponse', RedirectResponse::class);
+    config()->set('magiclink.response', RedirectResponse::class);
 
     return (new MagiclinkMiddleware())->handle(request(), function () {
     });

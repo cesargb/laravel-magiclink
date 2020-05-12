@@ -26,8 +26,8 @@ class MagiclinkMiddleware
 
     protected function response()
     {
-        $responseClass = config('response', ForbiddenResponse::class);
-        dd($responseClass);
+        $responseClass = config('magiclink.response', ForbiddenResponse::class);
+
         $response = new $responseClass;
 
         return $response();

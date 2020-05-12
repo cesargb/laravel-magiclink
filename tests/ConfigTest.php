@@ -72,7 +72,11 @@ class ConfigTest extends TestCase
 
     public function test_other_response()
     {
-        $this->get('/config_response')
+        $this->app['config']->set('magiclink.response', RedirectResponse::class);
+
+        $url = MagicLink::create(new ResponseAction())->url;
+
+        $this->get($url.'bad')
             ->assertStatus(302);
     }
 }
