@@ -21,6 +21,15 @@ class MagiclinkMiddleware
             return $next($request);
         }
 
-        return ForbiddenResponse::get();
+        return $this->response();
+    }
+
+    protected function response()
+    {
+        $responseClass = config('response', ForbiddenResponse::class);
+
+        $response = new $responseClass;
+
+        return $response();
     }
 }

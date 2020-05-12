@@ -4,7 +4,7 @@ namespace MagicLink\Responses;
 
 class ForbiddenResponse
 {
-    public static function get()
+    public function __invoke()
     {
         return response('forbidden', 403);
     }
