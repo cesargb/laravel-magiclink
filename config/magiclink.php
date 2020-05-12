@@ -37,4 +37,16 @@ return [
         'redirect_default' => '/',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Response when token is invalid
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the class with method __invoke to get the response
+    | when token is invalid
+    |
+    | Default: MagicLink\Responses\ForbiddenResponse::class
+    */
+    // 'response' => MagicLink\Responses\ForbiddenResponse::class,
+
 ];
