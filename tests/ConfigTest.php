@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
+use MagicLink\Test\Stubs\Responses\RedirectResponse;
 
 class ConfigTest extends TestCase
 {
@@ -67,5 +68,11 @@ class ConfigTest extends TestCase
                 unserialize($action)
             );
         }
+    }
+
+    public function test_other_response()
+    {
+        $this->get('/config_response')
+            ->assertStatus(302);
     }
 }

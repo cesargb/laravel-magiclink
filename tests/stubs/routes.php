@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\LoginAction;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
+use MagicLink\Middlewares\MagiclinkMiddleware;
+use MagicLink\Test\Stubs\Responses\RedirectResponse;
 use MagicLink\Test\User;
 
 Route::get('/create/login', function () {
@@ -35,4 +37,11 @@ Route::get('/create/download', function () {
     return MagicLink::create(new ResponseAction(function () {
         return Storage::download('text.txt');
     }))->url;
+});
+
+Route::get('/config_response', function () {
+    config()->set('magiclink.reponse', RedirectResponse::class);
+
+    return (new MagiclinkMiddleware())->handle(request(), function () {
+    });
 });
