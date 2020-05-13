@@ -19,7 +19,14 @@ class MagicLinkServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__.'/../databases/migrations');
 
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        if ($this->mustLoadRoute()) {
+            $this->loadRoutesFrom(__DIR__.'/routes.php');
+        }
+    }
+
+    protected function mustLoadRoute()
+    {
+        return ! config('magiclink.disable_default_route', false);
     }
 
     /**
