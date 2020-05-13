@@ -38,10 +38,3 @@ Route::get('/create/download', function () {
         return Storage::download('text.txt');
     }))->url;
 });
-
-Route::get('/config_response', function () {
-    config()->set('magiclink.response', RedirectResponse::class);
-
-    return (new MagiclinkMiddleware())->handle(request(), function () {
-    });
-});

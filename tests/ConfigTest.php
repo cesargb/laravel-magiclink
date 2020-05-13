@@ -72,7 +72,7 @@ class ConfigTest extends TestCase
 
     public function test_other_response()
     {
-        $this->app['config']->set('magiclink.response', ForbiddenResponseTest::class);
+        $this->app['config']->set('magiclink.invalid_response', ForbiddenResponseTest::class);
 
         $url = MagicLink::create(new ResponseAction())->url;
 
