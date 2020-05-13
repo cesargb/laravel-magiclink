@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\LoginAction;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
-use MagicLink\Middlewares\MagiclinkMiddleware;
-use MagicLink\Test\Stubs\Responses\RedirectResponse;
 use MagicLink\Test\User;
 
 Route::get('/create/login', function () {
