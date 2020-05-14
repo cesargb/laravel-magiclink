@@ -46,7 +46,9 @@ return [
     | when token is invalid
     |
     */
-    'invalid_response' => MagicLink\Responses\ForbiddenResponse::class,
+    'invalid_response' => [
+        'class' => MagicLink\Responses\Response::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------

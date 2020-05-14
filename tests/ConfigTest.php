@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
-use MagicLink\Responses\ForbiddenResponseTest;
+use MagicLink\Responses\RedirectResponse;
 
 class ConfigTest extends TestCase
 {
@@ -72,11 +72,12 @@ class ConfigTest extends TestCase
 
     public function test_other_response()
     {
-        $this->app['config']->set('magiclink.invalid_response', ForbiddenResponseTest::class);
+        $this->app['config']->set('magiclink.invalid_response.class', RedirectResponse::class);
+        $this->app['config']->set('magiclink.invalid_response.options.to', '');
 
         $url = MagicLink::create(new ResponseAction())->url;
 
         $this->get($url.'bad')
-            ->assertStatus(402);
+            ->assertStatus(302);
     }
 }
