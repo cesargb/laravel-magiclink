@@ -8,7 +8,7 @@ class ViewResponse implements ResponseContract
     {
         return view(
             $options['view'] ?? null,
-            $options['data'] ?? [],
+            $options['data'] ?? []
         );
     }
 }

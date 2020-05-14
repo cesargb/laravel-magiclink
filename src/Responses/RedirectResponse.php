@@ -9,7 +9,7 @@ class RedirectResponse implements ResponseContract
         return redirect(
             $options['to'] ?? null,
             $options['status'] ?? 302,
-            $options['headers'] ?? [],
+            $options['headers'] ?? []
         );
     }
 }

@@ -9,7 +9,7 @@ class Response implements ResponseContract
         return response(
             $options['content'] ?? 'forbidden',
             $options['status'] ?? 403,
-            $options['headers'] ?? [],
+            $options['headers'] ?? []
         );
     }
 }
