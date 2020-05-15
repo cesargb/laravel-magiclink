@@ -241,7 +241,7 @@ return a `redirect()`
 #### View
 
 Define class `MagicLink\Responses\ViewResponse::class` to
-return a `redirect()`
+return a `view()`
 
 ```php
     'invalid_response' => [
