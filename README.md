@@ -191,6 +191,68 @@ MagicLink fires two events:
 * `MagicLink\Events\MagicLinkWasCreated`
 * `MagicLink\Events\MagicLinkWasVisited`
 
+## Customization
+
+To custom this package you can publish the config file:
+
+```bash
+php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag="config"
+```
+
+And edit the file `config/magiclink.php`
+
+### Custom response when magiclink is invalid
+
+When the magicLink is invalid by default the http request return a status 403.
+You can custom this response with config `magiclink.invalid_response`.
+
+#### Response
+
+To return a response, use class `MagicLink\Responses\Response::class`
+same `response()`, you can send the arguments with options
+
+Example:
+
+```php
+    'invalid_response' => [
+        'class'   => MagicLink\Responses\Response::class,
+        'options' => [
+            'content' => 'forbidden',
+            'status' => 403,
+        ],
+    ],
+```
+
+#### Redirect
+
+Define class `MagicLink\Responses\RedirectResponse::class` to
+return a `redirect()`
+
+```php
+    'invalid_response' => [
+        'class'   => MagicLink\Responses\RedirectResponse::class,
+        'options' => [
+            'to' => '/not_valid_path',
+            'status' => 301,
+        ],
+    ],
+```
+
+#### View
+
+Define class `MagicLink\Responses\ViewResponse::class` to
+return a `redirect()`
+
+```php
+    'invalid_response' => [
+        'class'   => MagicLink\Responses\ViewResponse::class,
+        'options' => [
+            'view' => 'invalid',
+            'data' => [],
+        ],
+    ],
+```
+
 ## Testing
 
 Run the tests with:
