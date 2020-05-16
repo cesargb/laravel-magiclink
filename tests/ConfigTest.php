@@ -5,8 +5,8 @@ namespace MagicLink\Test;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ResponseAction;
-use MagicLink\Controllers\MagicLinkController;
 use MagicLink\MagicLink;
+use MagicLink\Responses\RedirectResponse;
 
 class ConfigTest extends TestCase
 {
@@ -51,18 +51,6 @@ class ConfigTest extends TestCase
         }
     }
 
-    public function test_custom_response_error()
-    {
-        $this->app['config']->set(
-            'magiclink.response.error',
-            response()->json(['message' => 'text json'], 422)
-        );
-
-        $response = (new MagicLinkController())->access('test');
-
-        $this->assertEquals(422, $response->getStatusCode());
-    }
-
     public function test_save_action_serialize()
     {
         MagicLink::create(new ResponseAction());
@@ -80,5 +68,16 @@ class ConfigTest extends TestCase
                 unserialize($action)
             );
         }
+    }
+
+    public function test_other_response()
+    {
+        $this->app['config']->set('magiclink.invalid_response.class', RedirectResponse::class);
+        $this->app['config']->set('magiclink.invalid_response.options.to', '');
+
+        $url = MagicLink::create(new ResponseAction())->url;
+
+        $this->get($url.'bad')
+            ->assertStatus(302);
     }
 }

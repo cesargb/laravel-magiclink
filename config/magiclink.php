@@ -37,4 +37,30 @@ return [
         'redirect_default' => '/',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Response when token is invalid
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the class with method __invoke to get the response
+    | when token is invalid
+    |
+    */
+    'invalid_response' => [
+        'class' => MagicLink\Responses\Response::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disable default route
+    |--------------------------------------------------------------------------
+    |
+    | If you wish use your custom controller, you can invalidate the
+    | default route of magic link, mark this configuration as true,
+    | and add your custom route with the middleware:
+    | MagicLink\Middlewares\MagiclinkMiddleware
+    |
+    */
+    'disable_default_route' => false,
+
 ];
