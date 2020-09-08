@@ -70,15 +70,10 @@ class MagicLink extends Model
         $magiclink = new static();
 
         $magiclink->token = Str::random(config('magiclink.token.length', 64));
-
-        if ($lifetime) {
-            $magiclink->available_at = Carbon::now()->addMinute($lifetime);
-        }
-
-        if ($numMaxVisits) {
-            $magiclink->max_visits = (int) $numMaxVisits;
-        }
-
+        $magiclink->available_at = $lifetime
+                                    ? Carbon::now()->addMinute($lifetime)
+                                    : null;
+        $magiclink->max_visits = $numMaxVisits;
         $magiclink->action = $action;
 
         if (preg_match('/5\.5\.*/', App::version())) {
