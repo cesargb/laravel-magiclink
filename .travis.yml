@@ -3,8 +3,6 @@ language: php
 matrix:
   include:
     - php: '7.2'
-      env: LARAVEL='5.5.*' ORCHESTRA="3.5.*" COMPOSER_FLAGS='--prefer-stable'
-    - php: '7.2'
       env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-lowest'
     - php: '7.2'
       env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-stable'
@@ -12,8 +10,6 @@ matrix:
       env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-lowest'
     - php: '7.2'
       env: LARAVEL='^7.0' ORCHESTRA="5.*.*" COMPOSER_FLAGS='--prefer-stable'
-    - php: '7.3'
-      env: LARAVEL='5.5.*' ORCHESTRA="3.5.*" COMPOSER_FLAGS='--prefer-stable'
     - php: '7.3'
       env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-lowest'
     - php: '7.3'
@@ -26,8 +22,6 @@ matrix:
       env: LARAVEL='^8.0' ORCHESTRA="6.*.*" COMPOSER_FLAGS='--prefer-lowest'
     - php: '7.3'
       env: LARAVEL='^8.0' ORCHESTRA="6.*.*" COMPOSER_FLAGS='--prefer-stable'
-    - php: '7.4'
-      env: LARAVEL='5.5.*' ORCHESTRA="3.5.*" COMPOSER_FLAGS='--prefer-stable'
     - php: '7.4'
       env: LARAVEL='^6.0' ORCHESTRA="4.*.*" COMPOSER_FLAGS='--prefer-stable'
     - php: '7.4'
