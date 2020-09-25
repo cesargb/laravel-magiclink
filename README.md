@@ -18,13 +18,7 @@ You can install this package via composer using:
 composer require cesargb/laravel-magiclink
 ```
 
-You can publish migration with command:
-
-```bash
-php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag=migrations
-```
-
-After the migration has been published you can create the table by running the
+You can then create the table by running the
 migrations:
 
 ```bash
