@@ -63,7 +63,7 @@ class MagicLinkTest extends TestCase
 
 
 		$this->get($magiclink->url)
-			 ->assertStatus(301);
+			 ->assertStatus(302);
 	}
 
     public function test_fail_when_max_visits_completed()

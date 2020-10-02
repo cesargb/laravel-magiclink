@@ -128,7 +128,11 @@ class MagicLink extends Model
 
         return self::where('id', $tokenId)
                     ->where('token', $tokenSecret)
-                    ->where('available_at', '>=', Carbon::now())
+					->where(function ($query) {
+						$query
+							->whereNull('available_at')
+							->orWhere('available_at', '>=', Carbon::now());
+					})
                     ->where(function ($query) {
                         $query
                             ->whereNull('max_visits')
