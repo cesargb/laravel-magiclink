@@ -57,6 +57,14 @@ class MagicLinkTest extends TestCase
                 ->assertStatus(403);
     }
 
+    public function test_ok_when_date_is_null()
+    {
+        $magiclink = MagicLink::create(new LoginAction(User::first()), null);
+
+        $this->get($magiclink->url)
+             ->assertStatus(302);
+    }
+
     public function test_fail_when_max_visits_completed()
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()));
