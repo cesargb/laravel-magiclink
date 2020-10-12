@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test\Actions;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\ResponseAction;
@@ -19,7 +18,6 @@ class ResponseTest extends TestCase
         $this->get($magiclink->url)
             ->assertStatus(302)
             ->assertRedirect(config('magiclink.url.redirect_default', '/'));
-
     }
 
     public function test_response_callable()

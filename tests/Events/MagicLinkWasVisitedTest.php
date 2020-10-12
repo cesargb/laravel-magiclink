@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test\Events;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\Events\MagicLinkWasVisited;

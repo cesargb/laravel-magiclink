@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
