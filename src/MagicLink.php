@@ -23,9 +23,7 @@ class MagicLink extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = preg_match('/5\.5\.*/', App::version())
-                ? (string) \Ramsey\Uuid\Uuid::uuid4()
-                : (string) Str::uuid();
+            $model->id = Str::uuid();
         });
     }
 
@@ -75,10 +73,6 @@ class MagicLink extends Model
                                     : null;
         $magiclink->max_visits = $numMaxVisits;
         $magiclink->action = $action;
-
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $magiclink->id = \Ramsey\Uuid\Uuid::uuid4();
-        }
 
         $magiclink->save();
 

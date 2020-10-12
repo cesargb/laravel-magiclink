@@ -41,14 +41,9 @@ class ConfigTest extends TestCase
 
         $url = MagicLink::create(new ResponseAction())->url;
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get($url)
-                ->assertStatus(302);
-        } else {
-            $this->get($url)
-                ->assertStatus(302)
-                ->assertRedirect('/dashboard');
-        }
+        $this->get($url)
+            ->assertStatus(302)
+            ->assertRedirect('/dashboard');
     }
 
     public function test_save_action_serialize()

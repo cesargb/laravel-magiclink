@@ -19,14 +19,9 @@ class FeatureTest extends TestCase
         $this->get('/create/login')
             ->assertStatus(200);
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get(MagicLink::first()->url)
-                ->assertStatus(302);
-        } else {
-            $this->get(MagicLink::first()->url)
-                ->assertStatus(302)
-                ->assertRedirect('/');
-        }
+        $this->get(MagicLink::first()->url)
+            ->assertStatus(302)
+            ->assertRedirect('/');
     }
 
     public function test_create_response_redirect()
@@ -34,15 +29,9 @@ class FeatureTest extends TestCase
         $this->get('/create/redirect?redirectTo=/test')
             ->assertStatus(200);
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get(MagicLink::first()->url)
-                ->assertStatus(302)
-                ->assertRedirect(url('/test'));
-        } else {
-            $this->get(MagicLink::first()->url)
-                ->assertStatus(302)
-                ->assertRedirect('/test');
-        }
+        $this->get(MagicLink::first()->url)
+            ->assertStatus(302)
+            ->assertRedirect('/test');
     }
 
     public function test_create_response_redirect_to_301()
@@ -50,15 +39,10 @@ class FeatureTest extends TestCase
         $this->get('/create/redirect?redirectTo=/test&status=301')
             ->assertStatus(200);
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get(MagicLink::first()->url)
-                ->assertStatus(301)
-                ->assertRedirect(url('/test'));
-        } else {
-            $this->get(MagicLink::first()->url)
+
+        $this->get(MagicLink::first()->url)
             ->assertStatus(301)
             ->assertRedirect('/test');
-        }
     }
 
     public function test_create_response_view_withdata()
@@ -88,14 +72,8 @@ class FeatureTest extends TestCase
     {
         $this->get('/create/download')->assertStatus(200);
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get(MagicLink::first()->url)
-                ->assertStatus(200)
-                ->assertHeader('content-disposition', 'attachment; filename="text.txt"');
-        } else {
-            $this->get(MagicLink::first()->url)
-                ->assertStatus(200)
-                ->assertHeader('content-disposition', 'attachment; filename=text.txt');
-        }
+        $this->get(MagicLink::first()->url)
+            ->assertStatus(200)
+            ->assertHeader('content-disposition', 'attachment; filename=text.txt');
     }
 }

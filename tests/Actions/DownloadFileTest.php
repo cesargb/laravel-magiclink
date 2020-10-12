@@ -13,21 +13,12 @@ class DownloadFileTest extends TestCase
     {
         $magiclink = MagicLink::create(new DownloadFileAction('text.txt'));
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertHeader(
-                    'content-disposition',
-                    'attachment; filename="text.txt"'
-                );
-        } else {
-            $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertHeader(
-                    'content-disposition',
-                    'attachment; filename=text.txt'
-                );
-        }
+        $this->get($magiclink->url)
+            ->assertStatus(200)
+            ->assertHeader(
+                'content-disposition',
+                'attachment; filename=text.txt'
+            );
     }
 
     public function test_download_file_with_custom_name()
@@ -36,20 +27,11 @@ class DownloadFileTest extends TestCase
             new DownloadFileAction('text.txt', 'other.txt')
         );
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertHeader(
-                    'content-disposition',
-                    'attachment; filename="other.txt"'
-                );
-        } else {
-            $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertHeader(
-                    'content-disposition',
-                    'attachment; filename=other.txt'
-                );
-        }
+        $this->get($magiclink->url)
+            ->assertStatus(200)
+            ->assertHeader(
+                'content-disposition',
+                'attachment; filename=other.txt'
+            );
     }
 }

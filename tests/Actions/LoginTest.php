@@ -14,14 +14,9 @@ class LoginTest extends TestCase
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
-        if (preg_match('/5\.5\.*/', App::version())) {
-            $this->get($magiclink->url)
-                ->assertStatus(302);
-        } else {
-            $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect('/');
-        }
+        $this->get($magiclink->url)
+            ->assertStatus(302)
+            ->assertRedirect('/');
 
         $this->assertAuthenticatedAs(User::first());
     }
