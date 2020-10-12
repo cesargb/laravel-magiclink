@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test;
 
-use Illuminate\Support\Facades\App;
 use MagicLink\MagicLink;
 
 class FeatureTest extends TestCase
@@ -38,7 +37,6 @@ class FeatureTest extends TestCase
     {
         $this->get('/create/redirect?redirectTo=/test&status=301')
             ->assertStatus(200);
-
 
         $this->get(MagicLink::first()->url)
             ->assertStatus(301)

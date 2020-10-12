@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test\Actions;
 
-use Illuminate\Support\Facades\App;
 use MagicLink\Actions\DownloadFileAction;
 use MagicLink\MagicLink;
 use MagicLink\Test\TestCase;
