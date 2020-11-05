@@ -8,6 +8,7 @@ offer secure content and even log in to the application.
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 [![Build Status](https://travis-ci.org/cesargb/laravel-magiclink.svg?branch=2.x)](https://travis-ci.org/cesargb/laravel-magiclink)
 [![StyleCI](https://github.styleci.io/repos/98337902/shield)](https://github.styleci.io/repos/98337902)
+[![Quality Score](https://img.shields.io/scrutinizer/g/cesargb/laravel-magiclink.svg?style=flat-square)](https://scrutinizer-ci.com/g/cesargb/laravel-magiclink)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 
 ## Installation
