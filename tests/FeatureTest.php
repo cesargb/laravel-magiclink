@@ -38,7 +38,6 @@ class FeatureTest extends TestCase
         $this->get('/create/redirect?redirectTo=/test&status=301')
             ->assertStatus(200);
 
-
         $this->get(MagicLink::first()->url)
             ->assertStatus(301)
             ->assertRedirect('/test');
