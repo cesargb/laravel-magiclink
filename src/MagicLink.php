@@ -5,7 +5,6 @@ namespace MagicLink;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use MagicLink\Actions\ActionInterface;
