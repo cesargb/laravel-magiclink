@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test;
 
-use Illuminate\Support\Facades\App;
 use MagicLink\MagicLink;
 
 class FeatureTest extends TestCase

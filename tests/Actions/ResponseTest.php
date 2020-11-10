@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test\Actions;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\ResponseAction;
