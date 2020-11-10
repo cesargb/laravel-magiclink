@@ -34,4 +34,18 @@ class DownloadFileTest extends TestCase
                 'attachment; filename=other.txt'
             );
     }
+
+    public function test_download_file_from_other_disk()
+    {
+        $magiclink = MagicLink::create(
+            (new DownloadFileAction('text_alternative.txt'))->disk('alternative')
+        );
+
+        $this->get($magiclink->url)
+            ->assertStatus(200)
+            ->assertHeader(
+                'content-disposition',
+                'attachment; filename=text_alternative.txt'
+            );
+    }
 }

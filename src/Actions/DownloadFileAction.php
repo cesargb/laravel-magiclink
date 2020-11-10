@@ -12,6 +12,8 @@ class DownloadFileAction implements ActionInterface
 
     protected $headers;
 
+    protected $disk;
+
     /**
      * Constructor to action.
      *
@@ -27,11 +29,18 @@ class DownloadFileAction implements ActionInterface
         $this->headers = $headers;
     }
 
+    public function disk(?string $disk): self
+    {
+        $this->disk = $disk;
+
+        return $this;
+    }
+
     /**
      * Execute Action.
      */
     public function run()
     {
-        return Storage::download($this->path, $this->name, $this->headers);
+        return Storage::disk($this->disk)->download($this->path, $this->name, $this->headers);
     }
 }
