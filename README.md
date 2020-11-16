@@ -109,6 +109,15 @@ use MagicLink\MagicLink;
 
 // Url to download the file storage_app('private_document.pdf')
 $url = MagicLink::create(new DownloadFileAction('private_document.pdf'))->url;
+
+// Download file with other file_name
+$action = new DownloadFileAction('private_document.pdf', 'your_document.pdf');
+$url = MagicLink::create($action)->url;
+
+// Download file from other disk
+$action = new DownloadFileAction('private_document.pdf')->disk('ftp');
+$url = MagicLink::create($action)->url;
+
 ```
 
 ### View Action
