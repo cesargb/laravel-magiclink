@@ -42,6 +42,11 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.local.root', __DIR__.'/stubs/storage/app');
 
+        $app['config']->set('filesystems.disks.alternative', [
+            'driver' => 'local',
+            'root'   => __DIR__.'/stubs/storage/app_alternative',
+        ]);
+
         $app['config']->set('database.connections.sqlite', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
