@@ -26,6 +26,11 @@ class MagicLink extends Model
         });
     }
 
+    protected static function getTokenLength()
+    {
+        return config('magiclink.token.length', 64) <= 255 ? config('magiclink.token.length', 64) : 255;
+    }
+
     public function getActionAttribute($value)
     {
         if ($this->getConnection()->getDriverName() === 'pgsql') {
@@ -66,7 +71,7 @@ class MagicLink extends Model
 
         $magiclink = new static();
 
-        $magiclink->token = Str::random(config('magiclink.token.length', 64));
+        $magiclink->token = Str::random(self::getTokenLength());
         $magiclink->available_at = $lifetime
                                     ? Carbon::now()->addMinute($lifetime)
                                     : null;
