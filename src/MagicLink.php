@@ -28,7 +28,9 @@ class MagicLink extends Model
 
     protected static function getTokenLength()
     {
-        return config('magiclink.token.length', 64) <= 255 ? config('magiclink.token.length', 64) : 255;
+        return config('magiclink.token.length', 64) <= 255
+            ? config('magiclink.token.length', 64)
+            : 255;
     }
 
     public function getActionAttribute($value)
