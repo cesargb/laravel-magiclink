@@ -18,6 +18,15 @@ class ConfigTest extends TestCase
         $this->assertEquals(10, strlen($this->getTokenFromUrl($url)));
     }
 
+    public function test_custom_token_length_bigger_than_max_value()
+    {
+        $this->app['config']->set('magiclink.token.length', 256);
+
+        $url = MagicLink::create(new ResponseAction())->url;
+
+        $this->assertEquals(255, strlen($this->getTokenFromUrl($url)));
+    }
+
     protected function getTokenFromUrl($url)
     {
         $parts = explode(':', $url);

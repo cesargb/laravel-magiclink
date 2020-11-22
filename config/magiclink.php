@@ -8,7 +8,8 @@ return [
         | Token size
         |--------------------------------------------------------------------------
         |
-        | Here you may specifiy the length of token to verify the identify.
+        | Here you may specify the length of token to verify the identify.
+        | Max value is 255 characters, it will be used if bigger value is set.
         |
         */
         'length' => 64,
