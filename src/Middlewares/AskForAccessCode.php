@@ -20,14 +20,14 @@ class AskForAccessCode
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->isAccessCodeValid($request->route('token'), $request->get('download-plan-access-code'))) {
+        if ($this->isAccessCodeValid($request->route('token'), $request->get('magic.link-access-code'))) {
             // access code is valid
-            setcookie('download-plan-access-code', encrypt($request->get('download-plan-access-code')), 0, '/');
+            setcookie('magic.link-access-code', encrypt($request->get('magic.link-access-code')), 0, '/');
             return redirect($request->url());
         }
 
         try {
-            $accessCode = decrypt(Arr::get($_COOKIE, 'download-plan-access-code'));
+            $accessCode = decrypt(Arr::get($_COOKIE, 'magic.link-access-code'));
             // Validate access_code
             if ($this->isAccessCodeValid($request->route('token'), $accessCode)) {
                 return $next($request);
