@@ -64,4 +64,19 @@ return [
     */
     'disable_default_route' => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware
+    |--------------------------------------------------------------------------
+    |
+    | Specify the middleware to use
+    |
+    */
+
+    'middleware' => [
+        'MagicLink\Middlewares\AskForAccessCode::class',
+        'MagicLink\Middlewares\MagiclinkMiddleware::class',
+        'web'
+    ],
+
 ];
