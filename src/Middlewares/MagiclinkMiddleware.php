@@ -53,7 +53,6 @@ class MagiclinkMiddleware
         $magicLink->visited();
 
         return $next($request);
-
     }
 
     // private function isAccessCodeValid(string $token, ?string $accessCode): bool

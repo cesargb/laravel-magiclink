@@ -107,7 +107,7 @@ class MagicLink extends Model
      * Check if access code is right.
      *
      * @param string|null $accessCode
-     * @return boolean
+     * @return bool
      */
     public function checkAccessCode(?string $accessCode): bool
     {
@@ -119,9 +119,9 @@ class MagicLink extends Model
     }
 
     /**
-     * The action was protected with an access code
+     * The action was protected with an access code.
      *
-     * @return boolean
+     * @return bool
      */
     public function protectedWithAcessCode(): bool
     {
