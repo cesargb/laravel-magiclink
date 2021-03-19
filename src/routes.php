@@ -10,9 +10,17 @@ Route::group(['middleware' => [MagiclinkMiddleware::class, 'web']], function () 
     );
 });
 */
-Route::group(['middleware' => config('magiclink.middleware')], function () {
-    Route::get(
-        config('magiclink.url.validate_path', 'magiclink') . '/{token}',
-        'MagicLink\Controllers\MagicLinkController@access'
-    );
-});
+Route::group(
+    [
+        'middleware' => config('magiclink.middleware', [
+            MagiclinkMiddleware::class,
+            'web',
+        ])
+    ],
+    function () {
+        Route::get(
+            config('magiclink.url.validate_path', 'magiclink') . '/{token}',
+            'MagicLink\Controllers\MagicLinkController@access'
+        );
+    }
+);
