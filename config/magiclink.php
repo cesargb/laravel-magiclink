@@ -76,7 +76,7 @@ return [
     'middleware' => [
         'MagicLink\Middlewares\AskForAccessCode::class',
         'MagicLink\Middlewares\MagiclinkMiddleware::class',
-        'web'
+        'web',
     ],
 
 ];

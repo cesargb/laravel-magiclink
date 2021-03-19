@@ -6,8 +6,8 @@ use Closure;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use MagicLink\MagicLink;
 use Illuminate\Support\Facades\Hash;
+use MagicLink\MagicLink;
 
 class AskForAccessCode
 {
@@ -23,6 +23,7 @@ class AskForAccessCode
         if ($this->isAccessCodeValid($request->route('token'), $request->get('magic.link-access-code'))) {
             // access code is valid
             setcookie('magic.link-access-code', encrypt($request->get('magic.link-access-code')), 0, '/');
+
             return redirect($request->url());
         }
 

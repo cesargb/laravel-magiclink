@@ -24,7 +24,7 @@ class MagicLinkServiceProvider extends ServiceProvider
         }
 
         // Views
-        $sourceViewsPath = __DIR__ . '/../resources/views';
+        $sourceViewsPath = __DIR__.'/../resources/views';
         $this->loadViewsFrom($sourceViewsPath, 'magiclink');
         $this->publishes([
             $sourceViewsPath => resource_path('views/vendor/magiclink'),
