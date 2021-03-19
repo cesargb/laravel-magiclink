@@ -89,7 +89,7 @@ class MagicLink extends Model
     }
 
     /**
-     * Protect the Action with an access code
+     * Protect the Action with an access code.
      *
      * @param string $accessCode
      * @return self

@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test;
 
-use Illuminate\Support\Facades\Hash;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
 
