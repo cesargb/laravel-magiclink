@@ -5,7 +5,6 @@ namespace MagicLink\Middlewares;
 use Closure;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use MagicLink\MagicLink;
 
@@ -20,15 +19,27 @@ class AskForAccessCode
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->isAccessCodeValid($request->route('token'), $request->get('magic.link-access-code'))) {
-            // access code is valid
-            setcookie('magic.link-access-code', encrypt($request->get('magic.link-access-code')), 0, '/');
+        $magicLink = MagicLink::getValidMagicLinkByToken($request->route('token'));
 
-            return redirect($request->url());
+        if (!$magicLink || is_null($magicLink->access_code ?? null)) {
+            return $next($request);
+        }
+
+        if ($this->isAccessCodeValid($request->route('token'), $request->get('download-plan-access-code'))) {
+            // access code is valid
+            return redirect($request->url())->withCookie(
+                cookie(
+                    'magic-link-access-code',
+                    encrypt($request->get('download-plan-access-code')),
+                    0,
+                    '/'
+                )
+            );
         }
 
         try {
-            $accessCode = decrypt(Arr::get($_COOKIE, 'magic.link-access-code'));
+            $accessCode = decrypt($request->cookie('magic-link-access-code'));
+
             // Validate access_code
             if ($this->isAccessCodeValid($request->route('token'), $accessCode)) {
                 return $next($request);
