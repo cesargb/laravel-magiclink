@@ -160,6 +160,20 @@ $urlToCustomFunction = MagicLink::create(
 )->url;
 ```
 
+## Protect with an access code
+
+Optionally you can protect the resources with an access code.
+You can set the access code with method `protectWithAccessCode`
+which accepts an argument with the access code.
+
+```php
+$magiclink = MagicLink::create(new DownloadFileAction('private_document.pdf'));
+
+$magiclink->protectWithAccessCode('secret');
+
+$urlToSend = $magiclink->url;
+```
+
 ## MagicLink link lifetime
 
 By default a link will be available for 72 hours after your creation. We can
