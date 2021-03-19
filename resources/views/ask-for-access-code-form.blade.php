@@ -58,8 +58,8 @@
 
             <div class="form-group">
 
-                <input type="password" name="download-plan-access-code" placeholder="Please enter access code" class="form-control" tabindex="1" autofocus />
-                @if (Request::get('download-plan-access-code'))
+                <input type="password" name="access-code" placeholder="Please enter access code" class="form-control" tabindex="1" autofocus />
+                @if (Request::get('access-code'))
                     <div class="text-danger">Access code is wrong</div>
                 @else
                     <div class="small help-block">And press enter</div>

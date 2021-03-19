@@ -42,7 +42,7 @@ class AccessCodeTest extends TestCase
         $magiclink->access_code = Hash::make('1234');
         $magiclink->save();
 
-        $response = $this->get("{$magiclink->url}?download-plan-access-code=1234")
+        $response = $this->get("{$magiclink->url}?access-code=1234")
             ->assertStatus(302)
             ->assertRedirect($magiclink->url);
 

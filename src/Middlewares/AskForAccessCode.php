@@ -25,12 +25,12 @@ class AskForAccessCode
             return $next($request);
         }
 
-        if ($this->isAccessCodeValid($request->route('token'), $request->get('download-plan-access-code'))) {
+        if ($this->isAccessCodeValid($request->route('token'), $request->get('access-code'))) {
             // access code is valid
             return redirect($request->url())->withCookie(
                 cookie(
                     'magic-link-access-code',
-                    encrypt($request->get('download-plan-access-code')),
+                    encrypt($request->get('access-code')),
                     0,
                     '/'
                 )
