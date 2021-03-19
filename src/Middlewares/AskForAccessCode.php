@@ -21,7 +21,7 @@ class AskForAccessCode
     {
         $magicLink = MagicLink::getValidMagicLinkByToken($request->route('token'));
 
-        if (!$magicLink || is_null($magicLink->access_code ?? null)) {
+        if (! $magicLink || is_null($magicLink->access_code ?? null)) {
             return $next($request);
         }
 

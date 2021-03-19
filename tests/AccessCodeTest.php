@@ -53,6 +53,4 @@ class AccessCodeTest extends TestCase
             ->assertStatus(200)
             ->assertSeeText('the big secret');
     }
-
-
 }
