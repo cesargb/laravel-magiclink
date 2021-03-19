@@ -25,8 +25,7 @@ class AccessCodeTest extends TestCase
             return 'the big secret';
         }));
 
-        $magiclink->access_code = Hash::make('1234');
-        $magiclink->save();
+        $magiclink->protectWithAccessCode('1234');
 
         $this->get($magiclink->url)
                 ->assertStatus(403)
@@ -39,8 +38,7 @@ class AccessCodeTest extends TestCase
             return 'the big secret';
         }));
 
-        $magiclink->access_code = Hash::make('1234');
-        $magiclink->save();
+        $magiclink->protectWithAccessCode('1234');
 
         $response = $this->get("{$magiclink->url}?access-code=1234")
             ->assertStatus(302)
