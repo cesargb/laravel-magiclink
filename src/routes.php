@@ -1,16 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use MagicLink\Middlewares\AskForAccessCode;
 use MagicLink\Middlewares\MagiclinkMiddleware;
 
 Route::group(
     [
-        'middleware' => config('magiclink.middleware', [
-            AskForAccessCode::class,
+        'middleware' => [
             MagiclinkMiddleware::class,
             'web',
-        ]),
+        ],
     ],
     function () {
         Route::get(

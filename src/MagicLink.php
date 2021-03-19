@@ -104,6 +104,31 @@ class MagicLink extends Model
     }
 
     /**
+     * Check if access code is right.
+     *
+     * @param string|null $accessCode
+     * @return boolean
+     */
+    public function checkAccessCode(?string $accessCode): bool
+    {
+        if ($accessCode === null) {
+            return false;
+        }
+
+        return Hash::check($accessCode, $this->access_code);
+    }
+
+    /**
+     * The action was protected with an access code
+     *
+     * @return boolean
+     */
+    public function protectedWithAcessCode(): bool
+    {
+        return ! is_null($this->access_code ?? null);
+    }
+
+    /**
      * Execute Action.
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse

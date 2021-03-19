@@ -31,6 +31,36 @@ class AccessCodeTest extends TestCase
                 ->assertViewIs('magiclink::ask-for-access-code-form');
     }
 
+    public function test_forbidden_if_protected_with_access_code_and_send_bad()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'the big secret';
+        }));
+
+        $magiclink->protectWithAccessCode('1234');
+
+        $response = $this->get("{$magiclink->url}?access-code=123")
+                ->assertStatus(403)
+                ->assertViewIs('magiclink::ask-for-access-code-form');
+
+        $this->assertEquals(0, count($response->headers->getCookies()));
+    }
+
+    public function test_forbidden_if_protected_with_access_code_and_send_null()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'the big secret';
+        }));
+
+        $magiclink->protectWithAccessCode('1234');
+
+        $response = $this->get("{$magiclink->url}")
+                ->assertStatus(403)
+                ->assertViewIs('magiclink::ask-for-access-code-form');
+
+        $this->assertEquals(0, count($response->headers->getCookies()));
+    }
+
     public function test_sucessfull_if_provide_access_code()
     {
         $magiclink = MagicLink::create(new ResponseAction(function () {
