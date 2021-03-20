@@ -5,7 +5,7 @@ namespace MagicLink\Middlewares;
 use Closure;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 use MagicLink\MagicLink;
 use MagicLink\Responses\Response;
 
@@ -35,7 +35,9 @@ class MagiclinkMiddleware
             }
 
             try {
-                $accessCode = decrypt($request->cookie('magic-link-access-code'));
+                $cookie = Arr::last((array) $request->cookie('magic-link-access-code'));
+
+                $accessCode = decrypt($cookie);
 
                 // Validate access_code
                 if ($magicLink->checkAccessCode($accessCode)) {
@@ -54,17 +56,6 @@ class MagiclinkMiddleware
 
         return $next($request);
     }
-
-    // private function isAccessCodeValid(string $token, ?string $accessCode): bool
-    // {
-    //     if ($accessCode === null) {
-    //         return false;
-    //     }
-
-    //     $magicLink = MagicLink::getValidMagicLinkByToken($token);
-
-    //     return Hash::check($accessCode, $magicLink->access_code);
-    // }
 
     protected function badResponse()
     {
