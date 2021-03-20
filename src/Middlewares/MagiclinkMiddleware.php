@@ -35,7 +35,7 @@ class MagiclinkMiddleware
             }
 
             try {
-                $cookie = Arr::last((array)$request->cookie('magic-link-access-code'));
+                $cookie = Arr::last((array) $request->cookie('magic-link-access-code'));
 
                 $accessCode = decrypt($cookie);
 
