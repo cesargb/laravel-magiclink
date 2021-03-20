@@ -11,6 +11,23 @@ offer secure content and even log in to the application.
 [![Quality Score](https://img.shields.io/scrutinizer/g/cesargb/laravel-magiclink.svg?style=flat-square)](https://scrutinizer-ci.com/g/cesargb/laravel-magiclink)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 
+
+## Contents
+
+- [Installation](#installation)
+- [Use case](#use-case)
+- [Create a MagicLink](#create-a-magiclink)
+- [Actions](#actions)
+  - [Login](#login-action)
+  - [Download file](#download-file-action)
+  - [View](#view-action)
+  - [Http Reponse](#http-response-action)
+- [Protect with an access code](#protect-with-an-access-code)
+- [Lifetime](#lifetime)
+- [Events](#events)
+- [Customization](#customization)
+
+
 ## Installation
 
 You can install this package via composer using:
@@ -53,10 +70,10 @@ This method requires the action to be performed.
 Each MagicLink is associated with an action, which is what will be performed
 once the link is visited.
 
-* [Login Action](#login-action)
-* [Download file Action](#download-file-action)
-* [View Action](#view-action)
-* [Http Reponse Action](#http-response-action)
+- [Login Action](#login-action)
+- [Download file Action](#download-file-action)
+- [View Action](#view-action)
+- [Http Reponse Action](#http-response-action)
 
 ### Login Action
 
@@ -174,7 +191,7 @@ $magiclink->protectWithAccessCode('secret');
 $urlToSend = $magiclink->url;
 ```
 
-## MagicLink link lifetime
+## Lifetime
 
 By default a link will be available for 72 hours after your creation. We can
 modify the life time in minutes of the link by the `$lifetime` option
