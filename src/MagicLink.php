@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use MagicLink\Actions\ActionInterface;
 use MagicLink\Events\MagicLinkWasCreated;
@@ -85,6 +86,46 @@ class MagicLink extends Model
         Event::dispatch(new MagicLinkWasCreated($magiclink));
 
         return $magiclink;
+    }
+
+    /**
+     * Protect the Action with an access code.
+     *
+     * @param string $accessCode
+     * @return self
+     */
+    public function protectWithAccessCode(string $accessCode): self
+    {
+        $this->access_code = Hash::make($accessCode);
+
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * Check if access code is right.
+     *
+     * @param string|null $accessCode
+     * @return bool
+     */
+    public function checkAccessCode(?string $accessCode): bool
+    {
+        if ($accessCode === null) {
+            return false;
+        }
+
+        return Hash::check($accessCode, $this->access_code);
+    }
+
+    /**
+     * The action was protected with an access code.
+     *
+     * @return bool
+     */
+    public function protectedWithAcessCode(): bool
+    {
+        return ! is_null($this->access_code ?? null);
     }
 
     /**

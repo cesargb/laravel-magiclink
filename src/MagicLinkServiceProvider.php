@@ -22,6 +22,13 @@ class MagicLinkServiceProvider extends ServiceProvider
         if ($this->mustLoadRoute()) {
             $this->loadRoutesFrom(__DIR__.'/routes.php');
         }
+
+        // Views
+        $sourceViewsPath = __DIR__.'/../resources/views';
+        $this->loadViewsFrom($sourceViewsPath, 'magiclink');
+        $this->publishes([
+            $sourceViewsPath => resource_path('views/vendor/magiclink'),
+        ], 'views');
     }
 
     protected function mustLoadRoute()
