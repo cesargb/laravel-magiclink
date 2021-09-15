@@ -2,8 +2,6 @@
 
 namespace MagicLink\Actions;
 
-use MagicLink\MagicLink;
-
 abstract class ActionAbstract
 {
     /**
@@ -11,13 +9,11 @@ abstract class ActionAbstract
      */
     abstract public function run();
 
-    protected MagicLink $magiclink;
+    protected string $magiclinkId;
 
-    public function setMagiclink(MagicLink $magiclink): self
+    public function setMagiclinkId(string $magiclinkId): self
     {
-        $this->magiclink = $magiclink;
-
-        $this->magiclink->save();
+        $this->magiclinkId = $magiclinkId;
 
         return $this;
     }

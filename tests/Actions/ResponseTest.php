@@ -11,7 +11,7 @@ use MagicLink\Test\User;
 
 class ResponseTest extends TestCase
 {
-    public function test_response_null()
+    public function testResponseNull()
     {
         $magiclink = MagicLink::create(new ResponseAction());
 
@@ -20,7 +20,7 @@ class ResponseTest extends TestCase
             ->assertRedirect(config('magiclink.url.redirect_default', '/'));
     }
 
-    public function test_response_callable()
+    public function testResponseCallable()
     {
         $magiclink = MagicLink::create(new ResponseAction(
             function () {
@@ -33,7 +33,7 @@ class ResponseTest extends TestCase
                 ->assertSeeText('callback called');
     }
 
-    public function test_response_redirect()
+    public function testResponseRedirect()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(redirect('/test'))
@@ -44,7 +44,7 @@ class ResponseTest extends TestCase
                 ->assertRedirect('/test');
     }
 
-    public function test_response_view()
+    public function testResponseView()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(
@@ -57,7 +57,7 @@ class ResponseTest extends TestCase
                 ->assertSeeText('Lorem, ipsum dolor.');
     }
 
-    public function test_response_string()
+    public function testResponseString()
     {
         $magiclink = MagicLink::create(
             new ResponseAction('Lorem ipsum dolor sit')
@@ -68,7 +68,7 @@ class ResponseTest extends TestCase
                 ->assertSeeText('Lorem ipsum dolor sit');
     }
 
-    public function test_response_json()
+    public function testResponseJson()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(
@@ -81,7 +81,7 @@ class ResponseTest extends TestCase
                 ->assertJson(['message' => 'json message']);
     }
 
-    public function test_response_callable_download()
+    public function testResponseCallableDownload()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(function () {
@@ -94,7 +94,7 @@ class ResponseTest extends TestCase
             ->assertHeader('content-disposition', 'attachment; filename=text.txt');
     }
 
-    public function test_response_callable_login()
+    public function testResponseCallableLogin()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(function () {
@@ -111,7 +111,7 @@ class ResponseTest extends TestCase
         $this->assertAuthenticatedAs(User::first());
     }
 
-    public function test_response_callable_view()
+    public function testResponseCallableView()
     {
         $magiclink = MagicLink::create(
             new ResponseAction(function () {
@@ -122,5 +122,24 @@ class ResponseTest extends TestCase
         $this->get($magiclink->url)
                 ->assertStatus(200)
                 ->assertSeeText('Email: '.User::first()->email);
+    }
+
+    public function testResponseCallableWithMagicLink()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(
+            function ($magiclink) {
+                if (!MagicLink::first()) {
+                    return redirect('/');
+                }
+
+                $magiclink->delete();
+
+                return 'callback called';
+            })
+        );
+
+        $this->get($magiclink->url)->assertStatus(200);
+
+        $this->assertNull(MagicLink::first());
     }
 }

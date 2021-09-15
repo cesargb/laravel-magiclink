@@ -5,6 +5,7 @@ namespace MagicLink\Actions;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use MagicLink\MagicLink;
 use Opis\Closure\SerializableClosure;
 
 class ResponseAction extends ActionAbstract
@@ -72,7 +73,7 @@ class ResponseAction extends ActionAbstract
     protected function callResponse($httpResponse)
     {
         if (is_callable($httpResponse)) {
-            return $httpResponse();
+            return $httpResponse(MagicLink::find($this->magiclinkId));
         }
 
         return $httpResponse;

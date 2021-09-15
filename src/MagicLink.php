@@ -80,6 +80,10 @@ class MagicLink extends Model
 
         $magiclink->save();
 
+        $magiclink->action = $action->setMagicLinkId($magiclink->id);
+
+        $magiclink->save();
+
         Event::dispatch(new MagicLinkWasCreated($magiclink));
 
         return $magiclink;
