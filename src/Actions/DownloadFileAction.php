@@ -4,7 +4,7 @@ namespace MagicLink\Actions;
 
 use Illuminate\Support\Facades\Storage;
 
-class DownloadFileAction implements ActionInterface
+class DownloadFileAction extends ActionAbstract
 {
     protected $path;
 
@@ -17,9 +17,6 @@ class DownloadFileAction implements ActionInterface
     /**
      * Constructor to action.
      *
-     * @param  string  $path
-     * @param  string|null  $name
-     * @param  array  $headers
      * @return void
      */
     public function __construct(string $path, ?string $name = null, array $headers = [])
