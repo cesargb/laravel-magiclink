@@ -9,7 +9,7 @@ abstract class ActionAbstract
      */
     abstract public function run();
 
-    protected string $magiclinkId;
+    protected $magiclinkId;
 
     public function setMagiclinkId(string $magiclinkId): self
     {
