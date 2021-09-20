@@ -17,9 +17,9 @@ class LoginAction extends ResponseAction
     /**
      * Constructor to action.
      *
-     * @param Illuminate\Contracts\Auth\Authenticatable $user
-     * @param mixed                                     $httpResponse
-     * @param string|null                               $guard
+     * @param  Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  mixed  $httpResponse
+     * @param  string|null  $guard
      */
     public function __construct(Authenticatable $user, $httpResponse = null, string $guard = 'web')
     {

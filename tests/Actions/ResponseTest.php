@@ -128,7 +128,7 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(new ResponseAction(
             function ($magiclink) {
-                if (!MagicLink::first()) {
+                if (! MagicLink::first()) {
                     return redirect('/');
                 }
 

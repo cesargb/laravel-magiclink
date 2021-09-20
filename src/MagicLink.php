@@ -118,7 +118,7 @@ class MagicLink extends Model
      */
     public function protectedWithAcessCode(): bool
     {
-        return !is_null($this->access_code ?? null);
+        return ! is_null($this->access_code ?? null);
     }
 
     /**
@@ -149,8 +149,7 @@ class MagicLink extends Model
     /**
      * Get valid MagicLink by token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return \MagicLink\MagicLink|null
      */
     public static function getValidMagicLinkByToken($token)
@@ -179,8 +178,7 @@ class MagicLink extends Model
     /**
      * Get MagicLink by token.
      *
-     * @param string $token
-     *
+     * @param  string  $token
      * @return \MagicLink\MagicLink|null
      */
     public static function getMagicLinkByToken($token)
