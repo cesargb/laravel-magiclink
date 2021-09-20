@@ -2,7 +2,7 @@
 
 namespace MagicLink\Actions;
 
-class ViewAction implements ActionInterface
+class ViewAction extends ActionAbstract
 {
     protected $view;
 
@@ -13,9 +13,8 @@ class ViewAction implements ActionInterface
     /**
      * Constructor action.
      *
-     * @param string $view
      * @param \Illuminate\Contracts\Support\Arrayable|array $data
-     * @param array $mergeData
+     * @param array                                         $mergeData
      */
     public function __construct(string $view, $data = [], $mergeData = [])
     {

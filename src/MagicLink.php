@@ -8,7 +8,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use MagicLink\Actions\ActionInterface;
+use MagicLink\Actions\ActionAbstract;
 use MagicLink\Events\MagicLinkWasCreated;
 use MagicLink\Events\MagicLinkWasVisited;
 
@@ -63,12 +63,9 @@ class MagicLink extends Model
     /**
      * Create makiglink.
      *
-     * @param ActionInterface $action
-     * @param int|null $lifetime
-     * @param int|null $numMaxVisits
      * @return self
      */
-    public static function create(ActionInterface $action, ?int $lifetime = 4320, ?int $numMaxVisits = null)
+    public static function create(ActionAbstract $action, ?int $lifetime = 4320, ?int $numMaxVisits = null)
     {
         self::deleteMagicLinkExpired();
 
@@ -83,6 +80,10 @@ class MagicLink extends Model
 
         $magiclink->save();
 
+        $magiclink->action = $action->setMagicLinkId($magiclink->id);
+
+        $magiclink->save();
+
         Event::dispatch(new MagicLinkWasCreated($magiclink));
 
         return $magiclink;
@@ -90,9 +91,6 @@ class MagicLink extends Model
 
     /**
      * Protect the Action with an access code.
-     *
-     * @param string $accessCode
-     * @return self
      */
     public function protectWithAccessCode(string $accessCode): self
     {
@@ -105,9 +103,6 @@ class MagicLink extends Model
 
     /**
      * Check if access code is right.
-     *
-     * @param string|null $accessCode
-     * @return bool
      */
     public function checkAccessCode(?string $accessCode): bool
     {
@@ -120,12 +115,10 @@ class MagicLink extends Model
 
     /**
      * The action was protected with an access code.
-     *
-     * @return bool
      */
     public function protectedWithAcessCode(): bool
     {
-        return ! is_null($this->access_code ?? null);
+        return !is_null($this->access_code ?? null);
     }
 
     /**
@@ -157,7 +150,8 @@ class MagicLink extends Model
      * Get valid MagicLink by token.
      *
      * @param string $token
-     * @return null|\MagicLink\MagicLink
+     *
+     * @return \MagicLink\MagicLink|null
      */
     public static function getValidMagicLinkByToken($token)
     {
@@ -186,7 +180,8 @@ class MagicLink extends Model
      * Get MagicLink by token.
      *
      * @param string $token
-     * @return null|\MagicLink\MagicLink
+     *
+     * @return \MagicLink\MagicLink|null
      */
     public static function getMagicLinkByToken($token)
     {

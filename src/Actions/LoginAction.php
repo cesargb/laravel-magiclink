@@ -5,7 +5,7 @@ namespace MagicLink\Actions;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 
-class LoginAction extends ResponseAction implements ActionInterface
+class LoginAction extends ResponseAction
 {
     /**
      * @var \Illuminate\Database\Eloquent\Model
@@ -18,8 +18,8 @@ class LoginAction extends ResponseAction implements ActionInterface
      * Constructor to action.
      *
      * @param Illuminate\Contracts\Auth\Authenticatable $user
-     * @param mixed $httpResponse
-     * @param null|string $guard
+     * @param mixed                                     $httpResponse
+     * @param string|null                               $guard
      */
     public function __construct(Authenticatable $user, $httpResponse = null, string $guard = 'web')
     {

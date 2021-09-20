@@ -5,9 +5,10 @@ namespace MagicLink\Actions;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use MagicLink\MagicLink;
 use Opis\Closure\SerializableClosure;
 
-class ResponseAction implements ActionInterface
+class ResponseAction extends ActionAbstract
 {
     /**
      * @var \Illuminate\Database\Eloquent\Model
@@ -22,7 +23,7 @@ class ResponseAction implements ActionInterface
      * Constructor to action.
      *
      * @param \Illuminate\Database\Eloquent\Model $user
-     * @param mixed $httpResponse
+     * @param mixed                               $httpResponse
      */
     public function __construct($httpResponse = null)
     {
@@ -72,7 +73,7 @@ class ResponseAction implements ActionInterface
     protected function callResponse($httpResponse)
     {
         if (is_callable($httpResponse)) {
-            return $httpResponse();
+            return $httpResponse(MagicLink::find($this->magiclinkId));
         }
 
         return $httpResponse;
