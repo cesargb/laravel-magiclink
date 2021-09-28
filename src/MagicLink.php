@@ -147,6 +147,7 @@ class MagicLink extends Model
         try {
             $this->increment('num_visits');
         } catch (QueryException $e) {
+            // catch exceptino if fails to increment num_visits
         }
 
         Event::dispatch(new MagicLinkWasVisited($this));
