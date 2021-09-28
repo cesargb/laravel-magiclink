@@ -22,8 +22,8 @@ class ResponseAction extends ActionAbstract
     /**
      * Constructor to action.
      *
-     * @param \Illuminate\Database\Eloquent\Model $user
-     * @param mixed                               $httpResponse
+     * @param  \Illuminate\Database\Eloquent\Model  $user
+     * @param  mixed  $httpResponse
      */
     public function __construct($httpResponse = null)
     {
