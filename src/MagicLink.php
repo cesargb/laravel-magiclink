@@ -79,7 +79,7 @@ class MagicLink extends Model
 
         $magiclink->token = Str::random(self::getTokenLength());
         $magiclink->available_at = $lifetime
-                                    ? Carbon::now()->addMinute($lifetime)
+                                    ? Carbon::now()->addMinutes($lifetime)
                                     : null;
         $magiclink->max_visits = $numMaxVisits;
         $magiclink->action = $action;
