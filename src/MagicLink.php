@@ -12,6 +12,12 @@ use MagicLink\Actions\ActionAbstract;
 use MagicLink\Events\MagicLinkWasCreated;
 use MagicLink\Events\MagicLinkWasVisited;
 
+/**
+ * @property string $token
+ * @property Carbon|null $available_at
+ * @property int|null $max_visits
+ * @property \MagicLink\Actions\ActionAbstract $action
+ */
 class MagicLink extends Model
 {
     public $incrementing = false;
