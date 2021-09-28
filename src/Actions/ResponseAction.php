@@ -22,8 +22,8 @@ class ResponseAction extends ActionAbstract
     /**
      * Constructor to action.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $user
-     * @param  mixed  $httpResponse
+     * @param \Illuminate\Database\Eloquent\Model $user
+     * @param mixed                               $httpResponse
      */
     public function __construct($httpResponse = null)
     {
@@ -38,14 +38,14 @@ class ResponseAction extends ActionAbstract
     protected function formattedResponse($response)
     {
         if (is_null($response)) {
-            return RedirectResponse::create(
+            return new RedirectResponse(
                 config('magiclink.url.redirect_default', '/'),
                 302
             );
         }
 
         if ($response instanceof RedirectResponse) {
-            return $response->create(
+            return new RedirectResponse(
                 $response->getTargetUrl(),
                 $response->getStatusCode()
             );
