@@ -39,7 +39,6 @@ trait AccessCode
         return ! is_null($this->access_code ?? null);
     }
 
-
     private function getResponseAccessCodeFromForm()
     {
         $accessCode = $this->getAccessCodeFromForm();
@@ -77,7 +76,6 @@ trait AccessCode
         return null;
     }
 
-
     private function getAccessCodeFromForm()
     {
         return request()->get('access-code');
@@ -87,7 +85,7 @@ trait AccessCode
     {
         $accessCodeCookies = request()->cookie($this->cookieNam);
 
-        if (!$accessCodeCookies) {
+        if (! $accessCodeCookies) {
             return null;
         }
 
