@@ -83,7 +83,7 @@ trait AccessCode
 
     private function getAccessCodeFromCookie()
     {
-        $accessCodeCookies = request()->cookie($this->cookieNam);
+        $accessCodeCookies = request()->cookie($this->cookieName);
 
         if (! $accessCodeCookies) {
             return null;
