@@ -20,6 +20,8 @@ use MagicLink\Events\MagicLinkWasVisited;
  */
 class MagicLink extends Model
 {
+    use AccessCode;
+
     public $incrementing = false;
 
     protected $keyType = 'string';
@@ -105,26 +107,6 @@ class MagicLink extends Model
         $this->save();
 
         return $this;
-    }
-
-    /**
-     * Check if access code is right.
-     */
-    public function checkAccessCode(?string $accessCode): bool
-    {
-        if ($accessCode === null) {
-            return false;
-        }
-
-        return Hash::check($accessCode, $this->access_code);
-    }
-
-    /**
-     * The action was protected with an access code.
-     */
-    public function protectedWithAcessCode(): bool
-    {
-        return ! is_null($this->access_code ?? null);
     }
 
     /**
