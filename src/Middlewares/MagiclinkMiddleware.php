@@ -3,9 +3,7 @@
 namespace MagicLink\Middlewares;
 
 use Closure;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use MagicLink\MagicLink;
 use MagicLink\Responses\Response;
 
