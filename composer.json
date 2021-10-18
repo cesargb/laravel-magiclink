@@ -25,7 +25,7 @@
         "illuminate/container": "^6.0|^8.0",
         "illuminate/contracts": "^6.0|^8.0",
         "illuminate/database": "^6.0|^8.0",
-        "opis/closure": "^3.1"
+        "opis/closure": "^3.6"
     },
     "autoload": {
         "psr-4": {
