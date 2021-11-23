@@ -17,6 +17,7 @@ use MagicLink\Events\MagicLinkWasVisited;
  * @property Carbon|null $available_at
  * @property int|null $max_visits
  * @property \MagicLink\Actions\ActionAbstract $action
+ * @property-read string $url
  */
 class MagicLink extends Model
 {
