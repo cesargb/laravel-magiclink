@@ -5,8 +5,8 @@ namespace MagicLink\Actions;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Laravel\SerializableClosure\SerializableClosure;
 use MagicLink\MagicLink;
-use Opis\Closure\SerializableClosure;
 
 class ResponseAction extends ActionAbstract
 {
