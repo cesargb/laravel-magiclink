@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginAction extends ResponseAction
 {
-    protected $user;
+    protected $authIdentifier;
 
     protected $guard;
 
@@ -20,7 +20,7 @@ class LoginAction extends ResponseAction
      */
     public function __construct(Authenticatable $user, $httpResponse = null, string $guard = 'web')
     {
-        $this->storeUser($user);
+        $this->authIdentifier = $user->getAuthIdentifier();
 
         $this->httpResponse = $this->serializeResponse($httpResponse);
 
@@ -32,33 +32,8 @@ class LoginAction extends ResponseAction
      */
     public function run()
     {
-        $this->loggin($this->user, $this->guard);
+        Auth::guard($this->guard)->loginUsingId($this->authIdentifier);
 
         return parent::run();
-    }
-
-    private function storeUser($user)
-    {
-        $this->user = $user instanceof Model
-            ? $this->getUserPrimaryKey($user)
-            : $user;
-    }
-
-    private function getUserPrimaryKey($user)
-    {
-        $key = $user->getKeyName();
-
-        return $user->$key;
-    }
-
-    private function loggin($user, $guard)
-    {
-        $auth = Auth::guard($guard);
-
-        if ($user instanceof Authenticatable) {
-            $auth->login($user);
-        } else {
-            $auth->loginUsingId($user);
-        }
     }
 }
