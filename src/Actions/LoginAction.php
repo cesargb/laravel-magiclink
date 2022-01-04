@@ -16,7 +16,7 @@ class LoginAction extends ResponseAction
      * Constructor to action.
      *
      * @param  mixed  $httpResponse
-     * @param  string|null  $guard
+     * @param  string  $guard
      */
     public function __construct(Authenticatable $user, $httpResponse = null, string $guard = 'web')
     {
@@ -56,9 +56,9 @@ class LoginAction extends ResponseAction
         $auth = Auth::guard($guard);
 
         if ($user instanceof Authenticatable) {
-            return $auth->login($user);
+            $auth->login($user);
+        } else {
+            $auth->loginUsingId($user);
         }
-
-        return $auth->loginUsingId($user);
     }
 }
