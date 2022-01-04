@@ -3,6 +3,7 @@
 namespace MagicLink\Actions;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class LoginAction extends ResponseAction
@@ -19,7 +20,7 @@ class LoginAction extends ResponseAction
      */
     public function __construct(Authenticatable $user, $httpResponse = null, string $guard = 'web')
     {
-        $this->user = $user;
+        $this->storeUser($user);
 
         $this->httpResponse = $this->serializeResponse($httpResponse);
 
@@ -31,8 +32,33 @@ class LoginAction extends ResponseAction
      */
     public function run()
     {
-        Auth::guard($this->guard)->login($this->user);
+        $this->loggin($this->user, $this->guard);
 
         return parent::run();
+    }
+
+    private function storeUser($user)
+    {
+        $this->user = $user instanceof Model
+            ? $this->getUserPrimaryKey($user)
+            : $user;
+    }
+
+    private function getUserPrimaryKey($user)
+    {
+        $key = $user->getKeyName();
+
+        return $user->$key;
+    }
+
+    private function loggin($user, $guard)
+    {
+        $auth = Auth::guard($guard);
+
+        if ($user instanceof Authenticatable) {
+            return $auth->login($user);
+        }
+
+        return $auth->loginUsingId($user);
     }
 }
