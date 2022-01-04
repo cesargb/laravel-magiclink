@@ -3,7 +3,6 @@
 namespace MagicLink\Actions;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class LoginAction extends ResponseAction
