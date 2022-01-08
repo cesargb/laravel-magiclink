@@ -4,7 +4,6 @@ namespace MagicLink\Test\TestSupport;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 
-
 class CustomAutenticable implements Authenticatable
 {
     private $id;
@@ -16,7 +15,6 @@ class CustomAutenticable implements Authenticatable
 
     public function getAuthIdentifierName()
     {
-
     }
 
     public function getAuthIdentifier()
@@ -26,21 +24,17 @@ class CustomAutenticable implements Authenticatable
 
     public function getAuthPassword()
     {
-
     }
 
     public function getRememberToken()
     {
-
     }
 
     public function setRememberToken($value)
     {
-
     }
 
     public function getRememberTokenName()
     {
-
     }
 }
