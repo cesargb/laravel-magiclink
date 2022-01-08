@@ -4,6 +4,7 @@ namespace MagicLink\Test;
 
 use MagicLink\Actions\LoginAction;
 use MagicLink\MagicLink;
+use MagicLink\Test\TestSupport\User;
 
 class MagicLinkTest extends TestCase
 {

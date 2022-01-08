@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicLink\Test;
+namespace MagicLink\Test\TestSupport;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;

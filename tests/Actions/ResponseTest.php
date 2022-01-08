@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
 use MagicLink\Test\TestCase;
-use MagicLink\Test\User;
+use MagicLink\Test\TestSupport\User;
 
 class ResponseTest extends TestCase
 {

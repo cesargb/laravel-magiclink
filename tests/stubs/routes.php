@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use MagicLink\Actions\LoginAction;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
-use MagicLink\Test\User;
+use MagicLink\Test\TestSupport\User;
 
 Route::get('/create/login', function () {
     return MagicLink::create(new LoginAction(User::first()))->url;
