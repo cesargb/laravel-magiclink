@@ -4,6 +4,7 @@ namespace MagicLink\Test;
 
 use Illuminate\Database\Schema\Blueprint;
 use MagicLink\MagicLinkServiceProvider;
+use MagicLink\Test\TestSupport\User;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -35,7 +36,7 @@ abstract class TestCase extends Orchestra
     {
         $app['config']->set('app.key', 'base64:mJlbzP1TMXUPouK3KK6e9zS/VvxtWTfzfVlkn1JTqpM=');
 
-        $app['config']->set('auth.providers.users.model', 'MagicLink\Test\User');
+        $app['config']->set('auth.providers.users.model', 'MagicLink\Test\TestSupport\User');
 
         $app['config']->set('view.paths', [__DIR__.'/stubs/resources/views']);
 

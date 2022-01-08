@@ -5,7 +5,7 @@ namespace MagicLink\Test\Actions;
 use MagicLink\Actions\ViewAction;
 use MagicLink\MagicLink;
 use MagicLink\Test\TestCase;
-use MagicLink\Test\User;
+use MagicLink\Test\TestSupport\User;
 
 class ViewTest extends TestCase
 {
