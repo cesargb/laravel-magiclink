@@ -23,6 +23,16 @@ class MagicLink extends Model
 {
     use AccessCode;
 
+    public function getAccessCode()
+    {
+        return $this->access_code ?? null;
+    }
+
+    public function getMagikLinkId()
+    {
+        return $this->getKey();
+    }
+
     public $incrementing = false;
 
     protected $keyType = 'string';

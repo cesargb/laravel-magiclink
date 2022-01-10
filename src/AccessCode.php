@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Hash;
 
 trait AccessCode
 {
+    abstract protected function getAccessCode();
+
+    abstract protected function getMagikLinkId();
+
     protected $cookieName = 'magic-link-access-code';
 
     public function getResponseAccessCode()
@@ -28,7 +32,7 @@ trait AccessCode
             return false;
         }
 
-        return Hash::check($accessCode, $this->access_code);
+        return Hash::check($accessCode, $this->getAccessCode());
     }
 
     /**
@@ -36,7 +40,7 @@ trait AccessCode
      */
     private function protectedWithAcessCode(): bool
     {
-        return ! is_null($this->access_code ?? null);
+        return ! is_null($this->getAccessCode() ?? null);
     }
 
     private function getResponseAccessCodeFromForm()
@@ -51,7 +55,7 @@ trait AccessCode
             return redirect(request()->url())->withCookie(
                 cookie(
                     $this->cookieName,
-                    encrypt($accessCode),
+                    encrypt($this->getMagikLinkId().'|'.$accessCode),
                     0,
                     '/'
                 )
@@ -92,9 +96,14 @@ trait AccessCode
         try {
             $cookie = Arr::last((array) $accessCodeCookies);
 
-            return decrypt($cookie);
+            [$magiglinkId, $accessCode] = explode('|', decrypt($cookie));
+
+            if ($magiglinkId === $this->getMagikLinkId()) {
+                return $accessCode;
+            }
         } catch (DecryptException $e) {
-            return null;
         }
+
+        return null;
     }
 }
