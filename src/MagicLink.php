@@ -33,7 +33,6 @@ class MagicLink extends Model
         return $this->getKey();
     }
 
-
     public $incrementing = false;
 
     protected $keyType = 'string';
