@@ -80,4 +80,27 @@ class AccessCodeTest extends TestCase
             ->assertStatus(200)
             ->assertSeeText('the big secret');
     }
+
+    public function test_forbidden_if_provide_access_code_of_other_link()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'the big secret';
+        }));
+
+        $magiclink->protectWithAccessCode('1234');
+
+        $response = $this->get("{$magiclink->url}?access-code=1234");
+
+        $cookie = $response->headers->getCookies()[0];
+
+        $magiclinkOther = MagicLink::create(new ResponseAction(function () {
+            return 'the other big secret';
+        }));
+
+        $magiclinkOther->protectWithAccessCode('1234');
+
+        $this->disableCookieEncryption()->withCookie($cookie->getName(), $cookie->getvalue())
+            ->get($magiclinkOther->url)
+            ->assertStatus(403);
+    }
 }
