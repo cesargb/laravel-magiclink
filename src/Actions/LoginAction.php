@@ -15,9 +15,8 @@ class LoginAction extends ResponseAction
      * Constructor to action.
      *
      * @param  mixed  $httpResponse
-     * @param  string  $guard
      */
-    public function __construct(Authenticatable $user, $httpResponse = null, string $guard = 'web')
+    public function __construct(Authenticatable $user, $httpResponse = null, ?string $guard = null)
     {
         $this->authIdentifier = $user->getAuthIdentifier();
 
