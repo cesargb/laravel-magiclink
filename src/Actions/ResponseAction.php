@@ -10,19 +10,11 @@ use MagicLink\MagicLink;
 
 class ResponseAction extends ActionAbstract
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $user;
-
     protected $httpResponse;
-
-    protected $guard;
 
     /**
      * Constructor to action.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $user
      * @param  mixed  $httpResponse
      */
     public function __construct($httpResponse = null)
