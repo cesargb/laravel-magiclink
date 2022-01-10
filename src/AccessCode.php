@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Hash;
 
 trait AccessCode
 {
-    abstract protected function getAccessCode(): ?string;
+    abstract protected function getAccessCode();
 
-    abstract protected function getMagikLinkId(): string;
+    abstract protected function getMagikLinkId();
 
     protected $cookieName = 'magic-link-access-code';
 
