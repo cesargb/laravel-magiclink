@@ -20,9 +20,16 @@ class LoginAction extends ResponseAction
     {
         $this->authIdentifier = $user->getAuthIdentifier();
 
-        $this->httpResponse = $this->serializeResponse($httpResponse);
+        $this->response($httpResponse);
 
         $this->guard = $guard;
+    }
+
+    public function guard(string $guard): static
+    {
+        $this->guard = $guard;
+
+        return $this;
     }
 
     /**

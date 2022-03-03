@@ -11,7 +11,6 @@ offer secure content and even log in to the application.
 [![Quality Score](https://img.shields.io/scrutinizer/g/cesargb/laravel-magiclink.svg?style=flat-square)](https://scrutinizer-ci.com/g/cesargb/laravel-magiclink)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 
-
 ## Contents
 
 - [Installation](#installation)
@@ -26,7 +25,6 @@ offer secure content and even log in to the application.
 - [Lifetime](#lifetime)
 - [Events](#events)
 - [Customization](#customization)
-
 
 ## Installation
 
@@ -77,11 +75,12 @@ once the link is visited.
 
 ### Login Action
 
-Through the `LoginAction` action, you can log in to the application using the generated link by `MagicLink`.
+Through the `LoginAction` action, you can log in to the application using the
+generated link by `MagicLink`.
 
 Your constructor supports the user who will login. Optionally we can specify
-the [HTTP response](https://laravel.com/docs/master/responses) using the
-`$httpResponse` argument and specify the `$guard`.
+the [HTTP response](https://laravel.com/docs/master/responses) using the method
+`response` or specify other guard with method `guard`.
 
 Examples:
 
@@ -90,26 +89,22 @@ use MagicLink\Actions\LoginAction;
 use MagicLink\MagicLink;
 
 // Sample 1; Login and redirect to dash board
-$urlToDashBoard = MagicLink::create(
-    new LoginAction(User::first(), redirect('/dashboard'))
-)->url;
+$action = new LoginAction(User::first());
+$action->response(redirect('/dashboard'));
+
+$urlToDashBoard = MagicLink::create($action)->url;
 
 // Sample 2; Login and view forms to password reset and use guard web
-$urlShowView = MagicLink::create(
-    new LoginAction(
-        User::first(),
-        view('password.reset', ['email' => 'user@example.tld'])
-    )
-)->url;
+$action = new LoginAction(User::first());
+$action->response(view('password.reset', ['email' => 'user@example.tld']));
+
+$urlShowView = MagicLink::create($action)->url;
 
 // Sample 3; Login in other guard and redirect default
-$urlShowView = MagicLink::create(
-    new LoginAction(
-        User::first(),
-        null,
-        'otherguard'
-    )
-)->url;
+$action = new LoginAction(User::first());
+$action->guard('customguard')->response(redirect('/api/dashboard'));
+
+$urlShowView = MagicLink::create($action)->url;
 ```
 
 ### Download file Action
@@ -154,12 +149,11 @@ $url = MagicLink::create(new ViewAction('internal', [
 ]))->url;
 ```
 
-
 ### Http Response Action
 
 Through the `ResponseAction` action we can access private content without need
 login. Its constructor accepts as argument the
-[HTTP response](https://laravel.com/docs/master/responses)
+[HTTP response](https://laravel.com/docs/responses)
 which will be the response of the request.
 
 Examples:
@@ -168,13 +162,13 @@ Examples:
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
 
-$urlToCustomFunction = MagicLink::create(
-    new ResponseAction(function () {
-        Auth::login(User::first());
+$action = new ResponseAction(function () {
+    Auth::login(User::first());
 
-        return redirect('/change_password');
-    })
-)->url;
+    return redirect('/change_password');
+});
+
+$urlToCustomFunction = MagicLink::create($action)->url;
 ```
 
 ## Protect with an access code
@@ -223,8 +217,8 @@ $urlToSend = $magiclink->url;
 
 MagicLink fires two events:
 
-* `MagicLink\Events\MagicLinkWasCreated`
-* `MagicLink\Events\MagicLinkWasVisited`
+- `MagicLink\Events\MagicLinkWasCreated`
+- `MagicLink\Events\MagicLinkWasVisited`
 
 ## Customization
 

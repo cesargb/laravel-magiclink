@@ -19,7 +19,21 @@ class ResponseAction extends ActionAbstract
      */
     public function __construct($httpResponse = null)
     {
-        $this->httpResponse = $this->serializeResponse($httpResponse);
+        $this->response($httpResponse);
+    }
+
+    public function response($response): static
+    {
+        $this->httpResponse = $this->serializeResponse($response);
+
+        return $this;
+    }
+
+    public function redirect($response): static
+    {
+        $this->httpResponse = $this->serializeResponse($response);
+
+        return $this;
     }
 
     protected function serializeResponse($httpResponse)

@@ -22,13 +22,29 @@ class DownloadFileAction extends ActionAbstract
     public function __construct(string $path, ?string $name = null, array $headers = [])
     {
         $this->path = $path;
-        $this->name = $name;
-        $this->headers = $headers;
+        if (! is_null($name)) {
+            $this->name($name);
+        }
+        $this->headers($headers);
     }
 
-    public function disk(?string $disk): self
+    public function name(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function disk(?string $disk): static
     {
         $this->disk = $disk;
+
+        return $this;
+    }
+
+    public function headers(array $headers): static
+    {
+        $this->headers = $headers;
 
         return $this;
     }
