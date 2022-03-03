@@ -35,7 +35,7 @@ class DownloadFileAction extends ActionAbstract
         return $this;
     }
 
-    public function disk(?string $disk): static
+    public function disk(?string $disk): self
     {
         $this->disk = $disk;
 
