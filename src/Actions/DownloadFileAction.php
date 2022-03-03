@@ -28,7 +28,7 @@ class DownloadFileAction extends ActionAbstract
         $this->headers($headers);
     }
 
-    public function name(string $name): static
+    public function name(string $name): self
     {
         $this->name = $name;
 
@@ -42,7 +42,7 @@ class DownloadFileAction extends ActionAbstract
         return $this;
     }
 
-    public function headers(array $headers): static
+    public function headers(array $headers): self
     {
         $this->headers = $headers;
 

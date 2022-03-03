@@ -25,7 +25,7 @@ class LoginAction extends ResponseAction
         $this->guard = $guard;
     }
 
-    public function guard(string $guard): static
+    public function guard(string $guard): self
     {
         $this->guard = $guard;
 

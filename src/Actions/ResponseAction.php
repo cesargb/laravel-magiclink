@@ -22,14 +22,14 @@ class ResponseAction extends ActionAbstract
         $this->response($httpResponse);
     }
 
-    public function response($response): static
+    public function response($response): self
     {
         $this->httpResponse = $this->serializeResponse($response);
 
         return $this;
     }
 
-    public function redirect($response): static
+    public function redirect($response): self
     {
         $this->httpResponse = $this->serializeResponse($response);
 
