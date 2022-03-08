@@ -21,6 +21,7 @@ offer secure content and even log in to the application.
   - [Download file](#download-file-action)
   - [View](#view-action)
   - [Http Reponse](#http-response-action)
+  - [Custom Action](#custom-action)
 - [Protect with an access code](#protect-with-an-access-code)
 - [Lifetime](#lifetime)
 - [Events](#events)
@@ -169,6 +170,42 @@ $action = new ResponseAction(function () {
 });
 
 $urlToCustomFunction = MagicLink::create($action)->url;
+```
+
+### Custom Action
+
+You can create your own action class, for them you just need to extend with
+`MagicLink\Actions\ActionAbstract`
+
+```php
+use MagicLink\Actions\ActionAbstract;
+
+class MyCustomAction extends ActionAbstract
+{
+    public function __construct(public int $variable)
+    {
+    }
+
+    public function run()
+    {
+        // Do something
+
+        return response()->json([
+            'success' => true,
+            'data' => $this->variable,
+        ]);
+    }
+}
+```
+
+You can now generate a Magiclink with the custom action
+
+```php
+use MagicLink\MagicLink;
+
+$action = new MyCustomAction('Hello world');
+
+$urlToCustomAction = MagicLink::create($action)->url;
 ```
 
 ## Protect with an access code
