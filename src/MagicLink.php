@@ -30,20 +30,7 @@ class MagicLink extends Model
 
     public function getMagikLinkId()
     {
-        return $this->getKey();
-    }
-
-    public $incrementing = false;
-
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->id = Str::uuid();
-        });
+        return (string)$this->getKey();
     }
 
     protected static function getTokenLength()
