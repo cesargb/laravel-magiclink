@@ -24,10 +24,10 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(
             new ResponseAction(
-            function () {
-                return 'callback called';
-            }
-        )
+                function () {
+                    return 'callback called';
+                }
+            )
         );
 
         $this->get($magiclink->url)
@@ -130,16 +130,16 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(
             new ResponseAction(
-            function ($magiclink) {
-                if (! MagicLink::first()) {
-                    return redirect('/');
+                function ($magiclink) {
+                    if (! MagicLink::first()) {
+                        return redirect('/');
+                    }
+
+                    $magiclink->delete();
+
+                    return 'callback called';
                 }
-
-                $magiclink->delete();
-
-                return 'callback called';
-            }
-        )
+            )
         );
 
         $this->get($magiclink->url)->assertStatus(200);
