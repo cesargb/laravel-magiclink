@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class CustomAutenticable implements Authenticatable
 {
-    private $id;
+    public $id;
 
     public function __construct($id)
     {
