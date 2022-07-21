@@ -8,14 +8,13 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 
+/**
+ * @property string $email
+ */
 class User extends Model implements AuthorizableContract, AuthenticatableContract
 {
     use Authorizable, Authenticatable;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = ['email'];
     public $timestamps = false;
     protected $table = 'users';

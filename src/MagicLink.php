@@ -16,8 +16,10 @@ use MagicLink\Events\MagicLinkWasVisited;
  * @property string $token
  * @property Carbon|null $available_at
  * @property int|null $max_visits
+ * @property int|null $num_visits
  * @property \MagicLink\Actions\ActionAbstract $action
  * @property-read string $url
+ * @property int|string $access_code
  */
 class MagicLink extends Model
 {
@@ -88,7 +90,7 @@ class MagicLink extends Model
     {
         self::deleteMagicLinkExpired();
 
-        $magiclink = new static();
+        $magiclink = new self();
 
         $magiclink->token = Str::random(self::getTokenLength());
         $magiclink->available_at = $lifetime
@@ -157,7 +159,7 @@ class MagicLink extends Model
         [$tokenId, $tokenSecret] = explode(':', "{$token}:");
 
         if (empty($tokenSecret)) {
-            return;
+            return null;
         }
 
         return self::where('id', $tokenId)
@@ -186,7 +188,7 @@ class MagicLink extends Model
         [$tokenId, $tokenSecret] = explode(':', "{$token}:");
 
         if (empty($tokenSecret)) {
-            return;
+            return null;
         }
 
         return self::where('id', $tokenId)
