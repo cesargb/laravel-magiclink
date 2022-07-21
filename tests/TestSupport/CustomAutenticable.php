@@ -15,6 +15,7 @@ class CustomAutenticable implements Authenticatable
 
     public function getAuthIdentifierName()
     {
+        return '';
     }
 
     public function getAuthIdentifier()
@@ -24,10 +25,12 @@ class CustomAutenticable implements Authenticatable
 
     public function getAuthPassword()
     {
+        return '';
     }
 
     public function getRememberToken()
     {
+        return '';
     }
 
     public function setRememberToken($value)
@@ -36,5 +39,6 @@ class CustomAutenticable implements Authenticatable
 
     public function getRememberTokenName()
     {
+        return '';
     }
 }

@@ -1,0 +1,18 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - src
+        - tests
+
+    # The level 9 is the highest level
+    level: 5
+
+    checkMissingIterableValueType: false
+
+    ignoreErrors:
+        -
+            message: '#Parameter \#1 \$view of function view expects view-string|null, string given.#'
+            path: tests
