@@ -22,7 +22,6 @@ class CustomUserProvider implements UserProvider
 
     public function retrieveByCredentials(array $credentials)
     {
-
     }
 
     public function validateCredentials(Authenticatable $user, array $credentials)
