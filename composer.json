@@ -51,7 +51,7 @@
         "orchestra/testbench": "^4.0|^6.0|^7.0",
         "phpunit/phpunit": "^7.0|^9.0",
         "nunomaduro/larastan": "^1.0|^2.1",
-        "friendsofphp/php-cs-fixer": "^3.9"
+        "friendsofphp/php-cs-fixer": "^2.0|^3.9"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
