@@ -82,17 +82,17 @@ class MagicLink extends Model
     }
 
     /**
-     * Create makiglink.
+     * Create MagicLink.
      *
      * @return self
      */
     public static function create(ActionAbstract $action, ?int $lifetime = 4320, ?int $numMaxVisits = null)
     {
-        self::deleteMagicLinkExpired();
+        static::deleteMagicLinkExpired();
 
-        $magiclink = new self();
+        $magiclink = new static();
 
-        $magiclink->token = Str::random(self::getTokenLength());
+        $magiclink->token = Str::random(static::getTokenLength());
         $magiclink->available_at = $lifetime
                                     ? Carbon::now()->addMinutes($lifetime)
                                     : null;
@@ -162,7 +162,7 @@ class MagicLink extends Model
             return null;
         }
 
-        return self::where('id', $tokenId)
+        return static::where('id', $tokenId)
                     ->where('token', $tokenSecret)
                     ->where(function ($query) {
                         $query
@@ -191,19 +191,19 @@ class MagicLink extends Model
             return null;
         }
 
-        return self::where('id', $tokenId)
+        return static::where('id', $tokenId)
                     ->where('token', $tokenSecret)
                     ->first();
     }
 
     /**
-     * Delete magiclink was expired.
+     * Delete MagicLink was expired.
      *
      * @return void
      */
     public static function deleteMagicLinkExpired()
     {
-        self::where(function ($query) {
+        static::where(function ($query) {
             $query
                 ->where('available_at', '<', Carbon::now())
                 ->orWhere(function ($query) {
@@ -222,6 +222,6 @@ class MagicLink extends Model
      */
     public static function deleteAllMagicLink()
     {
-        self::truncate();
+        static::truncate();
     }
 }
