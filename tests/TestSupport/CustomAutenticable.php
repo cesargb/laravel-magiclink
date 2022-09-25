@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class CustomAutenticable implements Authenticatable
 {
-    private $id;
+    public $id;
 
     public function __construct($id)
     {
@@ -15,6 +15,7 @@ class CustomAutenticable implements Authenticatable
 
     public function getAuthIdentifierName()
     {
+        return '';
     }
 
     public function getAuthIdentifier()
@@ -24,10 +25,12 @@ class CustomAutenticable implements Authenticatable
 
     public function getAuthPassword()
     {
+        return '';
     }
 
     public function getRememberToken()
     {
+        return '';
     }
 
     public function setRememberToken($value)
@@ -36,5 +39,6 @@ class CustomAutenticable implements Authenticatable
 
     public function getRememberTokenName()
     {
+        return '';
     }
 }

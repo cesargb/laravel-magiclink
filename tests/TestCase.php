@@ -44,18 +44,18 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.alternative', [
             'driver' => 'local',
-            'root'   => __DIR__.'/stubs/storage/app_alternative',
+            'root' => __DIR__.'/stubs/storage/app_alternative',
         ]);
 
         $app['config']->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ]);
 
         $app['config']->set('database.connections.pgsql', [
-            'driver'   => 'pgsql',
+            'driver' => 'pgsql',
             'host' => '127.0.0.1',
             'port' => '54320',
             'username' => 'postgres',
@@ -64,7 +64,7 @@ abstract class TestCase extends Orchestra
         ]);
 
         $app['config']->set('database.connections.mysql', [
-            'driver'   => 'mysql',
+            'driver' => 'mysql',
             'host' => '127.0.0.1',
             'port' => '3306',
             'username' => 'root',

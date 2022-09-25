@@ -7,7 +7,7 @@ offer secure content and even log in to the application.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 ![tests](https://github.com/cesargb/laravel-magiclink/workflows/tests/badge.svg)
-[![StyleCI](https://github.styleci.io/repos/98337902/shield)](https://github.styleci.io/repos/98337902)
+[![style-fix](https://github.com/cesargb/laravel-magiclink/actions/workflows/style-fix.yml/badge.svg)](https://github.com/cesargb/laravel-magiclink/actions/workflows/style-fix.yml)
 [![Quality Score](https://img.shields.io/scrutinizer/g/cesargb/laravel-magiclink.svg?style=flat-square)](https://scrutinizer-ci.com/g/cesargb/laravel-magiclink)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 
