@@ -289,6 +289,24 @@ Example:
     ],
 ```
 
+#### Abort
+
+To return a exception and let the framework handle the response,
+use class `MagicLink\Responses\AbortResponse::class`.
+Same `abort()`, you can send the arguments with options.
+
+Example:
+
+```php
+    'invalid_response' => [
+        'class'   => MagicLink\Responses\AbortResponse::class,
+        'options' => [
+            'message' => 'You Shall Not Pass!',
+            'status' => 403,
+        ],
+    ],
+```
+
 #### Redirect
 
 Define class `MagicLink\Responses\RedirectResponse::class` to
