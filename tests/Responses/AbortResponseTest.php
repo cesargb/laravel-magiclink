@@ -2,8 +2,8 @@
 
 namespace MagicLink\Test\Responses;
 
-use MagicLink\Test\TestCase;
 use MagicLink\Responses\AbortResponse;
+use MagicLink\Test\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AbortResponseTest extends TestCase
@@ -11,16 +11,16 @@ class AbortResponseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        
+
         $this->withoutExceptionHandling();
         $this->expectException(HttpException::class);
-        
+
         $this->app['config']->set(
             'magiclink.invalid_response.class',
             AbortResponse::class
         );
     }
-    
+
     public function test_default_response()
     {
         $this->get('/magiclink/bad_token')
