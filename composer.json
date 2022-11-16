@@ -24,7 +24,7 @@
         "illuminate/auth": "^8.0|^9.0",
         "illuminate/container": "^8.0|^9.0",
         "illuminate/contracts": "^8.0|^9.0",
-        "illuminate/database": "^^8.0|^9.0",
+        "illuminate/database": "^8.0|^9.0",
         "laravel/serializable-closure": "^1.0"
     },
     "autoload": {
