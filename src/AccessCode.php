@@ -38,7 +38,7 @@ trait AccessCode
     /**
      * The action was protected with an access code.
      */
-    private function protectedWithAcessCode(): bool
+    private function protectedWithAccessCode(): bool
     {
         return ! is_null($this->getAccessCode() ?? null);
     }
@@ -48,7 +48,7 @@ trait AccessCode
         $accessCode = $this->getAccessCodeFromForm();
 
         if (
-            $this->protectedWithAcessCode()
+            $this->protectedWithAccessCode()
             && $accessCode
             && $this->checkAccessCode($accessCode)
         ) {
@@ -67,7 +67,7 @@ trait AccessCode
 
     private function getResponseAccessCodeFromCookie()
     {
-        if ($this->protectedWithAcessCode()) {
+        if ($this->protectedWithAccessCode()) {
             if ($this->getAccessCodeFromCookie()) {
                 if ($this->checkAccessCode($this->getAccessCodeFromCookie())) {
                     return null;
@@ -96,9 +96,9 @@ trait AccessCode
         try {
             $cookie = Arr::last((array) $accessCodeCookies);
 
-            [$magiglinkId, $accessCode] = explode('|', decrypt($cookie));
+            [$magiclinkId, $accessCode] = explode('|', decrypt($cookie));
 
-            if ($magiglinkId === $this->getMagikLinkId()) {
+            if ($magiclinkId === $this->getMagikLinkId()) {
                 return $accessCode;
             }
         } catch (DecryptException $e) {
