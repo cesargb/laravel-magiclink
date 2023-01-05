@@ -21,7 +21,7 @@ offer secure content and even log in to the application.
   - [Download file](#download-file-action)
   - [View](#view-action)
   - [Http Response](#http-response-action)
-  - [Controller] (#controller-action)
+  - [Controller](#controller-action)
   - [Custom Action](#custom-action)
 - [Protect with an access code](#protect-with-an-access-code)
 - [Lifetime](#lifetime)
@@ -75,7 +75,7 @@ once the link is visited.
 - [View Action](#view-action)
 - [Http Response Action](#http-response-action)
 - [Http Response](#http-response-action)
-- [Controller] (#controller-action)
+- [Controller](#controller-action)
 - [Custom Action](#custom-action)
 
 ### Login Action
@@ -178,7 +178,7 @@ $urlToCustomFunction = MagicLink::create($action)->url;
 
 ### Controller Action
 
-MagicLink can directly call a controller via the `ControllerAction` action.
+`MagicLink` can directly call a controller via the `ControllerAction` action.
 
 The constructor requires one argument, the name of the controller class. With
 the second argument can call any controller method, by default it will use the
