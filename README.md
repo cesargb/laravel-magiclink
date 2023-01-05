@@ -20,7 +20,8 @@ offer secure content and even log in to the application.
   - [Login](#login-action)
   - [Download file](#download-file-action)
   - [View](#view-action)
-  - [Http Reponse](#http-response-action)
+  - [Http Response](#http-response-action)
+  - [Controller] (#controller-action)
   - [Custom Action](#custom-action)
 - [Protect with an access code](#protect-with-an-access-code)
 - [Lifetime](#lifetime)
@@ -72,7 +73,10 @@ once the link is visited.
 - [Login Action](#login-action)
 - [Download file Action](#download-file-action)
 - [View Action](#view-action)
-- [Http Reponse Action](#http-response-action)
+- [Http Response Action](#http-response-action)
+- [Http Response](#http-response-action)
+- [Controller] (#controller-action)
+- [Custom Action](#custom-action)
 
 ### Login Action
 
@@ -170,6 +174,25 @@ $action = new ResponseAction(function () {
 });
 
 $urlToCustomFunction = MagicLink::create($action)->url;
+```
+
+### Controller Action
+
+MagicLink can directly call a controller via the `ControllerAction` action.
+
+The constructor requires one argument, the name of the controller class. With
+the second argument can call any controller method, by default it will use the
+`__invoke` method.
+
+```php
+use MagicLink\Actions\ControllerAction;
+use MagicLink\MagicLink;
+
+// Call the method __invoke of the controller
+$url = MagicLink::create(new ControllerAction(MyController::class))->url;
+
+// Call the method show of the controller
+$url = MagicLink::create(new ControllerAction(MyController::class, 'show'))->url;
 ```
 
 ### Custom Action
