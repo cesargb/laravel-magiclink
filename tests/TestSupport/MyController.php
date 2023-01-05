@@ -2,7 +2,6 @@
 
 namespace MagicLink\Test\TestSupport;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class MyController extends Controller

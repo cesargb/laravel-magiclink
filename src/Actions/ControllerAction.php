@@ -2,8 +2,6 @@
 
 namespace MagicLink\Actions;
 
-use Illuminate\Routing\Controller;
-
 class ControllerAction extends ActionAbstract
 {
     private string $controllerClass;
