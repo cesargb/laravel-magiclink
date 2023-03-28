@@ -107,7 +107,13 @@ $urlShowView = MagicLink::create($action)->url;
 
 // Sample 3; Login in other guard and redirect default
 $action = new LoginAction(User::first());
-$action->guard('customguard')->response(redirect('/api/dashboard'));
+$action->guard('customguard');
+
+$urlShowView = MagicLink::create($action)->url;
+
+// Sample 4; Login and remember me
+$action = new LoginAction(User::first());
+$action->remember();
 
 $urlShowView = MagicLink::create($action)->url;
 ```

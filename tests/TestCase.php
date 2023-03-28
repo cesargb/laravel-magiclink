@@ -99,6 +99,7 @@ abstract class TestCase extends Orchestra
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
+            $table->string('remember_token')->nullable();
         });
 
         User::create(['email' => 'test@user.com']);

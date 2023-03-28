@@ -11,6 +11,8 @@ class LoginAction extends ResponseAction
 
     protected $guard;
 
+    protected bool $remember = false;
+
     /**
      * Constructor to action.
      *
@@ -25,6 +27,13 @@ class LoginAction extends ResponseAction
         $this->guard = $guard;
     }
 
+    public function remember(bool $remember = true): self
+    {
+        $this->remember = $remember;
+
+        return $this;
+    }
+
     public function guard(string $guard): self
     {
         $this->guard = $guard;
@@ -37,7 +46,7 @@ class LoginAction extends ResponseAction
      */
     public function run()
     {
-        Auth::guard($this->guard)->loginUsingId($this->authIdentifier);
+        Auth::guard($this->guard)->loginUsingId($this->authIdentifier, $this->remember);
 
         return parent::run();
     }
