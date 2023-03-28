@@ -57,7 +57,7 @@ class LoginTest extends TestCase
 
         $cookieRememberMe = array_values(array_filter(
             $data->headers->getCookies(),
-            fn($cookie) => str_starts_with($cookie->getName(),'remember_web_')
+            fn ($cookie) => str_starts_with($cookie->getName(), 'remember_web_')
         ))[0] ?? null;
 
         $this->assertNotNull($cookieRememberMe);
