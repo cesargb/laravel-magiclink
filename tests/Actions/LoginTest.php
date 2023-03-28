@@ -43,4 +43,23 @@ class LoginTest extends TestCase
 
         $this->assertAuthenticatedAs(new CustomAutenticable('user_1'));
     }
+
+    public function test_auth_with_remember_me()
+    {
+        $action = new LoginAction(User::first());
+        $action->remember();
+
+        $magiclink = MagicLink::create($action);
+
+        $data = $this->get($magiclink->url)
+            ->assertStatus(302)
+            ->assertRedirect('/');
+
+        $cookieRememberMe = array_values(array_filter(
+            $data->headers->getCookies(),
+            fn($cookie) => str_starts_with($cookie->getName(),'remember_web_')
+        ))[0] ?? null;
+
+        $this->assertNotNull($cookieRememberMe);
+    }
 }
