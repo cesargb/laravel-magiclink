@@ -103,4 +103,19 @@ class AccessCodeTest extends TestCase
             ->get($magiclinkOther->url)
             ->assertStatus(403);
     }
+
+    public function test_forbidden_if_protected_with_access_code_custmo()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'the big secret';
+        }));
+
+        config(['magiclink.access-code.view' => 'access-code-custom']);
+
+        $magiclink->protectWithAccessCode('1234');
+
+        $this->get($magiclink->url)
+                ->assertStatus(403)
+                ->assertViewIs('access-code-custom');
+    }
 }
