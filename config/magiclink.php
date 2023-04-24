@@ -64,4 +64,7 @@ return [
     */
     'disable_default_route' => false,
 
+    'access_code' => [
+        'view' => 'magiclink::ask-for-access-code-form',
+    ]
 ];

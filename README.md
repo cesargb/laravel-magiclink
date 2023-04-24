@@ -251,6 +251,18 @@ $magiclink->protectWithAccessCode('secret');
 $urlToSend = $magiclink->url;
 ```
 
+### Custom view for access code
+
+You can customize the view of the access code form with the config file `magiclink.php`:
+
+```php
+'access_code' => [
+    'view' => 'magiclink::access-code', // Change with your view
+],
+```
+
+This is the [default view](/resources/views/ask-for-access-code-form.blade.php)
+
 ## Lifetime
 
 By default a link will be available for 72 hours after your creation. We can
