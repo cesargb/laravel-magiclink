@@ -77,7 +77,8 @@ trait AccessCode
             return response()->view(
                 config('magiclink.access-code.view', 'magiclink::ask-for-access-code-form'),
                 [],
-                403);
+                403
+            );
         }
 
         return null;
