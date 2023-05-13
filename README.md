@@ -300,6 +300,7 @@ MagicLink fires two events:
 
 ## Customization
 
+### Config
 To custom this package you can publish the config file:
 
 ```bash
@@ -307,6 +308,17 @@ php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag
 ```
 
 And edit the file `config/magiclink.php`
+
+
+### Migrations
+To customize the migration files of this package you need to publish the migration files:
+
+```bash
+php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag="migrations"
+```
+
+You'll find the published files in `database/migrations/*`
+
 
 ### Custom response when magiclink is invalid
 
