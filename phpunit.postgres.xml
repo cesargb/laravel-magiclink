@@ -28,5 +28,6 @@
     </logging>
     <php>
         <env name="DB_DRIVER" value="pgsql" force="true"/>
+        <server name="APP_KEY" value="base64:mJlbzP1TMXUPouK3KK6e9zS/VvxtWTfzfVlkn1JTqpM="/>
     </php>
 </phpunit>

@@ -12,8 +12,6 @@ abstract class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->setUpDatabase($this->app);
     }
 
     /**
@@ -32,10 +30,8 @@ abstract class TestCase extends Orchestra
      *
      * @param  \Illuminate\Foundation\Application  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app)
     {
-        $app['config']->set('app.key', 'base64:mJlbzP1TMXUPouK3KK6e9zS/VvxtWTfzfVlkn1JTqpM=');
-
         $app['config']->set('auth.providers.users.model', 'MagicLink\Test\TestSupport\User');
 
         $app['config']->set('view.paths', [__DIR__.'/stubs/resources/views']);
@@ -45,13 +41,6 @@ abstract class TestCase extends Orchestra
         $app['config']->set('filesystems.disks.alternative', [
             'driver' => 'local',
             'root' => __DIR__.'/stubs/storage/app_alternative',
-        ]);
-
-        $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ]);
 
         $app['config']->set('database.connections.pgsql', [
@@ -72,13 +61,27 @@ abstract class TestCase extends Orchestra
             'database' => 'test',
         ]);
 
-        $app['config']->set('database.default', 'sqlite');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        ]);
 
-        if (getenv('DB_DRIVER') === 'pgsql') {
-            $app['config']->set('database.default', 'pgsql');
-        } elseif (getenv('DB_DRIVER') === 'mysql') {
-            $app['config']->set('database.default', 'mysql');
-        }
+        $driver = getenv('DB_DRIVER');
+        
+        if($driver !== 'pgsql' && $driver !== 'mysql') {
+            $app['config']->set('database.default', 'testbench');
+        } else {
+            $app['config']->set('database.default', $driver); 
+        }      
+
+    }
+
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__.'/../databases/migrations');
+        $this->setUpDatabase($this->app);
     }
 
     /**
@@ -88,14 +91,12 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        if ($app['config']->get('database.default') !== 'sqlite') {
+        if ($app['config']->get('database.default') !== 'testbench') {
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('users');
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
         }
-
-        $this->artisan('migrate');
-
+ 
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
