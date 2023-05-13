@@ -69,7 +69,7 @@ abstract class TestCase extends Orchestra
         ]);
 
         $driver = getenv('DB_DRIVER');
-        
+
         if($driver !== 'pgsql' && $driver !== 'mysql') {
             $app['config']->set('database.default', 'testbench');
         } else {
@@ -97,6 +97,8 @@ abstract class TestCase extends Orchestra
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
         }
  
+        $this->artisan('migrate');
+
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
