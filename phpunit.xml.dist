@@ -27,4 +27,7 @@
       <directory>tests</directory>
     </testsuite>
   </testsuites>
+  <php>
+    <server name="APP_KEY" value="base64:mJlbzP1TMXUPouK3KK6e9zS/VvxtWTfzfVlkn1JTqpM="/>
+  </php>
 </phpunit>
