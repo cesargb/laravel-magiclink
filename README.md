@@ -36,15 +36,19 @@ You can install this package via composer using:
 composer require cesargb/laravel-magiclink
 ```
 
-You can then create the table by running the
-migrations:
+### Preparing the database
+
+You need to publish the migration to create the `magic_links` table:
+
+```bash
+php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag="migrations"
+```
+
+After that, you need to run migrations.
 
 ```bash
 php artisan migrate
 ```
-
-Note: If you have the version 1 installed,
-[read this](https://github.com/cesargb/laravel-magiclink/blob/v1/README.md).
 
 ## Use case
 
