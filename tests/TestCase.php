@@ -62,9 +62,9 @@ abstract class TestCase extends Orchestra
         ]);
 
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ]);
 
@@ -73,8 +73,8 @@ abstract class TestCase extends Orchestra
         if($driver !== 'pgsql' && $driver !== 'mysql') {
             $app['config']->set('database.default', 'testbench');
         } else {
-            $app['config']->set('database.default', $driver); 
-        }      
+            $app['config']->set('database.default', $driver);
+        }
 
     }
 
@@ -96,7 +96,7 @@ abstract class TestCase extends Orchestra
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
         }
- 
+
         $this->artisan('migrate');
 
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
