@@ -74,9 +74,10 @@ class MagicLink extends Model
     public function getUrlAttribute()
     {
         return url(sprintf(
-            '%s/%s:%s',
+            '%s/%s%s%s',
             config('magiclink.url.validate_path', 'magiclink'),
             $this->id,
+            urlencode(':'),
             $this->token
         ));
     }
