@@ -29,7 +29,7 @@ class ConfigTest extends TestCase
 
     protected function getTokenFromUrl($url)
     {
-        $parts = explode(':', $url);
+        $parts = explode(urlencode(':'), $url);
 
         return end($parts);
     }
