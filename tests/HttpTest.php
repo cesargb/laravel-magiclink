@@ -60,4 +60,17 @@ class HttpTest extends TestCase
 
         $this->assertEquals(4, $magiclink->num_visits);
     }
+
+    public function test_http_urlencode_legacy()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'private content';
+        }));
+
+        $urlLegacy = str_replace(urlencode(':'), ':', $magiclink->url);
+
+        $this->get($urlLegacy)
+            ->assertStatus(200)
+            ->assertSeeText('private content');
+    }
 }
