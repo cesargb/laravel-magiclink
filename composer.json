@@ -11,20 +11,20 @@
     ],
     "homepage": "https://github.com/cesargb/laravel-magiclink",
     "authors": [
-    {
-        "name": "Cesar Garcia",
-        "email": "cesargb@gmail.com",
-        "homepage": "https://github.com/cesargb",
-        "role": "Developer"
-    }
+        {
+            "name": "Cesar Garcia",
+            "email": "cesargb@gmail.com",
+            "homepage": "https://github.com/cesargb",
+            "role": "Developer"
+        }
     ],
     "license": "MIT",
     "require": {
-        "php" : "^8.0",
-        "illuminate/auth": "^9.0|^10.0",
-        "illuminate/container": "^9.0|^10.0",
-        "illuminate/contracts": "^9.0|^10.0",
-        "illuminate/database": "^9.0|^10.0",
+        "php": "^8.0",
+        "illuminate/auth": "^9.0|^10.0|^11.0",
+        "illuminate/container": "^9.0|^10.0|^11.0",
+        "illuminate/contracts": "^9.0|^10.0|^11.0",
+        "illuminate/database": "^9.0|^10.0|^11.0",
         "laravel/serializable-closure": "^1.0"
     },
     "autoload": {
@@ -48,8 +48,8 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^7.0|^8.0",
-        "phpunit/phpunit": "^9.0",
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.0|^10.5",
         "nunomaduro/larastan": "^2.1",
         "friendsofphp/php-cs-fixer": "^3.9"
     },
