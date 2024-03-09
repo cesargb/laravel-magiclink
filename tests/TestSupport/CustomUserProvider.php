@@ -34,7 +34,7 @@ class CustomUserProvider implements UserProvider
         return '';
     }
 
-    public function rehashPasswordIfRequired()
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
     {
         return '';
     }
