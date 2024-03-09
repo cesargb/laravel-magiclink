@@ -41,4 +41,14 @@ class CustomAutenticable implements Authenticatable
     {
         return '';
     }
+
+    public function getAuthPasswordName()
+    {
+        return '';
+    }
+
+    public function rehashPasswordIfRequired()
+    {
+        return '';
+    }
 }
