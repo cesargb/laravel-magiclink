@@ -120,4 +120,14 @@ class MagicLinkTest extends TestCase
     {
         $this->markTestSkipped();
     }
+
+    public function test_create_magiclink_with_custom_base_url()
+    {
+        $magiclink = MagicLink::create(new LoginAction(User::first()));
+
+        $custom_base_url = "http://example.com";
+        $magiclink->baseUrl($custom_base_url);
+        
+        $this->assertStringContainsString($custom_base_url, $magiclink->url);
+    }
 }

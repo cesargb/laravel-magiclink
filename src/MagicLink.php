@@ -71,10 +71,19 @@ class MagicLink extends Model
                                         : serialize($value);
     }
 
-    public function getUrlAttribute()
+    public function baseUrl(?string $baseUrl): self
     {
+        $this->attributes['base_url'] = rtrim($baseUrl, '/') . '/';
+        return $this;
+    }
+
+    public function getUrlAttribute(): string
+    {
+        $baseUrl = rtrim($this->attributes['base_url'] ?? '', '/') . '/'; // Use the stored base_url or an empty string
+
         return url(sprintf(
-            '%s/%s%s%s',
+            '%s%s/%s%s%s',
+            $baseUrl,
             config('magiclink.url.validate_path', 'magiclink'),
             $this->id,
             urlencode(':'),
