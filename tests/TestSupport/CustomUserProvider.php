@@ -28,4 +28,14 @@ class CustomUserProvider implements UserProvider
     {
         return false;
     }
+
+    public function getAuthPasswordName()
+    {
+        return '';
+    }
+
+    public function rehashPasswordIfRequired()
+    {
+        return '';
+    }
 }
