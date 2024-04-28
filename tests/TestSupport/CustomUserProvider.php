@@ -36,6 +36,5 @@ class CustomUserProvider implements UserProvider
 
     public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
     {
-        return '';
     }
 }
