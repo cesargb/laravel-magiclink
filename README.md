@@ -81,6 +81,7 @@ once the link is visited.
 - [Http Response](#http-response-action)
 - [Controller](#controller-action)
 - [Custom Action](#custom-action)
+- [Custom Base URL](#custom-base-url)
 
 ### Login Action
 
@@ -239,6 +240,18 @@ use MagicLink\MagicLink;
 $action = new MyCustomAction('Hello world');
 
 $urlToCustomAction = MagicLink::create($action)->url;
+```
+
+### Custom Base URL
+
+To set the base URL for a magic link, you can use the `baseUrl` method. This method ensures that the provided base URL has a trailing slash, making it ready for URL generation.
+
+```php
+$magiclink = MagicLink::create($action);
+
+$magiclink->baseUrl("http://example.com");
+
+$urlShowView = $magiclink->url; // http://example.com/magiclink/...
 ```
 
 ## Protect with an access code
