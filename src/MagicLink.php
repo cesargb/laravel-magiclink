@@ -74,6 +74,7 @@ class MagicLink extends Model
     public function baseUrl(?string $baseUrl): self
     {
         $this->attributes['base_url'] = rtrim($baseUrl, '/') . '/';
+
         return $this;
     }
 

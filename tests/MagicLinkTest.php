@@ -127,7 +127,7 @@ class MagicLinkTest extends TestCase
 
         $custom_base_url = "http://example.com";
         $magiclink->baseUrl($custom_base_url);
-        
+
         $this->assertStringContainsString($custom_base_url, $magiclink->url);
     }
 }
