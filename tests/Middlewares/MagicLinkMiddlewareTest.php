@@ -9,11 +9,6 @@ use MagicLink\Test\TestSupport\User;
 
 class MagicLinkMiddlewareTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function test_head_request_returns_404_when_magiclink_is_invalid()
     {
         $this->head('/magiclink/bad_token')
