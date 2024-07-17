@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use MagicLink\MagicLink;
 use MagicLink\Responses\Response;
-use Illuminate\Http\Response as IlluminateResponse;
 
 class MagiclinkMiddleware
 {
@@ -16,8 +15,8 @@ class MagiclinkMiddleware
 
         $magicLink = MagicLink::getValidMagicLinkByToken($token);
 
-        if($request->method() === 'HEAD') {
-            return new IlluminateResponse(null, ($magicLink) ? 200 : 404);
+        if ($request->method() === 'HEAD') {
+            return response()->noContent(($magicLink) ? 200 : 404);
         }
 
         if (! $magicLink) {
