@@ -11,7 +11,7 @@ class MagiclinkMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if($request->method() === 'HEAD') {
+        if ($request->method() === 'HEAD') {
             return $next($request);
         }
 

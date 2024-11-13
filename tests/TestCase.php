@@ -70,7 +70,7 @@ abstract class TestCase extends Orchestra
 
         $driver = getenv('DB_DRIVER');
 
-        if($driver !== 'pgsql' && $driver !== 'mysql') {
+        if ($driver !== 'pgsql' && $driver !== 'mysql') {
             $app['config']->set('database.default', 'testbench');
         } else {
             $app['config']->set('database.default', $driver);
