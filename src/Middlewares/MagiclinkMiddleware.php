@@ -11,8 +11,11 @@ class MagiclinkMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $token = (string) $request->route('token');
+        if ($request->method() === 'HEAD') {
+            return $next($request);
+        }
 
+        $token = (string) $request->route('token');
         $magicLink = MagicLink::getValidMagicLinkByToken($token);
 
         if ($request->method() === 'HEAD') {
