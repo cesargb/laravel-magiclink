@@ -6,7 +6,7 @@ class ViewResponse implements ResponseContract
 {
     public function __invoke($options = [])
     {
-        return view(
+        return response()->view(
             $options['view'] ?? null,
             $options['data'] ?? []
         );
