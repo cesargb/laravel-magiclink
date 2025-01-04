@@ -314,10 +314,34 @@ $urlToSend = $magiclink->url;
 
 ## Events
 
-MagicLink fires two events:
+MagicLink can fires three events:
 
-- `MagicLink\Events\MagicLinkWasCreated`
-- `MagicLink\Events\MagicLinkWasVisited`
+### MagicLinkWasCreated
+
+Event `MagicLink\Events\MagicLinkWasCreated`
+
+This event is fired when a magic link is created.
+
+### MagicLinkWasVisited
+
+Event `MagicLink\Events\MagicLinkWasVisited`
+
+This event is fired when a magic link is visited.
+
+### MagicLinkWasDeleted
+
+Event `MagicLink\Events\MagicLinkWasDeleted`
+
+If you disable mass deletion, this event is fired when a magic link is deleted.
+
+```.env
+# Disable mass deletion
+MAGICLINK_DELETE_MASSIVE=false
+```
+
+> [!WARNING]
+> If you disable mass deletion, the cleanup will be performed one by one.
+> If you have many records, this can be an issue.
 
 ## Customization
 
