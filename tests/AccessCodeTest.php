@@ -39,10 +39,10 @@ class AccessCodeTest extends TestCase
 
         $magiclink->protectWithAccessCode('1234');
 
-         $this->get("{$magiclink->url}?access-code=123")
-                ->assertStatus(403)
-                ->assertViewIs('magiclink::ask-for-access-code-form')
-                ->assertCookieMissing('magic-link-access-code');
+        $this->get("{$magiclink->url}?access-code=123")
+               ->assertStatus(403)
+               ->assertViewIs('magiclink::ask-for-access-code-form')
+               ->assertCookieMissing('magic-link-access-code');
     }
 
     public function test_forbidden_if_protected_with_access_code_and_send_null()
@@ -73,7 +73,7 @@ class AccessCodeTest extends TestCase
             ->assertRedirect($magiclink->url);
 
         $cookie = collect($response->headers->getCookies())
-            ->first(fn($cookie) => $cookie->getName() === 'magic-link-access-code');
+            ->first(fn ($cookie) => $cookie->getName() === 'magic-link-access-code');
 
         $this->disableCookieEncryption()->withCookie($cookie->getName(), $cookie->getvalue())
             ->get($magiclink->url)
@@ -92,7 +92,7 @@ class AccessCodeTest extends TestCase
         $response = $this->get("{$magiclink->url}?access-code=1234");
 
         $cookie = collect($response->headers->getCookies())
-            ->first(fn($cookie) => $cookie->getName() === 'magic-link-access-code');
+            ->first(fn ($cookie) => $cookie->getName() === 'magic-link-access-code');
 
         $magiclinkOther = MagicLink::create(new ResponseAction(function () {
             return 'the other big secret';
