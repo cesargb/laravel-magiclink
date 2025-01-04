@@ -56,7 +56,7 @@ return [
     |
     | Default: 100, if you want to disable rate limit, set as 'none'
     */
-    'rate_limit' => 100,
+    'rate_limit' => env('MAGICLINK_RATE_LIMIT', 100),
 
     'token' => [
         /*
