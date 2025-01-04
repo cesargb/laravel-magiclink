@@ -6,11 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 class MagicLinkServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/magiclink.php', 'magiclink');
+    }
+
     public function boot()
     {
         $this->publishes([
@@ -38,13 +38,4 @@ class MagicLinkServiceProvider extends ServiceProvider
         return ! config('magiclink.disable_default_route', false);
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
 }
