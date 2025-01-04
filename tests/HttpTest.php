@@ -74,7 +74,7 @@ class HttpTest extends TestCase
             ->assertSeeText('private content');
     }
 
-    public function test_http_head_request_without_magiclink()
+    public function test_http_head_request_without_valid_magiclink()
     {
         $magiclink = MagicLink::create(new ResponseAction(function () {
             return 'private content';
