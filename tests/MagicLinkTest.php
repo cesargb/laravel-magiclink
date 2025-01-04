@@ -118,7 +118,16 @@ class MagicLinkTest extends TestCase
 
     public function test_increment_num_visits_exceeded()
     {
-        $this->markTestSkipped();
+        $magiclink = MagicLink::create(new LoginAction(User::first()), null, 1);
+
+        $magiclink->num_visits = 1;
+        $magiclink->save();
+
+        $this->get($magiclink->url)->assertStatus(403);
+
+        $magiclink->refresh();
+
+        $this->assertEquals(1, $magiclink->num_visits);
     }
 
     public function test_create_magiclink_with_custom_base_url()
