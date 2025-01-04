@@ -31,7 +31,7 @@ class MagicLinkServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
     }
 
-    private function loadViewMagicLink() : void
+    private function loadViewMagicLink(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'magiclink');
     }
