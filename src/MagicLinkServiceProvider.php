@@ -26,9 +26,13 @@ class MagicLinkServiceProvider extends ServiceProvider
 
     private function registerRateLimit(): void
     {
+        $rateLimit = config('magiclink.rate_limit', 100);
+
         RateLimiter::for(
             'magiclink',
-            fn () => Limit::perMinute(config('magiclink.rate_limit', 100))
+            fn () => $rateLimit === 'none'
+                ? Limit::none()
+                : Limit::perMinute($rateLimit)
         );
     }
 

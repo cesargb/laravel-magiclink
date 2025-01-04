@@ -54,6 +54,7 @@ return [
     |
     | Here you may specify the number of attempts to rate limit per minutes
     |
+    | Default: 100, if you want to disable rate limit, set as 'none'
     */
     'rate_limit' => 100,
 
