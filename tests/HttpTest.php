@@ -73,4 +73,14 @@ class HttpTest extends TestCase
             ->assertStatus(200)
             ->assertSeeText('private content');
     }
+
+    public function test_http_head_request_without_valid_magiclink()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'private content';
+        }));
+
+        $this->head($magiclink->url . '-bad')
+            ->assertStatus(404);
+    }
 }

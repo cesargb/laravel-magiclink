@@ -11,13 +11,13 @@ class MagiclinkMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->method() === 'HEAD') {
-            return $next($request);
-        }
-
         $token = (string) $request->route('token');
 
         $magicLink = MagicLink::getValidMagicLinkByToken($token);
+
+        if ($request->method() === 'HEAD') {
+            return response()->noContent($magicLink ? 200 : 404);
+        }
 
         if (! $magicLink) {
             return $this->badResponse();
