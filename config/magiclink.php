@@ -1,8 +1,17 @@
 <?php
 
+
 return [
 
     'access_code' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Access Code View
+        |--------------------------------------------------------------------------
+        |
+        | Here you may specify the view to ask for access code.
+        |
+        */
         'view' => 'magiclink::ask-for-access-code-form',
     ],
 
@@ -32,7 +41,24 @@ return [
         'class' => MagicLink\Responses\Response::class,
     ],
 
-    'token'           => [
+    'middlewares' => [
+        'throttle:magiclink',
+        MagicLink\Middlewares\MagiclinkMiddleware::class,
+        'web',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rate Limit
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the number of attempts to rate limit per minutes
+    |
+    | Default: 100, if you want to disable rate limit, set as 'none'
+    */
+    'rate_limit' => env('MAGICLINK_RATE_LIMIT', 100),
+
+    'token' => [
         /*
         |--------------------------------------------------------------------------
         | Token size

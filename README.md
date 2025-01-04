@@ -27,6 +27,10 @@ offer secure content and even log in to the application.
 - [Lifetime](#lifetime)
 - [Events](#events)
 - [Customization](#customization)
+- [Rate limiting](#rate-limiting)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [Security](#security)
 
 ## Installation
 
@@ -326,8 +330,8 @@ php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag
 
 And edit the file `config/magiclink.php`
 
-
 ### Migrations
+
 To customize the migration files of this package you need to publish the migration files:
 
 ```bash
@@ -335,7 +339,6 @@ php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag
 ```
 
 You'll find the published files in `database/migrations/*`
-
 
 ### Custom response when magiclink is invalid
 
@@ -405,6 +408,19 @@ return a `view()`
             'data' => [],
         ],
     ],
+```
+
+## Rate limiting
+
+You can limit the number of requests per minute for a magic link. To do this, you need to
+set the `MAGICLINK_RATE_LIMIT` environment variable to the desired value.
+
+By default, the rate limit is 100 attempts per minutes. Use `none` to disable the rate limit.
+
+```bash
+# .env
+
+MAGICLINK_RATE_LIMIT='none'
 ```
 
 ## Testing

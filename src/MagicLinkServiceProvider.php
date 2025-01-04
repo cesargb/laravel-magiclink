@@ -2,6 +2,8 @@
 
 namespace MagicLink;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class MagicLinkServiceProvider extends ServiceProvider
@@ -15,9 +17,23 @@ class MagicLinkServiceProvider extends ServiceProvider
     {
         $this->offerPublishing();
 
+        $this->registerRateLimit();
+
         $this->loadRouteMagicLink();
 
         $this->loadViewMagicLink();
+    }
+
+    private function registerRateLimit(): void
+    {
+        $rateLimit = config('magiclink.rate_limit', 100);
+
+        RateLimiter::for(
+            'magiclink',
+            fn () => $rateLimit === 'none'
+                ? Limit::none()
+                : Limit::perMinute($rateLimit)
+        );
     }
 
     private function loadRouteMagicLink(): void

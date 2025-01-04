@@ -1,14 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use MagicLink\Middlewares\MagiclinkMiddleware;
 
 Route::group(
     [
-        'middleware' => [
-            MagiclinkMiddleware::class,
-            'web',
-        ],
+        'middleware' => config('magiclink.middlewares'),
     ],
     function () {
         Route::get(
