@@ -332,10 +332,11 @@ This event is fired when a magic link is visited.
 
 Event `MagicLink\Events\MagicLinkWasDeleted`
 
-If you disable mass deletion, this event is fired when a magic link is deleted.
+This event is fired when you disable mass deletion. Add this line in your
+`.env` file to disable mass deletion:
 
 ```.env
-# Disable mass deletion
+# Disable mass deletion for enable event MagicLinkWasDeleted
 MAGICLINK_DELETE_MASSIVE=false
 ```
 
