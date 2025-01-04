@@ -2,6 +2,36 @@
 
 return [
 
+    'access_code' => [
+        'view' => 'magiclink::ask-for-access-code-form',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disable default route
+    |--------------------------------------------------------------------------
+    |
+    | If you wish use your custom controller, you can invalidate the
+    | default route of magic link, mark this configuration as true,
+    | and add your custom route with the middleware:
+    | MagicLink\Middlewares\MagiclinkMiddleware
+    |
+    */
+    'disable_default_route' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Response when token is invalid
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the class with method __invoke to get the response
+    | when token is invalid
+    |
+    */
+    'invalid_response' => [
+        'class' => MagicLink\Responses\Response::class,
+    ],
+
     'token'           => [
         /*
         |--------------------------------------------------------------------------
@@ -18,16 +48,6 @@ return [
     'url' => [
         /*
         |--------------------------------------------------------------------------
-        | Path to Validate Token and Auto Auth
-        |--------------------------------------------------------------------------
-        |
-        | Here you may specify the name of the path you'd like to use so that
-        | the verify token and auth in system.
-        |
-        */
-        'validate_path' => 'magiclink',
-        /*
-        |--------------------------------------------------------------------------
         | Path default to redirect
         |--------------------------------------------------------------------------
         |
@@ -36,35 +56,17 @@ return [
         |
         */
         'redirect_default' => '/',
+
+        /*
+        |--------------------------------------------------------------------------
+        | Path to Validate Token and Auto Auth
+        |--------------------------------------------------------------------------
+        |
+        | Here you may specify the name of the path you'd like to use so that
+        | the verify token and auth in system.
+        |
+        */
+        'validate_path' => 'magiclink',
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Response when token is invalid
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the class with method __invoke to get the response
-    | when token is invalid
-    |
-    */
-    'invalid_response' => [
-        'class' => MagicLink\Responses\Response::class,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Disable default route
-    |--------------------------------------------------------------------------
-    |
-    | If you wish use your custom controller, you can invalidate the
-    | default route of magic link, mark this configuration as true,
-    | and add your custom route with the middleware:
-    | MagicLink\Middlewares\MagiclinkMiddleware
-    |
-    */
-    'disable_default_route' => false,
-
-    'access_code' => [
-        'view' => 'magiclink::ask-for-access-code-form',
-    ]
 ];
