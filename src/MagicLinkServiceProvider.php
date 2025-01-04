@@ -37,5 +37,4 @@ class MagicLinkServiceProvider extends ServiceProvider
     {
         return ! config('magiclink.disable_default_route', false);
     }
-
 }
