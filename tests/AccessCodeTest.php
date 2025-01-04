@@ -39,11 +39,10 @@ class AccessCodeTest extends TestCase
 
         $magiclink->protectWithAccessCode('1234');
 
-        $response = $this->get("{$magiclink->url}?access-code=123")
+         $this->get("{$magiclink->url}?access-code=123")
                 ->assertStatus(403)
-                ->assertViewIs('magiclink::ask-for-access-code-form');
-
-        $this->assertEquals(0, count($response->headers->getCookies()));
+                ->assertViewIs('magiclink::ask-for-access-code-form')
+                ->assertCookieMissing('magic-link-access-code');
     }
 
     public function test_forbidden_if_protected_with_access_code_and_send_null()
@@ -54,11 +53,10 @@ class AccessCodeTest extends TestCase
 
         $magiclink->protectWithAccessCode('1234');
 
-        $response = $this->get("{$magiclink->url}")
+        $this->get("{$magiclink->url}")
                 ->assertStatus(403)
-                ->assertViewIs('magiclink::ask-for-access-code-form');
-
-        $this->assertEquals(0, count($response->headers->getCookies()));
+                ->assertViewIs('magiclink::ask-for-access-code-form')
+                ->assertCookieMissing('magic-link-access-code');
     }
 
     public function test_sucessfull_if_provide_access_code()
@@ -70,10 +68,12 @@ class AccessCodeTest extends TestCase
         $magiclink->protectWithAccessCode('1234');
 
         $response = $this->get("{$magiclink->url}?access-code=1234")
+            ->assertCookie('magic-link-access-code')
             ->assertStatus(302)
             ->assertRedirect($magiclink->url);
 
-        $cookie = $response->headers->getCookies()[0];
+        $cookie = collect($response->headers->getCookies())
+            ->first(fn($cookie) => $cookie->getName() === 'magic-link-access-code');
 
         $this->disableCookieEncryption()->withCookie($cookie->getName(), $cookie->getvalue())
             ->get($magiclink->url)
@@ -91,7 +91,8 @@ class AccessCodeTest extends TestCase
 
         $response = $this->get("{$magiclink->url}?access-code=1234");
 
-        $cookie = $response->headers->getCookies()[0];
+        $cookie = collect($response->headers->getCookies())
+            ->first(fn($cookie) => $cookie->getName() === 'magic-link-access-code');
 
         $magiclinkOther = MagicLink::create(new ResponseAction(function () {
             return 'the other big secret';
