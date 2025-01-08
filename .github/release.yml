@@ -2,10 +2,10 @@
 
 changelog:
   categories:
-    - title: Fixed 🛠
+    - title: Fixed
       labels:
         - bug
-    - title: Added 🎉
+    - title: Added
       labels:
         - enhancement
     - title: Changed
