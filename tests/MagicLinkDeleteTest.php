@@ -2,7 +2,11 @@
 
 namespace MagicLink\Test;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 use MagicLink\Actions\LoginAction;
+use MagicLink\Actions\ResponseAction;
+use MagicLink\Events\MagicLinkWasDeleted;
 use MagicLink\MagicLink;
 use MagicLink\Test\TestSupport\User;
 
@@ -79,5 +83,52 @@ class MagicLinkDeleteTest extends TestCase
         MagicLink::deleteAllMagicLink();
 
         $this->assertEquals(0, MagicLink::count());
+    }
+
+    public function test_delete_all_magiclink_expired_one_and_one_dispatch_event_deleted()
+    {
+        Event::fake([MagicLinkWasDeleted::class]);
+
+        config(['magiclink.delete_massive' => false]);
+
+        $this->createMagicLinkExpired(3);
+
+        MagicLink::deleteMagicLinkExpired();
+
+        Event::assertDispatched(MagicLinkWasDeleted::class, 3);
+
+        Event::assertDispatched(MagicLinkWasDeleted::class,function (MagicLinkWasDeleted $event) {
+            return $event->magiclink->action->run()['message'] === 'Hello World 1';
+        });
+
+        $this->assertEquals(0, MagicLink::count());
+    }
+
+    public function test_delete_all_magiclink_expired_all_not_dispatch_event_deleted()
+    {
+        Event::fake([MagicLinkWasDeleted::class]);
+
+        config(['magiclink.delete_massive' => true]);
+
+        $this->createMagicLinkExpired(3);
+
+        MagicLink::deleteMagicLinkExpired();
+
+        Event::assertDispatched(MagicLinkWasDeleted::class, 0);
+
+        $this->assertEquals(0, MagicLink::count());
+    }
+
+    private function createMagicLinkExpired(int $count = 1): Collection
+    {
+        return collect(range(1, $count))
+            ->map(function ($index) {
+                $magiclink =  MagicLink::create(new ResponseAction(['message' => 'Hello World ' . $index]));
+
+                $magiclink->available_at = now()->subMinute();
+                $magiclink->save();
+
+                return $magiclink;
+            });
     }
 }

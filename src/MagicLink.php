@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use MagicLink\Actions\ActionAbstract;
 use MagicLink\Events\MagicLinkWasCreated;
+use MagicLink\Events\MagicLinkWasDeleted;
 use MagicLink\Events\MagicLinkWasVisited;
 
 /**
@@ -214,7 +215,7 @@ class MagicLink extends Model
      */
     public static function deleteMagicLinkExpired()
     {
-        static::where(function ($query) {
+        $query = MagicLink::where(function ($query) {
             $query
                 ->where('available_at', '<', Carbon::now())
                 ->orWhere(function ($query) {
@@ -222,8 +223,20 @@ class MagicLink extends Model
                         ->whereNotNull('max_visits')
                         ->whereRaw('max_visits <= num_visits');
                 });
-        })
-        ->delete();
+        });
+
+        if (config('magiclink.delete_massive', true)) {
+            $query->delete();
+
+            return;
+        }
+
+
+        $query->get()->each(function (MagicLink $magiclink) {
+            $magiclink->delete();
+
+            event(new MagicLinkWasDeleted($magiclink));
+        });
     }
 
     /**
