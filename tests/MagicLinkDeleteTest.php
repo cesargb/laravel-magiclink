@@ -97,7 +97,7 @@ class MagicLinkDeleteTest extends TestCase
 
         Event::assertDispatched(MagicLinkWasDeleted::class, 3);
 
-        Event::assertDispatched(MagicLinkWasDeleted::class,function (MagicLinkWasDeleted $event) {
+        Event::assertDispatched(MagicLinkWasDeleted::class, function (MagicLinkWasDeleted $event) {
             return $event->magiclink->action->run()['message'] === 'Hello World 1';
         });
 
@@ -123,7 +123,7 @@ class MagicLinkDeleteTest extends TestCase
     {
         return collect(range(1, $count))
             ->map(function ($index) {
-                $magiclink =  MagicLink::create(new ResponseAction(['message' => 'Hello World ' . $index]));
+                $magiclink = MagicLink::create(new ResponseAction(['message' => 'Hello World ' . $index]));
 
                 $magiclink->available_at = now()->subMinute();
                 $magiclink->save();
