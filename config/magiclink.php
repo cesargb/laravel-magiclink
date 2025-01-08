@@ -68,9 +68,9 @@ return [
     |
     | Here you may specify the number of attempts to rate limit per minutes
     |
-    | Default: 100, if you want to disable rate limit, set as 'none'
+    | Default: none, if you want to enable rate limit, set as integer
     */
-    'rate_limit' => env('MAGICLINK_RATE_LIMIT', 100),
+    'rate_limit' => env('MAGICLINK_RATE_LIMIT', 'none'),
 
     'token' => [
         /*

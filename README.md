@@ -347,6 +347,7 @@ MAGICLINK_DELETE_MASSIVE=false
 ## Customization
 
 ### Config
+
 To custom this package you can publish the config file:
 
 ```bash
@@ -440,12 +441,13 @@ return a `view()`
 You can limit the number of requests per minute for a magic link. To do this, you need to
 set the `MAGICLINK_RATE_LIMIT` environment variable to the desired value.
 
-By default, the rate limit is 100 attempts per minutes. Use `none` to disable the rate limit.
+By default, the rate limit is disable with value 'none', but you can set a value
+to limit the requests. For example, to limit the requests to 100 per minute, set
 
 ```bash
 # .env
 
-MAGICLINK_RATE_LIMIT='none'
+MAGICLINK_RATE_LIMIT=100
 ```
 
 ## Testing
