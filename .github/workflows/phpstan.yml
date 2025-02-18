@@ -2,9 +2,13 @@ name: phpstan
 
 on:
   push:
-    branches: [master]
+      paths:
+          - '**.php'
+          - 'phpstan.neon.dist'
   pull_request:
-    branches: [master]
+      paths:
+          - '**.php'
+          - 'phpstan.neon.dist'
 
 jobs:
   phpstan:
@@ -17,22 +21,15 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.2
+        php-version: 8.3
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v4
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+    - name: Install composer dependencies
+      uses: ramsey/composer-install@v3
 
-    - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
+    - name: Install larastan
       run: |
-        composer install
-        composer dump
+        composer require "larastan/larastan" --no-interaction --no-update
+        composer update --prefer-dist --no-interaction
 
     - name: Run analyse phpstan
       run: vendor/bin/phpstan analyse --error-format github
