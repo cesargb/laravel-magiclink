@@ -17,7 +17,9 @@ class CustomUserProvider implements UserProvider
         return null;
     }
 
-    public function updateRememberToken(Authenticatable $user, $token) {}
+    public function updateRememberToken(Authenticatable $user, $token)
+    {
+    }
 
     public function retrieveByCredentials(array $credentials)
     {
@@ -34,5 +36,7 @@ class CustomUserProvider implements UserProvider
         return '';
     }
 
-    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false) {}
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
+    {
+    }
 }
