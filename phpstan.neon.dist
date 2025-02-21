@@ -14,3 +14,6 @@ parameters:
         -
             message: '#Unsafe usage of new static\(\)#'
             path: src/MagicLink.php
+        -
+            message: '#Parameter \#1 \$view of function view expects view-string\|null, string given#'
+            path: tests/Actions/ResponseTest.php
