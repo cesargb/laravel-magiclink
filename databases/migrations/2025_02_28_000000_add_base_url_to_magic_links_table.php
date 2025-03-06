@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('magic_links', function (Blueprint $table) {
-            $table->string('base_url')->nullable()->after('action');
-        });
+        if (!Schema::hasColumn('magic_links', 'base_url')) {
+            Schema::table('magic_links', function (Blueprint $table) {
+                $table->string('base_url')->nullable()->after('action');
+            });
+        }
     }
 
     /**
