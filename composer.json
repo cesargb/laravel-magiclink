@@ -25,8 +25,12 @@
         "illuminate/container": "^10.0|^11.0|^12.0",
         "illuminate/contracts": "^10.0|^11.0|^12.0",
         "illuminate/database": "^10.0|^11.0|^12.0",
-        "laravel/serializable-closure": "^1.0|^2.0",
-        "orchestra/testbench": "^8.0|^9.0|^10.0"
+        "laravel/serializable-closure": "^1.0|^2.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.9",
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^9.0|^10.5|^11.5"
     },
     "autoload": {
         "psr-4": {
@@ -47,10 +51,6 @@
                 "MagicLink\\MagicLinkServiceProvider"
             ]
         }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.0|^10.5|^11.5",
-        "friendsofphp/php-cs-fixer": "^3.9"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
