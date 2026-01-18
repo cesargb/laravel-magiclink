@@ -2,6 +2,8 @@
 
 namespace MagicLink\Test\Actions;
 
+use Illuminate\Support\Facades\Exceptions;
+use League\Flysystem\PathTraversalDetected;
 use MagicLink\Actions\DownloadFileAction;
 use MagicLink\MagicLink;
 use MagicLink\Test\TestCase;
@@ -46,5 +48,16 @@ class DownloadFileTest extends TestCase
                 'content-disposition',
                 'attachment; filename=text_alternative.txt'
             );
+    }
+
+    public function test_download_fails_when_path_traversal_detected()
+    {
+        Exceptions::fake();
+
+        $magiclink = MagicLink::create(new DownloadFileAction('../.env'));
+
+        $this->get($magiclink->url)->assertInternalServerError();
+
+        Exceptions::assertReported(PathTraversalDetected::class);
     }
 }
