@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Laravel\SerializableClosure\SerializableClosure;
+use Laravel\SerializableClosure\Serializers\Signed;
 use MagicLink\MagicLink;
 use MagicLink\Security\Serializable\Serializable;
 
@@ -80,7 +81,11 @@ class ResponseAction extends ActionAbstract
         } catch (Exception $e) {
         }
 
-        return $this->callResponse(unserialize($this->httpResponse));
+        return $this->callResponse(unserialize($this->httpResponse, ['allowed_classes' => [
+            RedirectResponse::class,
+            SerializableClosure::class,
+            Signed::class,
+        ]]));
     }
 
     protected function callResponse($httpResponse)
