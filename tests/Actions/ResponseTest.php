@@ -117,7 +117,7 @@ class ResponseTest extends TestCase
     {
         $magiclink = MagicLink::create(
             new ResponseAction(function () {
-                return view('view', ['user' => User::first()]);
+                return view('view', ['email' => User::first()->email]);
             })
         );
 

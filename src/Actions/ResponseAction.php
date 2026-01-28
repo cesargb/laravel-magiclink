@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Laravel\SerializableClosure\SerializableClosure;
 use MagicLink\MagicLink;
+use MagicLink\Security\Serializable\Serializable;
 
 class ResponseAction extends ActionAbstract
 {
@@ -38,7 +39,7 @@ class ResponseAction extends ActionAbstract
 
     protected function serializeResponse($httpResponse)
     {
-        return serialize($this->formattedResponse($httpResponse));
+        return Serializable::serialize($this->formattedResponse($httpResponse));
     }
 
     protected function formattedResponse($response)
@@ -73,7 +74,7 @@ class ResponseAction extends ActionAbstract
      */
     public function run()
     {
-        return $this->callResponse(unserialize($this->httpResponse));
+        return $this->callResponse(Serializable::unserialize($this->httpResponse));
     }
 
     protected function callResponse($httpResponse)

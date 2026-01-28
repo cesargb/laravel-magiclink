@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
 use MagicLink\Responses\RedirectResponse;
+use MagicLink\Security\Serializable\ActionSerializable;
 
 class ConfigTest extends TestCase
 {
@@ -58,19 +59,12 @@ class ConfigTest extends TestCase
     {
         MagicLink::create(new ResponseAction());
 
-        $action = DB::table('magic_links')->first(['action'])->action;
+        $actionData = DB::table('magic_links')->first(['action'])->action;
 
-        if (getenv('DB_DRIVER') === 'pgsql') {
-            $this->assertInstanceOf(
-                ResponseAction::class,
-                unserialize(base64_decode($action))
-            );
-        } else {
-            $this->assertInstanceOf(
-                ResponseAction::class,
-                unserialize($action)
-            );
-        }
+        $this->assertInstanceOf(
+            ResponseAction::class,
+            ActionSerializable::unserialize($actionData)
+        );
     }
 
     public function test_other_response()

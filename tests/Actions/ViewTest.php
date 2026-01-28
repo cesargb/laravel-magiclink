@@ -34,7 +34,7 @@ class ViewTest extends TestCase
         $user = User::first();
 
         $magiclink = MagicLink::create(
-            new ViewAction('view', ['user' => $user])
+            new ViewAction('view', ['email' => $user->email])
         );
 
         $this->get($magiclink->url)

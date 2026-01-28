@@ -13,8 +13,8 @@
     <div>{{ $text }}</div>
     @endif
 
-    @if(isset($user))
-    <div>Email: {{ $user->email }}</div>
+    @if(isset($email))
+    <div>Email: {{ $email }}</div>
     @endif
 </body>
 </html>

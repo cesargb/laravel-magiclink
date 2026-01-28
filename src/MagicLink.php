@@ -12,6 +12,8 @@ use MagicLink\Actions\ActionAbstract;
 use MagicLink\Events\MagicLinkWasCreated;
 use MagicLink\Events\MagicLinkWasDeleted;
 use MagicLink\Events\MagicLinkWasVisited;
+use MagicLink\Security\Serializable\ActionSerializable;
+use MagicLink\Security\Serializable\LegacyAllowClasses;
 
 /**
  * @property string $token
@@ -56,20 +58,47 @@ class MagicLink extends Model
             : 255;
     }
 
+
     public function getActionAttribute($value)
     {
-        if ($this->getConnection()->getDriverName() === 'pgsql') {
-            return unserialize(base64_decode($value));
+        try {
+            $action = ActionSerializable::unserialize($value);
+        } catch (\Exception $e) {
+            $action = $this->legacyGetAction($value);
         }
 
-        return unserialize($value);
+        if (!$action instanceof ActionAbstract) {
+            throw new \RuntimeException('Invalid action type. Only ActionAbstract instances are allowed.');
+        }
+
+        return $action;
     }
 
     public function setActionAttribute($value)
     {
-        $this->attributes['action'] = $this->getConnection()->getDriverName() === 'pgsql'
-                                        ? base64_encode(serialize($value))
-                                        : serialize($value);
+        if (!$value instanceof ActionAbstract) {
+            throw new \InvalidArgumentException('Only ActionAbstract instances can be stored as actions.');
+        }
+
+        $this->attributes['action'] = ActionSerializable::serialize($value);
+    }
+
+    protected function legacyGetAction($value)
+    {
+        $data = $this->getConnection()->getDriverName() === 'pgsql'
+                ? base64_decode($value)
+                : $value;
+
+        if (preg_match('/^O:\d+:"([^"]+)"/', $data, $matches)) {
+            $className = $matches[1];
+            if (is_subclass_of($className, ActionAbstract::class)) {
+                return unserialize($data, [
+                    'allowed_classes' => LegacyAllowClasses::get($className),
+                ]);
+            }
+        }
+
+        throw new \RuntimeException('Invalid legacy action class');
     }
 
     public function baseUrl(?string $baseUrl): self
