@@ -49,7 +49,7 @@ class Serializable
         }
 
         return match ($type) {
-            'string' =>  $serializedData,
+            'string' => $serializedData,
             'array' => json_decode($serializedData, true),
             'closure' => unserialize($serializedData)->getClosure(),
             default => unserialize($serializedData, [

@@ -58,7 +58,6 @@ class MagicLink extends Model
             : 255;
     }
 
-
     public function getActionAttribute($value)
     {
         try {
@@ -67,7 +66,7 @@ class MagicLink extends Model
             $action = $this->legacyGetAction($value);
         }
 
-        if (!$action instanceof ActionAbstract) {
+        if (! $action instanceof ActionAbstract) {
             throw new \RuntimeException('Invalid action type. Only ActionAbstract instances are allowed.');
         }
 
@@ -76,7 +75,7 @@ class MagicLink extends Model
 
     public function setActionAttribute($value)
     {
-        if (!$value instanceof ActionAbstract) {
+        if (! $value instanceof ActionAbstract) {
             throw new \InvalidArgumentException('Only ActionAbstract instances can be stored as actions.');
         }
 

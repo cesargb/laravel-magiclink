@@ -20,7 +20,7 @@ class Hmac
         return hash_equals($expectedHmac, $hmac);
     }
 
-     private static function parseKey()
+    private static function parseKey()
     {
         if (Str::startsWith($key = config('app.key'), $prefix = 'base64:')) {
             $key = base64_decode(Str::after($key, $prefix));
