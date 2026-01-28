@@ -3,6 +3,7 @@
 namespace MagicLink\Actions;
 
 use Closure;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Laravel\SerializableClosure\SerializableClosure;
@@ -74,7 +75,12 @@ class ResponseAction extends ActionAbstract
      */
     public function run()
     {
-        return $this->callResponse(Serializable::unserialize($this->httpResponse));
+        try {
+            return $this->callResponse(Serializable::unserialize($this->httpResponse));
+        } catch (Exception $e) {
+        }
+
+        return $this->callResponse(unserialize($this->httpResponse));
     }
 
     protected function callResponse($httpResponse)

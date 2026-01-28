@@ -68,6 +68,9 @@ abstract class TestCase extends Orchestra
             'foreign_key_constraints' => true,
         ]);
 
+        $app['config']->set('session.driver', 'array');
+        $app['config']->set('cache.default', 'array');
+
         $driver = getenv('DB_DRIVER');
 
         if ($driver !== 'pgsql' && $driver !== 'mysql') {
