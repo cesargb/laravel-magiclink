@@ -32,6 +32,10 @@ abstract class TestCase extends Orchestra
      */
     protected function defineEnvironment($app)
     {
+        $app['config']->set('app.key', 'base64:' . base64_encode(
+            random_bytes(32)
+        ));
+
         $app['config']->set('auth.providers.users.model', 'MagicLink\Test\TestSupport\User');
 
         $app['config']->set('view.paths', [__DIR__ . '/stubs/resources/views']);
