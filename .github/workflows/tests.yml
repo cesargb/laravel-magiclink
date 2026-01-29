@@ -6,11 +6,15 @@ on:
           - '**.php'
           - 'phpunit.xml.dist'
           - 'composer.json'
+          - '.github/workflows/tests.yml'
+
   pull_request:
       paths:
           - '**.php'
           - 'phpunit.xml.dist'
           - 'composer.json'
+          - '.github/workflows/tests.yml'
+
   schedule:
     - cron: '0 0 * * *'
 
