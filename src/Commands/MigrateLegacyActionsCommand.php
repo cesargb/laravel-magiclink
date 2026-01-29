@@ -40,7 +40,7 @@ class MigrateLegacyActionsCommand extends Command
         $migrated = 0;
         $errors = [];
 
-        $this->getLegacyBuilder()->orderBy('id', 'desc')->chunk(100, function ($magicLinks) use (&$migrated, &$errors, $progressBar) {
+        $this->getLegacyBuilder()->orderBy('id', 'desc')->chunkById(100, function ($magicLinks) use (&$migrated, &$errors, $progressBar) {
             foreach ($magicLinks as $magicLink) {
                 $result = $this->migrateRecord($magicLink->id, $magicLink->action);
 
