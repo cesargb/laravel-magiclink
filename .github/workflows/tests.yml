@@ -2,7 +2,15 @@ name: tests
 
 on:
   push:
+      paths:
+          - '**.php'
+          - 'phpunit.xml.dist'
+          - 'composer.json'
   pull_request:
+      paths:
+          - '**.php'
+          - 'phpunit.xml.dist'
+          - 'composer.json'
   schedule:
     - cron: '0 0 * * *'
 
