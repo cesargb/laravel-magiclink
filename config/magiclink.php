@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     'access_code' => [
