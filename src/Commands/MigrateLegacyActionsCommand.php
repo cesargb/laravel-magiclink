@@ -50,6 +50,7 @@ class MigrateLegacyActionsCommand extends Command
 
                 if ($result['status'] !== 'success') {
                     $this->errors[] = $result;
+
                     continue;
                 }
 
