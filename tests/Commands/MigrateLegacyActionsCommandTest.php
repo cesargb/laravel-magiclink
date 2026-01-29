@@ -8,6 +8,7 @@ use MagicLink\Actions\DownloadFileAction;
 use MagicLink\Actions\LoginAction;
 use MagicLink\Actions\ResponseAction;
 use MagicLink\Actions\ViewAction;
+use MagicLink\MagicLink;
 use MagicLink\Test\TestCase;
 use MagicLink\Test\TestSupport\MyController;
 use MagicLink\Test\TestSupport\User;
@@ -128,7 +129,9 @@ class MigrateLegacyActionsCommandTest extends TestCase
     {
         $id = (string) \Illuminate\Support\Str::uuid();
         $token = 'toktok';
-        $payload = serialize($action);
+        $payload = (new MagicLink())->getConnection()->getDriverName() === 'pgsql'
+            ? base64_encode(serialize($action))
+            : serialize($action);
 
         DB::table('magic_links')->insert([
             'id' => $id,

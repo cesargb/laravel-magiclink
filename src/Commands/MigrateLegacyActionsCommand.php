@@ -91,6 +91,10 @@ class MigrateLegacyActionsCommand extends Command
     {
         $tableName = config('magiclink.magiclink_table', 'magic_links');
 
+        if ((new MagicLink())->getConnection()->getDriverName() === 'pgsql') {
+            return DB::table($tableName)->where('action', 'not like', '{');
+        }
+
         return DB::table($tableName)->where('action', 'like', 'O:%');
     }
 
@@ -114,7 +118,10 @@ class MigrateLegacyActionsCommand extends Command
             ];
         }
 
-        $magicLink->action = unserialize($action);
+        $magicLink->action = (new MagicLink())->getConnection()->getDriverName() === 'pgsql'
+            ? unserialize(base64_decode($action))
+            : unserialize($action);
+
         $magicLink->saveQuietly();
 
         return [
@@ -125,6 +132,10 @@ class MigrateLegacyActionsCommand extends Command
 
     private function isAllowedAction(string $data): bool
     {
+        if ((new MagicLink())->getConnection()->getDriverName() === 'pgsql') {
+            $data = base64_decode($data);
+        }
+
         if (preg_match('/^O:\d+:"([^"]+)"/', $data, $matches)) {
             $className = $matches[1];
 

@@ -3,12 +3,15 @@
 namespace MagicLink\Test;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use MagicLink\MagicLinkServiceProvider;
 use MagicLink\Test\TestSupport\User;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -77,7 +80,7 @@ abstract class TestCase extends Orchestra
 
         $driver = getenv('DB_DRIVER');
 
-        if ($driver !== 'mysql') {
+        if ($driver !== 'pgsql') {
             $app['config']->set('database.default', 'testbench');
         } else {
             $app['config']->set('database.default', $driver);
@@ -87,31 +90,29 @@ abstract class TestCase extends Orchestra
     protected function defineDatabaseMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../databases/migrations');
-        $this->setUpDatabase($this->app);
     }
 
-    /**
-     * Set up the database.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     */
-    protected function setUpDatabase($app)
+    protected function refreshTestDatabase()
     {
-        if ($app['config']->get('database.default') !== 'testbench') {
-            $app['db']->connection()->getSchemaBuilder()->dropIfExists('users');
-            $app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
-            $app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
+        if (getenv('DB_DRIVER') === 'pgsql') {
+            $this->app['db']->connection()->getSchemaBuilder()->dropIfExists('users');
+            $this->app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
+            $this->app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
+            $this->artisan('migrate', ['--database' => getenv('DB_DRIVER') === 'pgsql' ? 'pgsql' : 'testbench']);
         }
+    }
 
-        $this->artisan('migrate');
-
-        $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
+    protected function afterRefreshingDatabase()
+    {
+        $this->app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email');
             $table->string('remember_token')->nullable();
         });
 
         User::create(['email' => 'test@user.com']);
+
+        $this->artisan('migrate', ['--database' => getenv('DB_DRIVER') === 'pgsql' ? 'pgsql' : 'testbench']);
     }
 
     protected function loadRoutes()
