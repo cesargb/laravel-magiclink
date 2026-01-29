@@ -7,6 +7,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use MagicLink\Actions\ActionAbstract;
 use MagicLink\MagicLink;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class MigrateLegacyActionsCommand extends Command
 {
@@ -14,6 +15,10 @@ class MigrateLegacyActionsCommand extends Command
                                 {--force : Force the operation to run without confirmation}';
 
     protected $description = 'Migrate legacy serialized actions to the new HMAC-signed format';
+
+    private int $migrated = 0;
+    private array $errors = [];
+    private ProgressBar $progressBar;
 
     public function handle()
     {
@@ -27,47 +32,58 @@ class MigrateLegacyActionsCommand extends Command
             return 0;
         }
 
-        if (! $this->option('force') && ! $this->confirm("Found {$legacyCount} legacy MagicLinks to migrate, do you want to proceed?")) {
+        if (! $this->canContinue($legacyCount)) {
             $this->info('Migration cancelled.');
 
             return 1;
         }
 
         $this->info('Starting migration...');
-        $progressBar = $this->output->createProgressBar($legacyCount);
-        $progressBar->start();
+        $this->progressBar = $this->output->createProgressBar($legacyCount);
+        $this->progressBar->start();
 
-        $migrated = 0;
-        $errors = [];
-
-        $this->getLegacyBuilder()->chunkById(100, function ($magicLinks) use (&$migrated, &$errors, $progressBar) {
+        $this->getLegacyBuilder()->chunkById(100, function ($magicLinks) {
             foreach ($magicLinks as $magicLink) {
                 $result = $this->migrateRecord($magicLink->id, $magicLink->action);
 
-                if ($result['status'] === 'success') {
-                    $migrated++;
-                } else {
-                    $errors[] = $result;
+                $this->progressBar->advance();
+
+                if ($result['status'] !== 'success') {
+                    $this->errors[] = $result;
+                    continue;
                 }
 
-                $progressBar->advance();
+                $this->migrated++;
             }
         });
 
-        $failed = count($errors);
+        $this->progressBar->finish();
 
-        $progressBar->finish();
+        $this->printSummary();
+
+        return 0;
+    }
+
+    private function canContinue(int $legacyCount): bool
+    {
+        if ($this->option('force')) {
+            return true;
+        }
+
+        return $this->confirm("Found {$legacyCount} legacy MagicLinks to migrate, do you want to proceed?");
+    }
+
+    private function printSummary(): void
+    {
         $this->newLine(2);
 
         $this->info("Migration completed!");
-        $this->info("Successfully migrated: {$migrated}");
+        $this->info("Successfully migrated: {$this->migrated}");
 
-        if ($failed > 0) {
+        if ($failed = count($this->errors) > 0) {
             $this->error("Failed to migrate: {$failed}");
-            $this->table(['Id', 'Error'], array_map(fn ($e) => [$e['id'], $e['error']], $errors));
+            $this->table(['Id', 'Error'], array_map(fn ($e) => [$e['id'], $e['error']], $this->errors));
         }
-
-        return $failed > 0 ? 1 : 0;
     }
 
     private function getLegacyBuilder(): Builder
@@ -77,7 +93,7 @@ class MigrateLegacyActionsCommand extends Command
         return DB::table($tableName)->where('action', 'like', 'O:%');
     }
 
-    private function migrateRecord(string $id, string $action): array
+    private function migrateRecord(int|string $id, string $action): array
     {
         $magicLink = MagicLink::find($id);
 
