@@ -90,8 +90,6 @@ abstract class TestCase extends Orchestra
     protected function defineDatabaseMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../databases/migrations');
-
-        // $this->setUpDatabase2($this->app);
     }
 
     protected function refreshTestDatabase()
@@ -115,28 +113,6 @@ abstract class TestCase extends Orchestra
         User::create(['email' => 'test@user.com']);
 
         $this->artisan('migrate', ['--database' => getenv('DB_DRIVER') === 'pgsql' ? 'pgsql' : 'testbench']);
-    }
-
-    /**
-     * Set up the database.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     */
-    protected function setUpDatabase2($app)
-    {
-        if (getenv('DB_DRIVER') === 'pgsql') {
-            $app['db']->connection()->getSchemaBuilder()->dropIfExists('users');
-            $app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
-            $app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
-        }
-
-        $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('email');
-            $table->string('remember_token')->nullable();
-        });
-
-        User::create(['email' => 'test@user.com']);
     }
 
     protected function loadRoutes()
