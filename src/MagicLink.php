@@ -82,7 +82,8 @@ class MagicLink extends Model
         $this->attributes['action'] = ActionSerializable::serialize($value);
     }
 
-    protected function legacyGetAction($value)
+    #[\Deprecated('Please run php artisan magiclink:migrate to migrate legacy actions.', 'v2.24.3')]
+    private function legacyGetAction($value)
     {
         $data = $this->getConnection()->getDriverName() === 'pgsql'
                 ? base64_decode($value)
