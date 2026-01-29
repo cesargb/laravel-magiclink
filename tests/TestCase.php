@@ -3,12 +3,15 @@
 namespace MagicLink\Test;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use MagicLink\MagicLinkServiceProvider;
 use MagicLink\Test\TestSupport\User;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -77,7 +80,7 @@ abstract class TestCase extends Orchestra
 
         $driver = getenv('DB_DRIVER');
 
-        if ($driver !== 'mysql') {
+        if ($driver !== 'pgsql') {
             $app['config']->set('database.default', 'testbench');
         } else {
             $app['config']->set('database.default', $driver);
@@ -87,7 +90,31 @@ abstract class TestCase extends Orchestra
     protected function defineDatabaseMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../databases/migrations');
-        $this->setUpDatabase($this->app);
+
+        // $this->setUpDatabase2($this->app);
+    }
+
+    protected function refreshTestDatabase()
+    {
+        if (getenv('DB_DRIVER') === 'pgsql') {
+            $this->app['db']->connection()->getSchemaBuilder()->dropIfExists('users');
+            $this->app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
+            $this->app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
+            $this->artisan('migrate', ['--database' => getenv('DB_DRIVER') === 'pgsql' ? 'pgsql' : 'testbench']);
+        }
+    }
+
+    protected function afterRefreshingDatabase()
+    {
+        $this->app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email');
+            $table->string('remember_token')->nullable();
+        });
+
+        User::create(['email' => 'test@user.com']);
+
+        $this->artisan('migrate', ['--database' => getenv('DB_DRIVER') === 'pgsql' ? 'pgsql' : 'testbench']);
     }
 
     /**
@@ -95,15 +122,13 @@ abstract class TestCase extends Orchestra
      *
      * @param  \Illuminate\Foundation\Application  $app
      */
-    protected function setUpDatabase($app)
+    protected function setUpDatabase2($app)
     {
-        if ($app['config']->get('database.default') !== 'testbench') {
+        if (getenv('DB_DRIVER') === 'pgsql') {
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('users');
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('migrations');
             $app['db']->connection()->getSchemaBuilder()->dropIfExists('magic_links');
         }
-
-        $this->artisan('migrate');
 
         $app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
             $table->increments('id');
