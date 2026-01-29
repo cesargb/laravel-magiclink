@@ -23,11 +23,13 @@ class MigrateLegacyActionsCommand extends Command
 
         if ($legacyCount === 0) {
             $this->info('No legacy MagicLinks found, nothing to migrate.');
+
             return 0;
         }
 
-        if (!$this->option('force') && !$this->confirm("Found {$legacyCount} legacy MagicLinks to migrate, do you want to proceed?")) {
+        if (! $this->option('force') && ! $this->confirm("Found {$legacyCount} legacy MagicLinks to migrate, do you want to proceed?")) {
             $this->info('Migration cancelled.');
+
             return 1;
         }
 
@@ -62,7 +64,7 @@ class MigrateLegacyActionsCommand extends Command
 
         if ($failed > 0) {
             $this->error("Failed to migrate: {$failed}");
-            $this->table(['Id', 'Error'], array_map(fn($e) => [$e['id'], $e['error']], $errors));
+            $this->table(['Id', 'Error'], array_map(fn ($e) => [$e['id'], $e['error']], $errors));
         }
 
         return $failed > 0 ? 1 : 0;
@@ -79,7 +81,7 @@ class MigrateLegacyActionsCommand extends Command
     {
         $magicLink = MagicLink::find($id);
 
-        if (!$magicLink) {
+        if (! $magicLink) {
             return [
                 'status' => 'error',
                 'id' => $id,
@@ -87,7 +89,7 @@ class MigrateLegacyActionsCommand extends Command
             ];
         }
 
-        if (!$this->isAllowedAction($action)) {
+        if (! $this->isAllowedAction($action)) {
             return [
                 'status' => 'error',
                 'id' => $id,
@@ -108,6 +110,7 @@ class MigrateLegacyActionsCommand extends Command
     {
         if (preg_match('/^O:\d+:"([^"]+)"/', $data, $matches)) {
             $className = $matches[1];
+
             return is_subclass_of($className, ActionAbstract::class);
         }
 
