@@ -5,6 +5,7 @@ namespace MagicLink;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use MagicLink\Commands\MigrateLegacyActionsCommand;
 
 class MagicLinkServiceProvider extends ServiceProvider
 {
@@ -17,11 +18,22 @@ class MagicLinkServiceProvider extends ServiceProvider
     {
         $this->offerPublishing();
 
+        $this->registerCommands();
+
         $this->registerRateLimit();
 
         $this->loadRouteMagicLink();
 
         $this->loadViewMagicLink();
+    }
+
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MigrateLegacyActionsCommand::class,
+            ]);
+        }
     }
 
     private function registerRateLimit(): void
