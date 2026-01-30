@@ -106,8 +106,7 @@ trait AccessCode
                 return $accessCode;
             }
         } catch (DecryptException $e) {
+            return null;
         }
-
-        return null;
     }
 }
