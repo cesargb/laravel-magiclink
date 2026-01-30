@@ -54,9 +54,8 @@ class LegacyTest extends TestCase
         $magiclinkUrl = $this->generateMagicLink(new ResponseAction(
             function () {
                 return 'callback called';
-        }
-        )
-    );
+            }
+        ));
 
         $this->get($magiclinkUrl)
                 ->assertStatus(200)
