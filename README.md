@@ -1,4 +1,3 @@
-
 # MagicLink for Laravels App
 
 Through the `MagicLink` class we can create a secure link that later
@@ -12,7 +11,7 @@ offer secure content and even log in to the application.
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 
 > [!WARNING]
-> Megrate actions is required if you are upgrading from version 2.24.2. Please see [Migrate actions](#migrate-actions) section.
+> Migrate actions is required if you are upgrading from version 2.24.2 or earlier. Please see the [Migrate actions](#migrate-actions) section for detailed instructions.
 
 ## Contents
 
