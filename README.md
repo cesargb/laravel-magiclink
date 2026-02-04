@@ -11,6 +11,9 @@ offer secure content and even log in to the application.
 [![Quality Score](https://img.shields.io/scrutinizer/g/cesargb/laravel-magiclink.svg?style=flat-square)](https://scrutinizer-ci.com/g/cesargb/laravel-magiclink)
 [![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 
+> [!WARNING]
+> Megrate actions is required if you are upgrading from version 2.24.2. Please see [Migrate actions](#migrate-actions) section.
+
 ## Contents
 
 - [Installation](#installation)
@@ -28,6 +31,7 @@ offer secure content and even log in to the application.
 - [Events](#events)
 - [Customization](#customization)
 - [Rate limiting](#rate-limiting)
+- [Migrate actions](#migrate-actions)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [Security](#security)
@@ -448,6 +452,26 @@ to limit the requests. For example, to limit the requests to 100 per minute, set
 # .env
 
 MAGICLINK_RATE_LIMIT=100
+```
+
+## Migrate actions
+
+> [!WARNING]
+> The action storage mechanism changed from PHP serialization to HMAC-signed JSON format for improved security.
+> If you're upgrading from version 2.24.2, you need to migrate existing MagicLinks.
+
+To migrate legacy serialized actions to the new format, run:
+
+```bash
+php artisan magiclink:migrate --dry-run
+```
+
+This command will simulate the migration and display the number of legacy MagicLinks found.
+
+If everything looks good, run the migration for real with:
+
+```bash
+php artisan magiclink:migrate
 ```
 
 ## Testing
