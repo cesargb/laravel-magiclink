@@ -1,43 +1,26 @@
-name: style-fix
+name: Fix Code Style
 
 on:
   push:
-    branches: [master]
+      paths:
+          - '**.php'
+          - 'composer.json'
+          - '.github/workflows/style-fix.yml'
 
 jobs:
-  style:
-
+  lint:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.5]
 
     steps:
-    - uses: actions/checkout@v6
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.3
-        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, exif
-        coverage: xdebug
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v5
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-8.3-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php--8.3
-
-    - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: |
-        composer install
-        composer dump
-
-    - name: Fix styles
-      run: vendor/bin/php-cs-fixer fix
-
-    - uses: EndBug/add-and-commit@v9
-
-    - name: Run style
-      run: vendor/bin/php-cs-fixer fix --dry-run --diff --format junit
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: pint --test
