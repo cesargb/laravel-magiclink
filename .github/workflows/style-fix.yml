@@ -23,4 +23,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: pint --test
+          tools: pint
+
+      - name: Run Pint
+        run: pint --test
