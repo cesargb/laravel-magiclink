@@ -22,8 +22,8 @@ class LegacyTest extends TestCase
         $magiclinkUrl = $this->generateMagicLink($action);
 
         $this->get($magiclinkUrl)
-                ->assertStatus(200)
-                ->assertSeeText('im a controller invoke');
+            ->assertStatus(200)
+            ->assertSeeText('im a controller invoke');
     }
 
     public function test_download_file()
@@ -58,8 +58,8 @@ class LegacyTest extends TestCase
         ));
 
         $this->get($magiclinkUrl)
-                ->assertStatus(200)
-                ->assertSeeText('callback called');
+            ->assertStatus(200)
+            ->assertSeeText('callback called');
     }
 
     public function test_view()
@@ -67,15 +67,15 @@ class LegacyTest extends TestCase
         $magiclinkUrl = $this->generateMagicLink(new ViewAction('view'));
 
         $this->get($magiclinkUrl)
-                ->assertStatus(200)
-                ->assertSeeText('This is a tests view');
+            ->assertStatus(200)
+            ->assertSeeText('This is a tests view');
     }
 
     private function generateMagicLink($action): string
     {
         $id = (string) \Illuminate\Support\Str::uuid();
         $token = 'toktok';
-        $payload = (new MagicLink())->getConnection()->getDriverName() === 'pgsql'
+        $payload = (new MagicLink)->getConnection()->getDriverName() === 'pgsql'
             ? base64_encode(serialize($action))
             : serialize($action);
 

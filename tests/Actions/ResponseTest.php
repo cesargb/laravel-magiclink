@@ -13,7 +13,7 @@ class ResponseTest extends TestCase
 {
     public function test_response_null()
     {
-        $magiclink = MagicLink::create(new ResponseAction());
+        $magiclink = MagicLink::create(new ResponseAction);
 
         $this->get($magiclink->url)
             ->assertStatus(302)
@@ -31,8 +31,8 @@ class ResponseTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('callback called');
+            ->assertStatus(200)
+            ->assertSeeText('callback called');
     }
 
     public function test_response_redirect()
@@ -42,8 +42,8 @@ class ResponseTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect('/test');
+            ->assertStatus(302)
+            ->assertRedirect('/test');
     }
 
     public function test_response_view()
@@ -55,8 +55,8 @@ class ResponseTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('Lorem, ipsum dolor.');
+            ->assertStatus(200)
+            ->assertSeeText('Lorem, ipsum dolor.');
     }
 
     public function test_response_string()
@@ -66,8 +66,8 @@ class ResponseTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('Lorem ipsum dolor sit');
+            ->assertStatus(200)
+            ->assertSeeText('Lorem ipsum dolor sit');
     }
 
     public function test_response_json()
@@ -79,8 +79,8 @@ class ResponseTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(213)
-                ->assertJson(['message' => 'json message']);
+            ->assertStatus(213)
+            ->assertJson(['message' => 'json message']);
     }
 
     public function test_response_callable_download()
@@ -107,8 +107,8 @@ class ResponseTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(302)
-                ->assertRedirect('/change_password');
+            ->assertStatus(302)
+            ->assertRedirect('/change_password');
 
         $this->assertAuthenticatedAs(User::first());
     }
@@ -122,8 +122,8 @@ class ResponseTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('Email: '.User::first()->email);
+            ->assertStatus(200)
+            ->assertSeeText('Email: '.User::first()->email);
     }
 
     public function test_response_callable_with_magic_link()

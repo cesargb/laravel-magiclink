@@ -12,7 +12,7 @@ abstract class TestCase extends Orchestra
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
     }
@@ -35,19 +35,19 @@ abstract class TestCase extends Orchestra
      */
     protected function defineEnvironment($app)
     {
-        $app['config']->set('app.key', 'base64:' . base64_encode(
+        $app['config']->set('app.key', 'base64:'.base64_encode(
             random_bytes(32)
         ));
 
         $app['config']->set('auth.providers.users.model', 'MagicLink\Test\TestSupport\User');
 
-        $app['config']->set('view.paths', [__DIR__ . '/stubs/resources/views']);
+        $app['config']->set('view.paths', [__DIR__.'/stubs/resources/views']);
 
-        $app['config']->set('filesystems.disks.local.root', __DIR__ . '/stubs/storage/app');
+        $app['config']->set('filesystems.disks.local.root', __DIR__.'/stubs/storage/app');
 
         $app['config']->set('filesystems.disks.alternative', [
             'driver' => 'local',
-            'root' => __DIR__ . '/stubs/storage/app_alternative',
+            'root' => __DIR__.'/stubs/storage/app_alternative',
         ]);
 
         $app['config']->set('database.connections.pgsql', [
@@ -89,7 +89,7 @@ abstract class TestCase extends Orchestra
 
     protected function defineDatabaseMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../databases/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../databases/migrations');
     }
 
     protected function refreshTestDatabase()
@@ -117,6 +117,6 @@ abstract class TestCase extends Orchestra
 
     protected function loadRoutes()
     {
-        include __DIR__ . '/stubs/routes.php';
+        include __DIR__.'/stubs/routes.php';
     }
 }

@@ -11,12 +11,14 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 /**
  * @property string $email
  */
-class User extends Model implements AuthorizableContract, AuthenticatableContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Authorizable;
     use Authenticatable;
+    use Authorizable;
 
     protected $fillable = ['email'];
+
     public $timestamps = false;
+
     protected $table = 'users';
 }

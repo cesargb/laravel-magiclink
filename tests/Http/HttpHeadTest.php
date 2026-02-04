@@ -32,7 +32,7 @@ class HttpHeadTest extends TestCase
             return 'private content';
         }));
 
-        $this->head($magiclink->url . '-bad')
+        $this->head($magiclink->url.'-bad')
             ->assertStatus(404);
     }
 }

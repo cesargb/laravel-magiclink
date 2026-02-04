@@ -16,8 +16,8 @@ class ControllerTest extends TestCase
         $magiclink = MagicLink::create($action);
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('im a controller invoke');
+            ->assertStatus(200)
+            ->assertSeeText('im a controller invoke');
     }
 
     public function test_controller_method()
@@ -27,7 +27,7 @@ class ControllerTest extends TestCase
         $magiclink = MagicLink::create($action);
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('im a controller index');
+            ->assertStatus(200)
+            ->assertSeeText('im a controller index');
     }
 }

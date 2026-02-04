@@ -19,7 +19,7 @@ class Serializable
             default => get_class($action),
         };
 
-        $value = match($type) {
+        $value = match ($type) {
             'string' => $action,
             'array' => json_encode($action),
             default => serialize($action),

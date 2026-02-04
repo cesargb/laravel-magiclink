@@ -5,6 +5,7 @@ namespace MagicLink\Actions;
 class ControllerAction extends ActionAbstract
 {
     private string $controllerClass;
+
     private ?string $method;
 
     public function __construct(string $controllerClass, ?string $method = null)

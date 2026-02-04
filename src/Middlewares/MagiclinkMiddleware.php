@@ -38,7 +38,7 @@ class MagiclinkMiddleware
     {
         $responseClass = config('magiclink.invalid_response.class', Response::class);
 
-        $response = new $responseClass();
+        $response = new $responseClass;
 
         return $response(config('magiclink.invalid_response.options', []));
     }

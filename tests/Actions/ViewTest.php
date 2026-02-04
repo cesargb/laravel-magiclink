@@ -14,8 +14,8 @@ class ViewTest extends TestCase
         $magiclink = MagicLink::create(new ViewAction('view'));
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('This is a tests view');
+            ->assertStatus(200)
+            ->assertSeeText('This is a tests view');
     }
 
     public function test_view_with_data()
@@ -25,8 +25,8 @@ class ViewTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('Lorem, ipsum dolor.');
+            ->assertStatus(200)
+            ->assertSeeText('Lorem, ipsum dolor.');
     }
 
     public function test_view_with_object()
@@ -38,7 +38,7 @@ class ViewTest extends TestCase
         );
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('Email: '.$user->email);
+            ->assertStatus(200)
+            ->assertSeeText('Email: '.$user->email);
     }
 }

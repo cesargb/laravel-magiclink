@@ -16,7 +16,7 @@ class MagicLinkWasVisitedTest extends TestCase
             MagicLinkWasVisited::class,
         ]);
 
-        $magiclink = MagicLink::create(new ResponseAction());
+        $magiclink = MagicLink::create(new ResponseAction);
 
         $this->get($magiclink->url);
 
