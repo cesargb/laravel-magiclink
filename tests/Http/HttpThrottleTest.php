@@ -22,8 +22,7 @@ class HttpThrottleTest extends TestCase
             ->assertStatus(200);
 
         $this->get($magiclink->url)
-
-        ->assertStatus(429);
+            ->assertStatus(429);
     }
 
     public function test_http_when_rate_limit_is_none()

@@ -16,7 +16,7 @@ class MagicLinkWasCreatedTest extends TestCase
             MagicLinkWasCreated::class,
         ]);
 
-        $magiclink = MagicLink::create(new ResponseAction());
+        $magiclink = MagicLink::create(new ResponseAction);
 
         Event::assertDispatched(
             MagicLinkWasCreated::class,

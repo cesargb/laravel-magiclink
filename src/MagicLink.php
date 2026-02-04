@@ -103,14 +103,14 @@ class MagicLink extends Model
 
     public function baseUrl(?string $baseUrl): self
     {
-        $this->attributes['base_url'] = rtrim($baseUrl, '/') . '/';
+        $this->attributes['base_url'] = rtrim($baseUrl, '/').'/';
 
         return $this;
     }
 
     public function getUrlAttribute(): string
     {
-        $baseUrl = rtrim($this->attributes['base_url'] ?? '', '/') . '/'; // Use the stored base_url or an empty string
+        $baseUrl = rtrim($this->attributes['base_url'] ?? '', '/').'/'; // Use the stored base_url or an empty string
 
         return url(sprintf(
             '%s%s/%s%s%s',
@@ -131,7 +131,7 @@ class MagicLink extends Model
     {
         static::deleteMagicLinkExpired();
 
-        $magiclink = new static();
+        $magiclink = new static;
 
         $magiclink->token = Str::random(static::getTokenLength());
         $magiclink->available_at = $lifetime
@@ -204,18 +204,18 @@ class MagicLink extends Model
         }
 
         return static::where('id', $tokenId)
-                    ->where('token', $tokenSecret)
-                    ->where(function ($query) {
-                        $query
-                            ->whereNull('available_at')
-                            ->orWhere('available_at', '>=', Carbon::now());
-                    })
-                    ->where(function ($query) {
-                        $query
-                            ->whereNull('max_visits')
-                            ->orWhereRaw('max_visits > num_visits');
-                    })
-                    ->first();
+            ->where('token', $tokenSecret)
+            ->where(function ($query) {
+                $query
+                    ->whereNull('available_at')
+                    ->orWhere('available_at', '>=', Carbon::now());
+            })
+            ->where(function ($query) {
+                $query
+                    ->whereNull('max_visits')
+                    ->orWhereRaw('max_visits > num_visits');
+            })
+            ->first();
     }
 
     /**
@@ -233,8 +233,8 @@ class MagicLink extends Model
         }
 
         return static::where('id', $tokenId)
-                    ->where('token', $tokenSecret)
-                    ->first();
+            ->where('token', $tokenSecret)
+            ->first();
     }
 
     /**
@@ -259,7 +259,6 @@ class MagicLink extends Model
 
             return;
         }
-
 
         $query->get()->each(function (MagicLink $magiclink) {
             $magiclink->delete();

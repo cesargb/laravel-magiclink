@@ -18,8 +18,11 @@ class MigrateLegacyActionsCommand extends Command
     protected $description = 'Migrate legacy serialized actions to the new HMAC-signed format';
 
     private int $migrated = 0;
+
     private array $errors = [];
+
     private ProgressBar $progressBar;
+
     private bool $dryRun = false;
 
     public function handle()
@@ -87,10 +90,10 @@ class MigrateLegacyActionsCommand extends Command
         $this->newLine(2);
 
         if ($this->dryRun) {
-            $this->info("Dry-run completed!");
+            $this->info('Dry-run completed!');
             $this->info("Would migrate: {$this->migrated}");
         } else {
-            $this->info("Migration completed!");
+            $this->info('Migration completed!');
             $this->info("Successfully migrated: {$this->migrated}");
         }
 
@@ -104,7 +107,7 @@ class MigrateLegacyActionsCommand extends Command
     {
         $tableName = config('magiclink.magiclink_table', 'magic_links');
 
-        if ((new MagicLink())->getConnection()->getDriverName() === 'pgsql') {
+        if ((new MagicLink)->getConnection()->getDriverName() === 'pgsql') {
             return DB::table($tableName)->where('action', 'not like', '{');
         }
 
@@ -132,7 +135,7 @@ class MigrateLegacyActionsCommand extends Command
         }
 
         if (! $this->dryRun) {
-            $magicLink->action = (new MagicLink())->getConnection()->getDriverName() === 'pgsql'
+            $magicLink->action = (new MagicLink)->getConnection()->getDriverName() === 'pgsql'
                 ? unserialize(base64_decode($action))
                 : unserialize($action);
 
@@ -147,7 +150,7 @@ class MigrateLegacyActionsCommand extends Command
 
     private function isAllowedAction(string $data): bool
     {
-        if ((new MagicLink())->getConnection()->getDriverName() === 'pgsql') {
+        if ((new MagicLink)->getConnection()->getDriverName() === 'pgsql') {
             $data = base64_decode($data);
         }
 

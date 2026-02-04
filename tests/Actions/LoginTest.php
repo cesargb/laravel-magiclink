@@ -26,7 +26,7 @@ class LoginTest extends TestCase
     public function test_auth_custom()
     {
         Auth::provider('custom_provider', function ($app, array $config) {
-            return new CustomUserProvider();
+            return new CustomUserProvider;
         });
 
         config()->set('auth.providers.custom', [

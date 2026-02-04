@@ -38,13 +38,13 @@ class MagicLinkTest extends TestCase
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
         $this->get($magiclink->url.'bad')
-                ->assertStatus(403);
+            ->assertStatus(403);
     }
 
     public function test_fail_when_token_is_bad_defined()
     {
         $this->get('/magiclink/bad_token')
-                ->assertStatus(403);
+            ->assertStatus(403);
     }
 
     public function test_fails_when_date_is_expired()
@@ -55,7 +55,7 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(403);
+            ->assertStatus(403);
     }
 
     public function test_ok_when_date_is_null()
@@ -63,7 +63,7 @@ class MagicLinkTest extends TestCase
         $magiclink = MagicLink::create(new LoginAction(User::first()), null);
 
         $this->get($magiclink->url)
-             ->assertStatus(302);
+            ->assertStatus(302);
     }
 
     public function test_fail_when_max_visits_completed()
@@ -75,7 +75,7 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(403);
+            ->assertStatus(403);
     }
 
     public function test_ok_when_max_visits_is_minor_num_visits()
@@ -87,7 +87,7 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(302);
+            ->assertStatus(302);
     }
 
     public function test_ok_when_max_visits_is_null()
@@ -99,7 +99,7 @@ class MagicLinkTest extends TestCase
         $magiclink->save();
 
         $this->get($magiclink->url)
-                ->assertStatus(302);
+            ->assertStatus(302);
     }
 
     public function test_increment_num_visits()
@@ -134,7 +134,7 @@ class MagicLinkTest extends TestCase
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()));
 
-        $custom_base_url = "http://example.com";
+        $custom_base_url = 'http://example.com';
         $magiclink->baseUrl($custom_base_url);
 
         $this->assertStringContainsString($custom_base_url, $magiclink->url);

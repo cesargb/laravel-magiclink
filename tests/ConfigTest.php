@@ -14,7 +14,7 @@ class ConfigTest extends TestCase
     {
         $this->app['config']->set('magiclink.token.length', 10);
 
-        $url = MagicLink::create(new ResponseAction())->url;
+        $url = MagicLink::create(new ResponseAction)->url;
 
         $this->assertEquals(10, strlen($this->getTokenFromUrl($url)));
     }
@@ -23,7 +23,7 @@ class ConfigTest extends TestCase
     {
         $this->app['config']->set('magiclink.token.length', 256);
 
-        $url = MagicLink::create(new ResponseAction())->url;
+        $url = MagicLink::create(new ResponseAction)->url;
 
         $this->assertEquals(255, strlen($this->getTokenFromUrl($url)));
     }
@@ -39,7 +39,7 @@ class ConfigTest extends TestCase
     {
         $this->app['config']->set('magiclink.url.validate_path', 'otherpath');
 
-        $url = MagicLink::create(new ResponseAction())->url;
+        $url = MagicLink::create(new ResponseAction)->url;
 
         $this->assertGreaterThan(0, strpos($url, '/otherpath/'));
     }
@@ -48,7 +48,7 @@ class ConfigTest extends TestCase
     {
         $this->app['config']->set('magiclink.url.redirect_default', '/dashboard');
 
-        $url = MagicLink::create(new ResponseAction())->url;
+        $url = MagicLink::create(new ResponseAction)->url;
 
         $this->get($url)
             ->assertStatus(302)
@@ -57,7 +57,7 @@ class ConfigTest extends TestCase
 
     public function test_save_action_serialize()
     {
-        MagicLink::create(new ResponseAction());
+        MagicLink::create(new ResponseAction);
 
         $actionData = DB::table('magic_links')->first(['action'])->action;
 
@@ -72,7 +72,7 @@ class ConfigTest extends TestCase
         $this->app['config']->set('magiclink.invalid_response.class', RedirectResponse::class);
         $this->app['config']->set('magiclink.invalid_response.options.to', '');
 
-        $url = MagicLink::create(new ResponseAction())->url;
+        $url = MagicLink::create(new ResponseAction)->url;
 
         $this->get($url.'bad')
             ->assertStatus(302);

@@ -123,7 +123,7 @@ class MagicLinkDeleteTest extends TestCase
     {
         return collect(range(1, $count))
             ->map(function ($index) {
-                $magiclink = MagicLink::create(new ResponseAction(['message' => 'Hello World ' . $index]));
+                $magiclink = MagicLink::create(new ResponseAction(['message' => 'Hello World '.$index]));
 
                 $magiclink->available_at = now()->subMinute();
                 $magiclink->save();

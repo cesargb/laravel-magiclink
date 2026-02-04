@@ -33,9 +33,7 @@ class CustomAutenticable implements Authenticatable
         return '';
     }
 
-    public function setRememberToken($value)
-    {
-    }
+    public function setRememberToken($value) {}
 
     public function getRememberTokenName()
     {

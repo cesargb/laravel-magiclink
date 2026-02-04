@@ -151,7 +151,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
     {
         $id = (string) \Illuminate\Support\Str::uuid();
         $token = 'toktok';
-        $payload = (new MagicLink())->getConnection()->getDriverName() === 'pgsql'
+        $payload = (new MagicLink)->getConnection()->getDriverName() === 'pgsql'
             ? base64_encode(serialize($action))
             : serialize($action);
 

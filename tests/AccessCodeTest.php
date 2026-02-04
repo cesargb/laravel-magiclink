@@ -14,8 +14,8 @@ class AccessCodeTest extends TestCase
         }));
 
         $this->get($magiclink->url)
-                ->assertStatus(200)
-                ->assertSeeText('the big secret');
+            ->assertStatus(200)
+            ->assertSeeText('the big secret');
     }
 
     public function test_forbidden_if_protected_with_access_code()
@@ -27,8 +27,8 @@ class AccessCodeTest extends TestCase
         $magiclink->protectWithAccessCode('1234');
 
         $this->get($magiclink->url)
-                ->assertStatus(403)
-                ->assertViewIs('magiclink::ask-for-access-code-form');
+            ->assertStatus(403)
+            ->assertViewIs('magiclink::ask-for-access-code-form');
     }
 
     public function test_forbidden_if_protected_with_access_code_and_send_bad()
@@ -40,9 +40,9 @@ class AccessCodeTest extends TestCase
         $magiclink->protectWithAccessCode('1234');
 
         $this->get("{$magiclink->url}?access-code=123")
-               ->assertStatus(403)
-               ->assertViewIs('magiclink::ask-for-access-code-form')
-               ->assertCookieMissing('magic-link-access-code');
+            ->assertStatus(403)
+            ->assertViewIs('magiclink::ask-for-access-code-form')
+            ->assertCookieMissing('magic-link-access-code');
     }
 
     public function test_forbidden_if_protected_with_access_code_and_send_null()
@@ -54,9 +54,9 @@ class AccessCodeTest extends TestCase
         $magiclink->protectWithAccessCode('1234');
 
         $this->get("{$magiclink->url}")
-                ->assertStatus(403)
-                ->assertViewIs('magiclink::ask-for-access-code-form')
-                ->assertCookieMissing('magic-link-access-code');
+            ->assertStatus(403)
+            ->assertViewIs('magiclink::ask-for-access-code-form')
+            ->assertCookieMissing('magic-link-access-code');
     }
 
     public function test_sucessfull_if_provide_access_code()
@@ -116,7 +116,7 @@ class AccessCodeTest extends TestCase
         $magiclink->protectWithAccessCode('1234');
 
         $this->get($magiclink->url)
-                ->assertStatus(403)
-                ->assertViewIs('access-code-custom');
+            ->assertStatus(403)
+            ->assertViewIs('access-code-custom');
     }
 }
