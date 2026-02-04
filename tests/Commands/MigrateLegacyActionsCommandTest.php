@@ -19,7 +19,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
     {
         $action = new ControllerAction(MyController::class);
 
-        [$id, $magiclinkUrl] = $this->generateMagicLink($action);
+        [$id, $magiclinkUrl] = $this->generateLegacyMagicLink($action);
 
         $this->get($magiclinkUrl)
             ->assertStatus(200)
@@ -39,7 +39,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
 
     public function test_download_file()
     {
-        [$id, $magiclinkUrl] = $this->generateMagicLink(new DownloadFileAction('text.txt'));
+        [$id, $magiclinkUrl] = $this->generateLegacyMagicLink(new DownloadFileAction('text.txt'));
 
         $this->get($magiclinkUrl)
             ->assertStatus(200)
@@ -65,7 +65,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
 
     public function test_auth()
     {
-        [$id, $magiclinkUrl] = $this->generateMagicLink(new LoginAction(User::first()));
+        [$id, $magiclinkUrl] = $this->generateLegacyMagicLink(new LoginAction(User::first()));
 
         $this->artisan('magiclink:migrate', ['--force' => true])
             ->assertSuccessful();
@@ -83,7 +83,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
 
     public function test_response_callable()
     {
-        [$id, $magiclinkUrl] = $this->generateMagicLink(new ResponseAction(
+        [$id, $magiclinkUrl] = $this->generateLegacyMagicLink(new ResponseAction(
             function () {
                 return 'callback called';
             }
@@ -107,7 +107,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
 
     public function test_view()
     {
-        [$id, $magiclinkUrl] = $this->generateMagicLink(new ViewAction('view'));
+        [$id, $magiclinkUrl] = $this->generateLegacyMagicLink(new ViewAction('view'));
 
         $this->get($magiclinkUrl)
             ->assertStatus(200)
@@ -125,7 +125,29 @@ class MigrateLegacyActionsCommandTest extends TestCase
             ->assertSeeText('This is a tests view');
     }
 
-    private function generateMagicLink($action): array
+    public function test_dry_run()
+    {
+        $action = new ControllerAction(MyController::class);
+
+        [$id, $magiclinkUrl] = $this->generateLegacyMagicLink($action);
+
+        $this->get($magiclinkUrl)
+            ->assertStatus(200)
+            ->assertSeeText('im a controller invoke');
+
+        $actionLegacy = DB::table('magic_links')->where('id', $id)->first()->action;
+
+        $this->artisan('magiclink:migrate', ['--dry-run' => true])
+            ->assertSuccessful();
+
+        $this->assertEquals($actionLegacy, DB::table('magic_links')->where('id', $id)->first()->action);
+
+        $this->get($magiclinkUrl)
+            ->assertStatus(200)
+            ->assertSeeText('im a controller invoke');
+    }
+
+    private function generateLegacyMagicLink($action): array
     {
         $id = (string) \Illuminate\Support\Str::uuid();
         $token = 'toktok';

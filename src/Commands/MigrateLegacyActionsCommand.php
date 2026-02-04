@@ -12,16 +12,24 @@ use Symfony\Component\Console\Helper\ProgressBar;
 class MigrateLegacyActionsCommand extends Command
 {
     protected $signature = 'magiclink:migrate
-                                {--force : Force the operation to run without confirmation}';
+                                {--force : Force the operation to run without confirmation}
+                                {--dry-run : Show what would be migrated without actually migrating}';
 
     protected $description = 'Migrate legacy serialized actions to the new HMAC-signed format';
 
     private int $migrated = 0;
     private array $errors = [];
     private ProgressBar $progressBar;
+    private bool $dryRun = false;
 
     public function handle()
     {
+        $this->dryRun = $this->option('dry-run');
+
+        if ($this->dryRun) {
+            $this->warn('Running in DRY-RUN mode - no changes will be made');
+        }
+
         $this->info('Checking for legacy MagicLinks...');
 
         $legacyCount = $this->getLegacyBuilder()->count();
@@ -67,7 +75,7 @@ class MigrateLegacyActionsCommand extends Command
 
     private function canContinue(int $legacyCount): bool
     {
-        if ($this->option('force')) {
+        if ($this->option('force') || $this->dryRun) {
             return true;
         }
 
@@ -78,8 +86,13 @@ class MigrateLegacyActionsCommand extends Command
     {
         $this->newLine(2);
 
-        $this->info("Migration completed!");
-        $this->info("Successfully migrated: {$this->migrated}");
+        if ($this->dryRun) {
+            $this->info("Dry-run completed!");
+            $this->info("Would migrate: {$this->migrated}");
+        } else {
+            $this->info("Migration completed!");
+            $this->info("Successfully migrated: {$this->migrated}");
+        }
 
         if ($failed = count($this->errors) > 0) {
             $this->error("Failed to migrate: {$failed}");
@@ -118,11 +131,13 @@ class MigrateLegacyActionsCommand extends Command
             ];
         }
 
-        $magicLink->action = (new MagicLink())->getConnection()->getDriverName() === 'pgsql'
-            ? unserialize(base64_decode($action))
-            : unserialize($action);
+        if (! $this->dryRun) {
+            $magicLink->action = (new MagicLink())->getConnection()->getDriverName() === 'pgsql'
+                ? unserialize(base64_decode($action))
+                : unserialize($action);
 
-        $magicLink->saveQuietly();
+            $magicLink->saveQuietly();
+        }
 
         return [
             'status' => 'success',
