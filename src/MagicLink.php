@@ -61,16 +61,10 @@ class MagicLink extends Model
     public function getActionAttribute($value)
     {
         try {
-            $action = ActionSerializable::unserialize($value);
+            return ActionSerializable::unserialize($value);
         } catch (\Exception $e) {
             throw LegacyActionFormatException::detected($e);
         }
-
-        if (! $action instanceof ActionAbstract) {
-            throw new \RuntimeException('Invalid action type. Only ActionAbstract instances are allowed.');
-        }
-
-        return $action;
     }
 
     public function setActionAttribute($value)

@@ -39,10 +39,6 @@ class LegacyTest extends TestCase
 
         $this->get($magiclinkUrl)
             ->assertStatus(419);
-
-        if (method_exists($this, 'actingAsGuest')) {
-            $this->actingAsGuest();
-        }
     }
 
     public function test_response_callable()

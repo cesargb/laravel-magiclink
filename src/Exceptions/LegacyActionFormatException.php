@@ -10,11 +10,10 @@ class LegacyActionFormatException extends RuntimeException
      * Create a new LegacyActionFormatException instance.
      *
      * @param  \Exception|null  $previous
-     * @return static
      */
-    public static function detected($previous = null)
+    public static function detected($previous = null): LegacyActionFormatException
     {
-        return new static(
+        return new self(
             'Legacy action format detected. Please run the migration command to update your magic links: php artisan magiclink:migrate',
             0,
             $previous
