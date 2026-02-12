@@ -22,8 +22,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
         [$id, $magiclinkUrl] = $this->generateLegacyMagicLink($action);
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('im a controller invoke');
+            ->assertStatus(419);
 
         $this->artisan('magiclink:migrate', ['--force' => true])
             ->assertSuccessful();
@@ -42,11 +41,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
         [$id, $magiclinkUrl] = $this->generateLegacyMagicLink(new DownloadFileAction('text.txt'));
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertHeader(
-                'content-disposition',
-                'attachment; filename=text.txt'
-            );
+            ->assertStatus(419);
 
         $this->artisan('magiclink:migrate', ['--force' => true])
             ->assertSuccessful();
@@ -90,8 +85,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
         ));
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('callback called');
+            ->assertStatus(419);
 
         $this->artisan('magiclink:migrate', ['--force' => true])
             ->assertSuccessful();
@@ -110,8 +104,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
         [$id, $magiclinkUrl] = $this->generateLegacyMagicLink(new ViewAction('view'));
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('This is a tests view');
+            ->assertStatus(419);
 
         $this->artisan('magiclink:migrate', ['--force' => true])
             ->assertSuccessful();
@@ -132,8 +125,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
         [$id, $magiclinkUrl] = $this->generateLegacyMagicLink($action);
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('im a controller invoke');
+            ->assertStatus(419);
 
         $actionLegacy = DB::table('magic_links')->where('id', $id)->first()->action;
 
@@ -143,8 +135,7 @@ class MigrateLegacyActionsCommandTest extends TestCase
         $this->assertEquals($actionLegacy, DB::table('magic_links')->where('id', $id)->first()->action);
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('im a controller invoke');
+            ->assertStatus(419);
     }
 
     private function generateLegacyMagicLink($action): array

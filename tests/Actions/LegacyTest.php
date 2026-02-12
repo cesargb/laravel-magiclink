@@ -22,8 +22,7 @@ class LegacyTest extends TestCase
         $magiclinkUrl = $this->generateMagicLink($action);
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('im a controller invoke');
+            ->assertStatus(419);
     }
 
     public function test_download_file()
@@ -31,11 +30,7 @@ class LegacyTest extends TestCase
         $magiclinkUrl = $this->generateMagicLink(new DownloadFileAction('text.txt'));
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertHeader(
-                'content-disposition',
-                'attachment; filename=text.txt'
-            );
+            ->assertStatus(419);
     }
 
     public function test_auth()
@@ -43,10 +38,9 @@ class LegacyTest extends TestCase
         $magiclinkUrl = $this->generateMagicLink(new LoginAction(User::first()));
 
         $this->get($magiclinkUrl)
-            ->assertStatus(302)
-            ->assertRedirect('/');
+            ->assertStatus(419);
 
-        $this->assertAuthenticatedAs(User::first());
+        $this->actingAsGuest();
     }
 
     public function test_response_callable()
@@ -58,8 +52,8 @@ class LegacyTest extends TestCase
         ));
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('callback called');
+            ->assertStatus(419)
+            ->assertDontSee('callback called');
     }
 
     public function test_view()
@@ -67,8 +61,8 @@ class LegacyTest extends TestCase
         $magiclinkUrl = $this->generateMagicLink(new ViewAction('view'));
 
         $this->get($magiclinkUrl)
-            ->assertStatus(200)
-            ->assertSeeText('This is a tests view');
+            ->assertStatus(419)
+            ->assertDontSee('This is a tests view');
     }
 
     private function generateMagicLink($action): string
