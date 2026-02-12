@@ -82,7 +82,6 @@ class MagicLink extends Model
         $this->attributes['action'] = ActionSerializable::serialize($value);
     }
 
-
     public function baseUrl(?string $baseUrl): self
     {
         $this->attributes['base_url'] = rtrim($baseUrl, '/').'/';
