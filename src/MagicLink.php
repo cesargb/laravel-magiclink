@@ -3,6 +3,7 @@
 namespace MagicLink;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Event;
@@ -27,6 +28,7 @@ use MagicLink\Security\Serializable\ActionSerializable;
 class MagicLink extends Model
 {
     use AccessCode;
+    use MassPrunable;
 
     public function getAccessCode()
     {
@@ -56,6 +58,35 @@ class MagicLink extends Model
         return config('magiclink.token.length', 64) <= 255
             ? config('magiclink.token.length', 64)
             : 255;
+    }
+
+    /**
+     * Scope a query to only include expired magic links.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeExpired($query)
+    {
+        return $query->where(function ($query) {
+            $query
+                ->where('available_at', '<', Carbon::now())
+                ->orWhere(function ($query) {
+                    $query
+                        ->whereNotNull('max_visits')
+                        ->whereRaw('max_visits <= num_visits');
+                });
+        });
+    }
+
+    /**
+     * Get the prunable model query.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function prunable()
+    {
+        return static::expired();
     }
 
     public function getActionAttribute($value)
@@ -219,15 +250,7 @@ class MagicLink extends Model
      */
     public static function deleteMagicLinkExpired()
     {
-        $query = MagicLink::where(function ($query) {
-            $query
-                ->where('available_at', '<', Carbon::now())
-                ->orWhere(function ($query) {
-                    $query
-                        ->whereNotNull('max_visits')
-                        ->whereRaw('max_visits <= num_visits');
-                });
-        });
+        $query = MagicLink::expired();
 
         if (config('magiclink.delete_massive', true)) {
             $query->delete();
