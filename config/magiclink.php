@@ -16,6 +16,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Delete Expired Magic Links When Creating New Ones
+    |--------------------------------------------------------------------------
+    |
+    | When creating a new MagicLink, the system will automatically delete
+    | expired magic links from the database. If you want to disable this
+    | automatic cleanup, set this value to false.
+    |
+    */
+    'delete_expired_when_created' => env('MAGICLINK_DELETE_EXPIRED_WHEN_CREATED', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Delete Magic Link Expired massive
     |--------------------------------------------------------------------------
     |

@@ -135,7 +135,9 @@ class MagicLink extends Model
      */
     public static function create(ActionAbstract $action, ?int $lifetime = 4320, ?int $numMaxVisits = null)
     {
-        static::deleteMagicLinkExpired();
+        if (config('magiclink.delete_expired_when_created', true)) {
+            static::deleteMagicLinkExpired();
+        }
 
         $magiclink = new static;
 
@@ -188,8 +190,8 @@ class MagicLink extends Model
     {
         try {
             $this->increment('num_visits');
-        } catch (QueryException $e) {
-            // catch exceptino if fails to increment num_visits
+        } catch (QueryException) {
+            // catch exception if fails to increment num_visits
         }
 
         Event::dispatch(new MagicLinkWasVisited($this));
