@@ -13,5 +13,11 @@ class CustomAction extends ActionAbstract
         $this->user = $user;
     }
 
-    public function run() {}
+    public function run()
+    {
+        return response()->json([
+            'message' => 'Action executed successfully.',
+            'user_id' => $this->user->id,
+        ]);
+    }
 }
