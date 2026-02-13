@@ -108,4 +108,21 @@ return [
         'validate_path' => 'magiclink',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed Classes for Deserialization
+    |--------------------------------------------------------------------------
+    |
+    | When your custom actions contain object properties (e.g., Eloquent models),
+    | you must explicitly allow those classes to be deserialized for security.
+    |
+    | Example: If your action has a User property, add: User::class
+    |
+    | Environment variable: comma-separated class names
+    | MAGICLINK_ALLOWED_CLASSES="App\Models\User,App\Models\Post"
+    |
+    */
+    'allowed_classes' => env('MAGICLINK_ALLOWED_CLASSES')
+        ? array_filter(array_map('trim', explode(',', env('MAGICLINK_ALLOWED_CLASSES', ''))))
+        : [],
 ];
