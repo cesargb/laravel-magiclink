@@ -60,7 +60,7 @@ class Serializable
 
     private static function allowlistedClasses(string $type): array
     {
-        $base = [ResponseHeaderBag::class, Response::class];
+        $base = array_merge([ResponseHeaderBag::class, Response::class], config('magiclink.allowed_classes', []));
 
         if (! class_exists($type)) {
             throw new \RuntimeException('Unsupported serialized type.');

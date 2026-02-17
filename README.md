@@ -26,6 +26,7 @@ offer secure content and even log in to the application.
   - [Http Response](#http-response-action)
   - [Controller](#controller-action)
   - [Custom Action](#custom-action)
+    - [Allowed Classes](#allowed-classes-for-custom-actions)
 - [Protect with an access code](#protect-with-an-access-code)
 - [Lifetime](#lifetime)
 - [Events](#events)
@@ -249,6 +250,79 @@ $action = new MyCustomAction('Hello world');
 
 $urlToCustomAction = MagicLink::create($action)->url;
 ```
+
+#### Allowed Classes for Custom Actions
+
+> [!TIP]
+> **Best Practice:** We recommend using primitive types (`int`, `string`, `array`, etc.) as properties instead of objects. Extract the necessary data from objects in the constructor and store only the primitive values.
+>
+> For example, `LoginAction` receives a `User` object but stores only the `authIdentifier` (int/string) instead of the entire object. This approach is more secure and doesn't require configuring allowed classes.
+
+When your custom action **must** contain object properties (like Eloquent models), you must explicitly allow those classes to be deserialized for security reasons. This prevents potential security vulnerabilities from arbitrary object instantiation.
+
+**Recommended approach (using primitive types):**
+
+```php
+use MagicLink\Actions\ActionAbstract;
+use App\Models\User;
+
+class SendWelcomeEmailAction extends ActionAbstract
+{
+    public function __construct(public int $userId, public string $email)
+    {
+    }
+
+    public function run()
+    {
+        $user = User::find($this->userId);
+        // Send email to $user
+        return response('Email sent!');
+    }
+}
+
+// Usage
+$action = new SendWelcomeEmailAction($user->id, $user->email);
+MagicLink::create($action);
+```
+
+**Alternative approach (using objects, requires configuration):**
+
+```php
+use MagicLink\Actions\ActionAbstract;
+use App\Models\User;
+
+class SendWelcomeEmailAction extends ActionAbstract
+{
+    public function __construct(public User $user)
+    {
+    }
+
+    public function run()
+    {
+        // Send email to $this->user
+        return response('Email sent!');
+    }
+}
+```
+
+To allow the `User` class to be deserialized, configure it in `config/magiclink.php`:
+
+```php
+'allowed_classes' => [
+    \App\Models\User::class,
+    \App\Models\Post::class,
+    // Add any other classes your actions might use
+],
+```
+
+Or use the `MAGICLINK_ALLOWED_CLASSES` environment variable with comma-separated class names:
+
+```env
+MAGICLINK_ALLOWED_CLASSES="App\Models\User,App\Models\Post"
+```
+
+> [!WARNING]
+> If you use object properties in your custom actions without configuring allowed classes, you'll get a `TypeError` when the MagicLink is accessed. Always add your classes to the allowed list.
 
 ### Custom Base URL
 
