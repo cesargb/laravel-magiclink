@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "orchestra/testbench": "^9.0|^10.0|^11.0",
-        "phpunit/phpunit": "^10.5|^11.5",
+        "phpunit/phpunit": "^10.5|^11.5|^12.5.8",
         "laravel/pint": "^1.27"
     },
     "autoload": {
