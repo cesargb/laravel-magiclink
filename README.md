@@ -32,6 +32,7 @@ offer secure content and even log in to the application.
 - [Events](#events)
 - [Customization](#customization)
 - [Rate limiting](#rate-limiting)
+- [Automatic Pruning of Expired MagicLinks](#automatic-pruning-of-expired-magiclinks)
 - [Migrate actions](#migrate-actions)
 - [Testing](#testing)
 - [Contributing](#contributing)
@@ -434,6 +435,24 @@ php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag
 
 And edit the file `config/magiclink.php`
 
+#### Delete Expired MagicLinks When Creating New Ones
+
+By default, when creating a new MagicLink, the system automatically deletes expired magic links from the database. You can disable this behavior by setting the `delete_expired_when_created` configuration to `false`:
+
+```php
+// config/magiclink.php
+'delete_expired_when_created' => env('MAGICLINK_DELETE_EXPIRED_WHEN_CREATED', true),
+```
+
+Or in your `.env` file:
+
+```bash
+MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=false
+```
+
+> [!TIP]
+> If you disable automatic cleanup on creation, consider using Laravel's [Model Pruning](#automatic-pruning-of-expired-magiclinks) to periodically clean up expired links.
+
 ### Migrations
 
 To customize the migration files of this package you need to publish the migration files:
@@ -527,6 +546,27 @@ to limit the requests. For example, to limit the requests to 100 per minute, set
 
 MAGICLINK_RATE_LIMIT=100
 ```
+
+## Automatic Pruning of Expired MagicLinks
+
+MagicLink uses Laravel's [Model Pruning](https://laravel.com/docs/eloquent#pruning-models) feature through the `MassPrunable` trait to automatically clean up expired links.
+
+To enable automatic pruning, schedule the `model:prune` command in your `app/Console/Kernel.php`:
+
+```php
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('model:prune')->daily();
+}
+```
+
+This will automatically delete MagicLinks that are expired either by:
+
+- Their `available_at` timestamp has passed
+- They've reached their `max_visits` limit
+
+> [!NOTE]
+> Expired MagicLinks are also automatically deleted when creating new ones, unless you disable this behavior with the [`delete_expired_when_created`](#delete-expired-magiclinks-when-creating-new-ones) configuration.
 
 ## Migrate actions
 
