@@ -1,20 +1,34 @@
-# MagicLink for Laravels App
-
-<p align="center">
+<p align="center" style="margin-bottom: 20px;">
 <img src="art/banner-laravel-magiclink.webp" alt="Banner MagicLink">
+<div style="margin: 20px 0;text-align: center;">
+<a href="https://packagist.org/packages/cesargb/laravel-magiclink" target="_blank">
+    <img src="https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square" alt="Latest Version on Packagist">
+</a>
+<a href="https://github.com/cesargb/laravel-magiclink/actions/workflows/tests.yml" target="_blank">
+    <img src="https://github.com/cesargb/laravel-magiclink/actions/workflows/tests.yml/badge.svg" alt="Tests">
+</a>
+<a href="https://github.com/cesargb/laravel-magiclink/actions/workflows/static-analysis.yml" target="_blank">
+    <img src="https://github.com/cesargb/laravel-magiclink/actions/workflows/static-analysis.yml/badge.svg" alt="Static Analysis">
+</a>
+<a href="https://github.com/cesargb/laravel-magiclink/actions/workflows/lint.yml" target="_blank">
+    <img src="https://github.com/cesargb/laravel-magiclink/actions/workflows/lint.yml/badge.svg" alt="Lint">
+</a>
+<a href="https://scrutinizer-ci.com/g/cesargb/laravel-magiclink" target="_blank">
+    <img src="https://img.shields.io/scrutinizer/g/cesargb/laravel-magiclink.svg?style=flat-square"
+            alt="Quality Score">
+</a>
+<a href="https://packagist.org/packages/cesargb/laravel-magiclink" target="_blank">
+    <img src="https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square" alt="Total Downloads">
+</a>
+</div>
 </p>
+
+# MagicLink for Laravels App
 
 Through the `MagicLink` class we can create a secure link that later
 being visited will perform certain actions, which will allow us
 offer secure content and even log in to the application.
 
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
-![tests](https://github.com/cesargb/laravel-magiclink/workflows/tests/badge.svg)
-[![static analysis](https://github.com/cesargb/laravel-magiclink/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/cesargb/laravel-magiclink/actions/workflows/static-analysis.yml)
-[![lint](https://github.com/cesargb/laravel-magiclink/actions/workflows/lint.yml/badge.svg)](https://github.com/cesargb/laravel-magiclink/actions/workflows/lint.yml)
-[![Quality Score](https://img.shields.io/scrutinizer/g/cesargb/laravel-magiclink.svg?style=flat-square)](https://scrutinizer-ci.com/g/cesargb/laravel-magiclink)
-[![Total Downloads](https://img.shields.io/packagist/dt/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 
 > [!WARNING]
 > Migrate actions is required if you are upgrading from version 2.24.2 or earlier. Please see the [Migrate actions](#migrate-actions) section for detailed instructions.
