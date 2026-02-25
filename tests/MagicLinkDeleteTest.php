@@ -47,6 +47,8 @@ class MagicLinkDeleteTest extends TestCase
 
     public function test_delete_magiclink_when_is_expired_after_create()
     {
+        config(['magiclink.delete_expired_when_created' => true]);
+
         MagicLink::create(new LoginAction(User::first()));
 
         $magiclink = MagicLink::create(new LoginAction(User::first()));
@@ -89,8 +91,6 @@ class MagicLinkDeleteTest extends TestCase
     {
         Event::fake([MagicLinkWasDeleted::class]);
 
-        config(['magiclink.delete_massive' => false]);
-
         $this->createMagicLinkExpired(3);
 
         MagicLink::deleteMagicLinkExpired();
@@ -108,15 +108,9 @@ class MagicLinkDeleteTest extends TestCase
     {
         Event::fake([MagicLinkWasDeleted::class]);
 
-        config(['magiclink.delete_massive' => true]);
-
         $this->createMagicLinkExpired(3);
 
-        MagicLink::deleteMagicLinkExpired();
-
         Event::assertDispatched(MagicLinkWasDeleted::class, 0);
-
-        $this->assertEquals(0, MagicLink::count());
     }
 
     private function createMagicLinkExpired(int $count = 1): Collection

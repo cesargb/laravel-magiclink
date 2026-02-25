@@ -250,11 +250,11 @@ class MagicLink extends Model
      *
      * @return void
      */
-    public static function deleteMagicLinkExpired()
+    public static function deleteMagicLinkExpired(bool $massive = false)
     {
         $query = MagicLink::expired();
 
-        if (config('magiclink.delete_massive', true)) {
+        if ($massive) {
             $query->delete();
 
             return;
@@ -268,7 +268,7 @@ class MagicLink extends Model
     }
 
     /**
-     * Delete all MagicLink.
+     * Delete all MagicLink
      *
      * @return void
      */

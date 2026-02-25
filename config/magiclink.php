@@ -24,21 +24,7 @@ return [
     | automatic cleanup, set this value to false.
     |
     */
-    'delete_expired_when_created' => env('MAGICLINK_DELETE_EXPIRED_WHEN_CREATED', true),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Delete Magic Link Expired massive
-    |--------------------------------------------------------------------------
-    |
-    | Expired MagicLinks are automatically and massively deleted from the database.
-    | If you want to disable this option, change the value to false.
-    |
-    | If you disable this option, expired MagicLinks will be deleted one by one
-    | triggering the event MagicLink\Events\MagicLinkWasDeleted.
-    |
-    */
-    'delete_massive' => env('MAGICLINK_DELETE_MASSIVE', true),
+    'delete_expired_when_created' => env('MAGICLINK_DELETE_EXPIRED_WHEN_CREATED', false),
 
     /*
     |--------------------------------------------------------------------------

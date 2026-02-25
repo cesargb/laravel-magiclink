@@ -9,13 +9,6 @@ use MagicLink\Test\TestSupport\User;
 
 class MagicLinkPrunableTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->app['config']->set('magiclink.delete_expired_when_created', false);
-    }
-
     public function test_prunable_scope_includes_expired_by_date()
     {
         $expiredLink = MagicLink::create(new LoginAction(User::first()), 60);
