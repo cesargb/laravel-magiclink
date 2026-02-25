@@ -412,14 +412,11 @@ This event is fired when a magic link is visited.
 Event `MagicLink\Events\MagicLinkWasDeleted`
 
 This event is fired when an expired magic link is deleted individually. To enable it,
-you need to enable deletion on creation and disable mass deletion in your `.env` file:
+you need to enable deletion on creation in your `.env` file:
 
 ```.env
 # Enable deletion of expired magic links when creating new ones
 MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=true
-
-# Disable mass deletion to fire the MagicLinkWasDeleted event
-MAGICLINK_DELETE_MASSIVE=false
 ```
 
 ## Customization
