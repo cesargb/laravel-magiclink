@@ -32,7 +32,7 @@ offer secure content and even log in to the application.
 - [Events](#events)
 - [Customization](#customization)
 - [Rate limiting](#rate-limiting)
-- [Automatic Pruning of Expired MagicLinks](#automatic-pruning-of-expired-magiclinks)
+- [Delete Expired MagicLinks](#delete-expired-magiclinks)
 - [Migrate actions](#migrate-actions)
 - [Testing](#testing)
 - [Contributing](#contributing)
@@ -411,17 +411,16 @@ This event is fired when a magic link is visited.
 
 Event `MagicLink\Events\MagicLinkWasDeleted`
 
-This event is fired when you disable mass deletion. Add this line in your
-`.env` file to disable mass deletion:
+This event is fired when an expired magic link is deleted individually. To enable it,
+you need to enable deletion on creation and disable mass deletion in your `.env` file:
 
 ```.env
-# Disable mass deletion for enable event MagicLinkWasDeleted
+# Enable deletion of expired magic links when creating new ones
+MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=true
+
+# Disable mass deletion to fire the MagicLinkWasDeleted event
 MAGICLINK_DELETE_MASSIVE=false
 ```
-
-> [!WARNING]
-> If you disable mass deletion, the cleanup will be performed one by one.
-> If you have many records, this can be an issue.
 
 ## Customization
 
@@ -434,8 +433,6 @@ php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag
 ```
 
 And edit the file `config/magiclink.php`
-
-#### Delete Expired MagicLinks When Creating New Ones
 
 By default, when creating a new MagicLink, the system automatically deletes expired magic links from the database. You can disable this behavior by setting the `delete_expired_when_created` configuration to `false`:
 
@@ -547,26 +544,23 @@ to limit the requests. For example, to limit the requests to 100 per minute, set
 MAGICLINK_RATE_LIMIT=100
 ```
 
-## Automatic Pruning of Expired MagicLinks
+## Delete Expired MagicLinks
 
 MagicLink uses Laravel's [Model Pruning](https://laravel.com/docs/eloquent#pruning-models) feature through the `MassPrunable` trait to automatically clean up expired links.
 
-To enable automatic pruning, schedule the `model:prune` command in your `app/Console/Kernel.php`:
+You can prune expired MagicLinks by running the following Artisan command:
 
-```php
-protected function schedule(Schedule $schedule)
-{
-    $schedule->command('model:prune')->daily();
-}
+```bash
+php artisan model:prune MagicLink\\MagicLink
 ```
 
-This will automatically delete MagicLinks that are expired either by:
+You can also enable automatic cleanup of expired MagicLinks every time a new one is created by setting `MAGICLINK_DELETE_EXPIRED_WHEN_CREATED` to `true` in the env file:
 
-- Their `available_at` timestamp has passed
-- They've reached their `max_visits` limit
+```bash
+# .env
 
-> [!NOTE]
-> Expired MagicLinks are also automatically deleted when creating new ones, unless you disable this behavior with the [`delete_expired_when_created`](#delete-expired-magiclinks-when-creating-new-ones) configuration.
+MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=true
+```
 
 ## Migrate actions
 
