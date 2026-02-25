@@ -1,8 +1,13 @@
 # MagicLink for Laravels App
 
+<p align="center">
+<img src="art/banner-laravel-magiclink.webp" alt="Banner MagicLink">
+</p>
+
 Through the `MagicLink` class we can create a secure link that later
 being visited will perform certain actions, which will allow us
 offer secure content and even log in to the application.
+
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/cesargb/laravel-magiclink.svg?style=flat-square)](https://packagist.org/packages/cesargb/laravel-magiclink)
 ![tests](https://github.com/cesargb/laravel-magiclink/workflows/tests/badge.svg)
