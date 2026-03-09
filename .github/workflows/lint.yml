@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - '**.php'
-      - '.github/workflows/style-fix.yml'
+      - '.github/workflows/lint.yml'
 
 jobs:
   lint:
