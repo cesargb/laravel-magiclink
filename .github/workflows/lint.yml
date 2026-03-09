@@ -2,18 +2,13 @@ name: lint
 
 on:
   push:
-      paths:
-          - '**.php'
-          - 'composer.json'
-          - '.github/workflows/style-fix.yml'
+    paths:
+      - '**.php'
+      - '.github/workflows/style-fix.yml'
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [8.5]
 
     steps:
       - name: Checkout code
@@ -22,7 +17,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: 8.5
           tools: pint
 
       - name: Run Pint
