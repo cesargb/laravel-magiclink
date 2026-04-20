@@ -3,9 +3,12 @@
 namespace MagicLink;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -21,7 +24,7 @@ use MagicLink\Security\Serializable\ActionSerializable;
  * @property Carbon|null $available_at
  * @property int|null $max_visits
  * @property int|null $num_visits
- * @property \MagicLink\Actions\ActionAbstract $action
+ * @property ActionAbstract $action
  * @property-read string $url
  * @property int|string $access_code
  */
@@ -63,8 +66,8 @@ class MagicLink extends Model
     /**
      * Scope a query to only include expired magic links.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeExpired($query)
     {
@@ -82,7 +85,7 @@ class MagicLink extends Model
     /**
      * Get the prunable model query.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function prunable()
     {
@@ -174,7 +177,7 @@ class MagicLink extends Model
     /**
      * Execute Action.
      *
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @return Redirector|RedirectResponse
      */
     public function run()
     {
@@ -201,7 +204,7 @@ class MagicLink extends Model
      * Get valid MagicLink by token.
      *
      * @param  string  $token
-     * @return \MagicLink\MagicLink|null
+     * @return MagicLink|null
      */
     public static function getValidMagicLinkByToken($token)
     {
@@ -230,7 +233,7 @@ class MagicLink extends Model
      * Get MagicLink by token.
      *
      * @param  string  $token
-     * @return \MagicLink\MagicLink|null
+     * @return MagicLink|null
      */
     public static function getMagicLinkByToken($token)
     {

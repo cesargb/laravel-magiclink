@@ -3,6 +3,7 @@
 namespace MagicLink\Test\Actions;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use MagicLink\Actions\ControllerAction;
 use MagicLink\Actions\DownloadFileAction;
 use MagicLink\Actions\LoginAction;
@@ -65,7 +66,7 @@ class LegacyTest extends TestCase
 
     private function generateMagicLink($action): string
     {
-        $id = (string) \Illuminate\Support\Str::uuid();
+        $id = (string) Str::uuid();
         $token = 'toktok';
         $payload = (new MagicLink)->getConnection()->getDriverName() === 'pgsql'
             ? base64_encode(serialize($action))

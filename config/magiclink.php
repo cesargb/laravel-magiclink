@@ -1,5 +1,8 @@
 <?php
 
+use MagicLink\Middlewares\MagiclinkMiddleware;
+use MagicLink\Responses\Response;
+
 return [
 
     'access_code' => [
@@ -49,12 +52,12 @@ return [
     |
     */
     'invalid_response' => [
-        'class' => MagicLink\Responses\Response::class,
+        'class' => Response::class,
     ],
 
     'middlewares' => [
         'throttle:magiclink',
-        MagicLink\Middlewares\MagiclinkMiddleware::class,
+        MagiclinkMiddleware::class,
         'web',
     ],
 

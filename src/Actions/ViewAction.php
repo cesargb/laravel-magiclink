@@ -2,6 +2,8 @@
 
 namespace MagicLink\Actions;
 
+use Illuminate\Contracts\Support\Arrayable;
+
 class ViewAction extends ActionAbstract
 {
     protected $view;
@@ -13,7 +15,7 @@ class ViewAction extends ActionAbstract
     /**
      * Constructor action.
      *
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
+     * @param  Arrayable|array  $data
      * @param  array  $mergeData
      */
     public function __construct(string $view, $data = [], $mergeData = [])
