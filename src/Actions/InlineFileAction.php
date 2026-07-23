@@ -4,7 +4,7 @@ namespace MagicLink\Actions;
 
 use MagicLink\Actions\Concerns\HandlesStorageFile;
 
-class DownloadFileAction extends ActionAbstract
+class InlineFileAction extends ActionAbstract
 {
     use HandlesStorageFile;
 
@@ -13,6 +13,6 @@ class DownloadFileAction extends ActionAbstract
      */
     public function run()
     {
-        return $this->getDisk()->download($this->path, $this->name, $this->headers);
+        return $this->getDisk()->response($this->path, $this->name, $this->headers);
     }
 }
