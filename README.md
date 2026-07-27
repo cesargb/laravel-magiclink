@@ -27,6 +27,7 @@ offer secure content and even log in to the application.
 - [Actions](#actions)
   - [Login](#login-action)
   - [Download file](#download-file-action)
+  - [Inline file](#inline-file-action)
   - [View](#view-action)
   - [Http Response](#http-response-action)
   - [Controller](#controller-action)
@@ -91,6 +92,7 @@ once the link is visited.
 
 - [Login Action](#login-action)
 - [Download file Action](#download-file-action)
+- [Inline file Action](#inline-file-action)
 - [View Action](#view-action)
 - [Http Response Action](#http-response-action)
 - [Http Response](#http-response-action)
@@ -159,6 +161,33 @@ $url = MagicLink::create($action)->url;
 
 // Download file from other disk
 $action = new DownloadFileAction('private_document.pdf')->disk('ftp');
+$url = MagicLink::create($action)->url;
+
+```
+
+### Inline file Action
+
+This action, `InlineFileAction`, permit create a link to show a private file
+inline in the browser (e.g. a PDF or an image) instead of forcing its download.
+
+It shares the same arguments and fluent methods than `DownloadFileAction`
+(file path, file name, `disk()` and `headers()`).
+
+Example:
+
+```php
+use MagicLink\Actions\InlineFileAction;
+use MagicLink\MagicLink;
+
+// Url to show the file storage_app('private_document.pdf') in the browser
+$url = MagicLink::create(new InlineFileAction('private_document.pdf'))->url;
+
+// Show file with other file_name
+$action = new InlineFileAction('private_document.pdf', 'your_document.pdf');
+$url = MagicLink::create($action)->url;
+
+// Show file from other disk
+$action = new InlineFileAction('private_document.pdf')->disk('ftp');
 $url = MagicLink::create($action)->url;
 
 ```
