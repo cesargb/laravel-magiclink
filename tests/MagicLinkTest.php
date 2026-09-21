@@ -130,6 +130,32 @@ class MagicLinkTest extends TestCase
         $this->assertEquals(1, $magiclink->num_visits);
     }
 
+    public function test_visited_is_atomic_when_max_visits_is_set()
+    {
+        $magiclink = MagicLink::create(new LoginAction(User::first()), null, 1);
+
+        $requestA = MagicLink::getValidMagicLinkByToken("{$magiclink->id}:{$magiclink->token}");
+        $requestB = MagicLink::getValidMagicLinkByToken("{$magiclink->id}:{$magiclink->token}");
+
+        $this->assertTrue($requestA->visited());
+        $this->assertFalse($requestB->visited());
+
+        $this->assertEquals(1, $magiclink->refresh()->num_visits);
+    }
+
+    public function test_visited_returns_true_when_max_visits_is_null()
+    {
+        $magiclink = MagicLink::create(new LoginAction(User::first()), null, null);
+
+        $requestA = MagicLink::getValidMagicLinkByToken("{$magiclink->id}:{$magiclink->token}");
+        $requestB = MagicLink::getValidMagicLinkByToken("{$magiclink->id}:{$magiclink->token}");
+
+        $this->assertTrue($requestA->visited());
+        $this->assertTrue($requestB->visited());
+
+        $this->assertEquals(2, $magiclink->refresh()->num_visits);
+    }
+
     public function test_create_magiclink_with_custom_base_url()
     {
         $magiclink = MagicLink::create(new LoginAction(User::first()));

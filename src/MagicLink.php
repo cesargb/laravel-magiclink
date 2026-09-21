@@ -77,7 +77,7 @@ class MagicLink extends Model
                 ->orWhere(function ($query) {
                     $query
                         ->whereNotNull('max_visits')
-                        ->whereRaw('max_visits <= num_visits');
+                        ->whereColumn('max_visits', '<=', 'num_visits');
                 });
         });
     }
@@ -187,17 +187,32 @@ class MagicLink extends Model
     /**
      * Call when magiclink has been visited.
      *
-     * @return void
+     * @return bool
      */
     public function visited()
     {
-        try {
-            $this->increment('num_visits');
-        } catch (QueryException) {
-            // catch exception if fails to increment num_visits
+        if ($this->max_visits !== null) {
+            $affected = static::whereKey($this->getKey())
+                ->whereColumn('num_visits', '<', 'max_visits')
+                ->increment('num_visits');
+
+            if ($affected === 0) {
+                return false;
+            }
+
+            $this->num_visits++;
+            $this->syncOriginalAttribute('num_visits');
+        } else {
+            try {
+                $this->increment('num_visits');
+            } catch (QueryException) {
+                // catch exception if fails to increment num_visits
+            }
         }
 
         Event::dispatch(new MagicLinkWasVisited($this));
+
+        return true;
     }
 
     /**
@@ -224,7 +239,7 @@ class MagicLink extends Model
             ->where(function ($query) {
                 $query
                     ->whereNull('max_visits')
-                    ->orWhereRaw('max_visits > num_visits');
+                    ->orWhereColumn('max_visits', '>', 'num_visits');
             })
             ->first();
     }

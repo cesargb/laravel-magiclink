@@ -29,7 +29,9 @@ class MagiclinkMiddleware
             return $responseAccessCode;
         }
 
-        $magicLink->visited();
+        if (! $magicLink->visited()) {
+            return $this->badResponse();
+        }
 
         return $next($request);
     }
