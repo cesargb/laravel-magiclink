@@ -28,7 +28,7 @@ class AccessCodeTest extends TestCase
 
         $this->get($magiclink->url)
             ->assertStatus(403)
-            ->assertViewIs('magiclink::ask-for-access-code-form');
+            ->assertViewIs('magiclink::ask-for-access-code-form'); // @phpstan-ignore argument.type
     }
 
     public function test_forbidden_if_protected_with_access_code_and_send_bad()
@@ -41,7 +41,7 @@ class AccessCodeTest extends TestCase
 
         $this->get("{$magiclink->url}?access-code=123")
             ->assertStatus(403)
-            ->assertViewIs('magiclink::ask-for-access-code-form')
+            ->assertViewIs('magiclink::ask-for-access-code-form')  // @phpstan-ignore argument.type
             ->assertCookieMissing('magic-link-access-code');
     }
 
@@ -55,7 +55,7 @@ class AccessCodeTest extends TestCase
 
         $this->get("{$magiclink->url}")
             ->assertStatus(403)
-            ->assertViewIs('magiclink::ask-for-access-code-form')
+            ->assertViewIs('magiclink::ask-for-access-code-form')  // @phpstan-ignore argument.type
             ->assertCookieMissing('magic-link-access-code');
     }
 
@@ -117,6 +117,6 @@ class AccessCodeTest extends TestCase
 
         $this->get($magiclink->url)
             ->assertStatus(403)
-            ->assertViewIs('access-code-custom');
+            ->assertViewIs('access-code-custom');  // @phpstan-ignore argument.type
     }
 }
