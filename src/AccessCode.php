@@ -15,6 +15,8 @@ trait AccessCode
 
     abstract protected function getMagikLinkId();
 
+    abstract public function getUrlAttribute(): string;
+
     protected $cookieName = 'magic-link-access-code';
 
     public function getResponseAccessCode()
@@ -43,7 +45,7 @@ trait AccessCode
             if ($this->checkAccessCode($accessCode)) {
                 RateLimiter::clear($key);
 
-                return redirect(request()->url())->withCookie(
+                return redirect($this->getUrlAttribute())->withCookie(
                     cookie(
                         $this->cookieName,
                         encrypt($this->getMagikLinkId().'|'.$accessCode),
