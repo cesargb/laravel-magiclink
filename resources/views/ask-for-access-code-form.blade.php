@@ -53,20 +53,22 @@
     <div class="content">
         <div class="title">Enter access code</div>
 
-        <form method="GET">
+        <form method="POST">
             {{ csrf_field() }}
 
             <div class="form-group">
 
-                <input type="password" name="access-code" placeholder="Please enter access code" class="form-control" tabindex="1" autofocus />
-                @if (Request::get('access-code'))
+                <input type="password" name="access-code" placeholder="Please enter access code" class="form-control" tabindex="1" autofocus @isset($secondsRemaining) disabled @endisset />
+                @isset($secondsRemaining)
+                    <div class="text-danger">Too many attempts. Please try again in {{ $secondsRemaining }} seconds.</div>
+                @elseif (Request::input('access-code'))
                     <div class="text-danger">Access code is wrong</div>
                 @else
                     <div class="small help-block">And press enter</div>
                 @endif
             </div>
 
-            <input type="submit" class="hidden" />
+            <input type="submit" class="hidden" @isset($secondsRemaining) disabled @endisset />
 
         </form>
     </div>

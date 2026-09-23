@@ -11,5 +11,10 @@ Route::group(
             config('magiclink.url.validate_path', 'magiclink').'/{token}',
             'MagicLink\Controllers\MagicLinkController@access'
         );
+
+        Route::post(
+            config('magiclink.url.validate_path', 'magiclink').'/{token}',
+            'MagicLink\Controllers\MagicLinkController@access'
+        );
     }
 );

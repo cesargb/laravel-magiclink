@@ -385,6 +385,33 @@ $magiclink->protectWithAccessCode('secret');
 $urlToSend = $magiclink->url;
 ```
 
+The access code is only as strong as the value you choose: `'secret'` and `'1234'` above
+are examples, not recommendations. Prefer a long, random code (the same kind of entropy
+you'd use for a password), especially for anything protected with `LoginAction`.
+
+### Access code attempt limiting
+
+Wrong access code guesses for a given magic link are throttled by default: after
+`max_attempts` consecutive wrong guesses, the link is locked for `decay_seconds`, and
+further attempts get a `429` response with a `Retry-After` header. This limit is keyed per
+magic link, not per IP, so it can't be evaded by rotating IPs. A valid access-code cookie is
+never throttled or counted, so a locked link never blocks its own already-verified visitor.
+
+```php
+// config/magiclink.php
+'access_code' => [
+    'max_attempts' => env('MAGICLINK_ACCESS_CODE_MAX_ATTEMPTS', 5),
+    'decay_seconds' => env('MAGICLINK_ACCESS_CODE_DECAY_SECONDS', 300),
+],
+```
+
+Set `max_attempts` to `0` or `'none'` to disable the limiter and restore the previous,
+unlimited-attempts behavior.
+
+Note this limiter uses your application's default cache store. If that store isn't shared
+across all the processes serving your app (for example, the `array` driver, which is
+process-local), the limit won't be effective across processes.
+
 ### Custom view for access code
 
 You can customize the view of the access code form with the config file `magiclink.php`:
@@ -427,7 +454,7 @@ $urlToSend = $magiclink->url;
 
 ## Events
 
-MagicLink can fires three events:
+MagicLink can fires four events:
 
 ### MagicLinkWasCreated
 
@@ -452,6 +479,13 @@ you need to enable deletion on creation in your `.env` file:
 # Enable deletion of expired magic links when creating new ones
 MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=true
 ```
+
+### MagicLinkAccessCodeFailed
+
+Event `MagicLink\Events\MagicLinkAccessCodeFailed`
+
+This event is fired when a wrong access code is submitted for a link protected with
+`protectWithAccessCode`. Use it to log or alert on access-code guessing attempts.
 
 ## Customization
 
@@ -563,8 +597,8 @@ return a `view()`
 
 ## Rate limiting
 
-You can limit the number of requests per minute for a magic link. To do this, you need to
-set the `MAGICLINK_RATE_LIMIT` environment variable to the desired value.
+You can limit the number of requests per minute made to the magic link route. To do this,
+you need to set the `MAGICLINK_RATE_LIMIT` environment variable to the desired value.
 
 By default, the rate limit is disable with value 'none', but you can set a value
 to limit the requests. For example, to limit the requests to 100 per minute, set
@@ -574,6 +608,11 @@ to limit the requests. For example, to limit the requests to 100 per minute, set
 
 MAGICLINK_RATE_LIMIT=100
 ```
+
+Note that this limit is keyed by IP address and domain (Laravel's default throttle
+signature), not by magic link: it protects the route as a whole, not an individual link
+from a determined attacker who can rotate IPs. To limit access-code guesses on a single
+link, see [Access code attempt limiting](#access-code-attempt-limiting).
 
 ## Delete Expired MagicLinks
 

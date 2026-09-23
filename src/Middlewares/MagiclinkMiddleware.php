@@ -25,6 +25,10 @@ class MagiclinkMiddleware
 
         $responseAccessCode = $magicLink->getResponseAccessCode();
 
+        if ($request->isMethod('POST')) {
+            return $responseAccessCode ?: redirect($request->url());
+        }
+
         if ($responseAccessCode) {
             return $responseAccessCode;
         }

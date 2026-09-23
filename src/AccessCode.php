@@ -4,7 +4,10 @@ namespace MagicLink;
 
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use MagicLink\Events\MagicLinkAccessCodeFailed;
 
 trait AccessCode
 {
@@ -16,11 +19,48 @@ trait AccessCode
 
     public function getResponseAccessCode()
     {
-        $responseFromForm = $this->getResponseAccessCodeFromForm();
+        if (! $this->protectedWithAccessCode()) {
+            return null;
+        }
 
-        return $responseFromForm
-            ? $responseFromForm
-            : $this->getResponseAccessCodeFromCookie();
+        if ($this->checkAccessCode($this->getAccessCodeFromCookie())) {
+            return null;
+        }
+
+        $key = $this->accessCodeThrottleKey();
+        $maxAttempts = $this->accessCodeMaxAttempts();
+
+        if ($maxAttempts > 0 && RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+            $secondsRemaining = RateLimiter::availableIn($key);
+
+            return $this->accessCodeFormResponse(429, ['secondsRemaining' => $secondsRemaining])
+                ->header('Retry-After', $secondsRemaining);
+        }
+
+        $accessCode = $this->getAccessCodeFromForm();
+
+        if ($accessCode !== null && $accessCode !== '') {
+            if ($this->checkAccessCode($accessCode)) {
+                RateLimiter::clear($key);
+
+                return redirect(request()->url())->withCookie(
+                    cookie(
+                        $this->cookieName,
+                        encrypt($this->getMagikLinkId().'|'.$accessCode),
+                        0,
+                        '/'
+                    )
+                );
+            }
+
+            if ($maxAttempts > 0) {
+                RateLimiter::hit($key, $this->accessCodeDecaySeconds());
+            }
+
+            Event::dispatch(new MagicLinkAccessCodeFailed($this));
+        }
+
+        return $this->accessCodeFormResponse(403);
     }
 
     /**
@@ -43,50 +83,41 @@ trait AccessCode
         return ! is_null($this->getAccessCode() ?? null);
     }
 
-    private function getResponseAccessCodeFromForm()
+    private function accessCodeThrottleKey(): string
     {
-        $accessCode = $this->getAccessCodeFromForm();
-
-        if (
-            $this->protectedWithAccessCode()
-            && $accessCode
-            && $this->checkAccessCode($accessCode)
-        ) {
-            return redirect(request()->url())->withCookie(
-                cookie(
-                    $this->cookieName,
-                    encrypt($this->getMagikLinkId().'|'.$accessCode),
-                    0,
-                    '/'
-                )
-            );
-        }
-
-        return null;
+        return 'magiclink-access-code:'.$this->getMagikLinkId();
     }
 
-    private function getResponseAccessCodeFromCookie()
+    private function accessCodeMaxAttempts(): int
     {
-        if ($this->protectedWithAccessCode()) {
-            if ($this->getAccessCodeFromCookie()) {
-                if ($this->checkAccessCode($this->getAccessCodeFromCookie())) {
-                    return null;
-                }
-            }
+        $maxAttempts = config('magiclink.access_code.max_attempts', 5);
 
-            return response()->view(
-                config('magiclink.access-code.view', 'magiclink::ask-for-access-code-form'),
-                [],
-                403
-            );
+        if ($maxAttempts === 'none' || $maxAttempts === null) {
+            return 0;
         }
 
-        return null;
+        return max(0, (int) $maxAttempts);
+    }
+
+    private function accessCodeDecaySeconds(): int
+    {
+        return (int) config('magiclink.access_code.decay_seconds', 300);
+    }
+
+    private function accessCodeView(): string
+    {
+        return config('magiclink.access-code.view')
+            ?? config('magiclink.access_code.view', 'magiclink::ask-for-access-code-form');
+    }
+
+    private function accessCodeFormResponse(int $status, array $data = [])
+    {
+        return response()->view($this->accessCodeView(), $data, $status);
     }
 
     private function getAccessCodeFromForm()
     {
-        return request()->get('access-code');
+        return request()->input('access-code');
     }
 
     private function getAccessCodeFromCookie()
