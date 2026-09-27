@@ -5,13 +5,13 @@ on:
       paths:
           - '**.php'
           - 'phpstan.neon.dist'
-          - '.github/workflows/phpstan.yml'
+          - '.github/workflows/static-analysis.yml'
 
   pull_request:
       paths:
           - '**.php'
           - 'phpstan.neon.dist'
-          - '.github/workflows/phpstan.yml'
+          - '.github/workflows/static-analysis.yml'
 
 jobs:
   phpstan:
