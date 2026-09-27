@@ -2,9 +2,17 @@ name: lint
 
 on:
   push:
+    branches: master
     paths:
-      - '**.php'
-      - '.github/workflows/lint.yml'
+      - "**.php"
+      - ".github/workflows/lint.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   lint:
@@ -17,8 +25,9 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.5
-          tools: pint
+          php-version: "8.5"
+          tools: pint:1.x, cs2pr
+          coverage: none
 
       - name: Run Pint
-        run: pint --test
+        run: pint --test --format=checkstyle | cs2pr
