@@ -42,7 +42,6 @@ offer secure content and even log in to the application.
 - [Migrate actions](#migrate-actions)
 - [Testing](#testing)
 - [Contributing](#contributing)
-- [Security](#security)
 
 ## Installation
 
@@ -663,11 +662,6 @@ composer test
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security
-
-If you discover any security-related issues, please email cesargb@gmail.com
-instead of using the issue tracker.
 
 ## License
 
