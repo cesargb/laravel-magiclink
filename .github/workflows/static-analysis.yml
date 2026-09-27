@@ -19,15 +19,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@v2
+      uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
       with:
         php-version: 8.3
 
     - name: Install composer dependencies
-      uses: ramsey/composer-install@v4
+      uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda
 
     - name: Install larastan
       run: |
