@@ -56,4 +56,23 @@ class HttpTest extends TestCase
             ->assertStatus(200)
             ->assertSeeText('private content');
     }
+
+    public function test_single_use_magiclink_works_exactly_once()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'private content';
+        }), null, 1);
+
+        $this->get($magiclink->url)
+            ->assertStatus(200)
+            ->assertSeeText('private content');
+
+        $this->get($magiclink->url)
+            ->assertStatus(403)
+            ->assertDontSeeText('private content');
+
+        $magiclink->refresh();
+
+        $this->assertEquals(1, $magiclink->num_visits);
+    }
 }

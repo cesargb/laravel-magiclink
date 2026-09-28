@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use MagicLink\Exceptions\LegacyActionFormatException;
 use MagicLink\MagicLink;
+use MagicLink\Middlewares\MagiclinkMiddleware;
 use MagicLink\Responses\Concerns\HandlesInvalidResponse;
 use TypeError;
 
@@ -16,7 +17,7 @@ class MagicLinkController extends Controller
 
     public function access(Request $request, $token)
     {
-        $magicLink = $request->attributes->get('magiclink');
+        $magicLink = $request->attributes->get(MagiclinkMiddleware::REQUEST_ATTRIBUTE);
 
         if (! $magicLink instanceof MagicLink) {
             return $this->badResponse();

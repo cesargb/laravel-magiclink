@@ -11,6 +11,8 @@ class MagiclinkMiddleware
 {
     use HandlesInvalidResponse;
 
+    public const REQUEST_ATTRIBUTE = 'magiclink';
+
     public function handle(Request $request, Closure $next)
     {
         $token = (string) $request->route('token');
@@ -39,7 +41,7 @@ class MagiclinkMiddleware
             return $this->badResponse();
         }
 
-        $request->attributes->set('magiclink', $magicLink);
+        $request->attributes->set(self::REQUEST_ATTRIBUTE, $magicLink);
 
         return $next($request);
     }

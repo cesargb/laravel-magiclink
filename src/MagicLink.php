@@ -247,6 +247,9 @@ class MagicLink extends Model
     /**
      * Get MagicLink by token.
      *
+     * @deprecated This does not check expiration or visit limits. Use getValidMagicLinkByToken()
+     *             unless you intend to bypass those checks yourself.
+     *
      * @param  string  $token
      * @return MagicLink|null
      */
