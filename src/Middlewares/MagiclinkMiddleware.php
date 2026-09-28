@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use MagicLink\MagicLink;
 use MagicLink\Responses\Concerns\HandlesInvalidResponse;
-use MagicLink\Responses\Response;
 
 class MagiclinkMiddleware
 {
