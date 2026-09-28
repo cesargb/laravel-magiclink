@@ -9,29 +9,47 @@ For versions before 2.24.2, see the [GitHub releases](https://github.com/cesargb
 
 ## [Unreleased]
 
+`MagicLinkController` now prefers the `MagicLink` that `MagiclinkMiddleware` already validated
+and stored on the request, under `MagiclinkMiddleware::REQUEST_ATTRIBUTE`, instead of looking
+the token up itself. When that attribute is missing — a custom route, a replaced or extended
+`MagiclinkMiddleware` — it falls back to the previous behavior, but that fallback is now
+deprecated: it will be removed in 3.0, where every request will require
+`MagiclinkMiddleware` to have run.
+
+### Fixed
+
+- Visiting a magic link whose token doesn't exist at all, on a route not guarded by
+  `MagiclinkMiddleware`, returned a `500` error. It now returns the configured invalid-link
+  response, same as everywhere else.
+
 ### Changed
 
-- `MagicLinkController` no longer looks up the token itself. It only runs the `MagicLink`
-  that `MagiclinkMiddleware` already validated and stored on the request, under
-  `MagiclinkMiddleware::REQUEST_ATTRIBUTE`. If that attribute is missing, it returns the
-  invalid-link response instead of running anything.
+- On a route not guarded by `MagiclinkMiddleware`, an expired magic link is now rejected. It
+  used to run regardless of `available_at`.
+
+### Deprecated
+
+- Reaching `MagicLinkController::access()` without a `MagicLink` resolved by
+  `MagiclinkMiddleware` is deprecated (triggers `E_USER_DEPRECATED`). In 3.0 this will be
+  rejected outright, with no fallback lookup. If you use a custom route or a custom/extended
+  middleware, make sure `MagiclinkMiddleware` runs and sets its request attribute — see
+  "Custom controller" in the README.
+- `MagicLink::getMagicLinkByToken()` does not check expiration or visit limits. Use
+  `getValidMagicLinkByToken()` instead, unless you intend to bypass those checks yourself.
 
 ### Added
 
 - Documented how to read the validated `MagicLink` from the request attribute when using a
   custom controller (`disable_default_route`). See the "Custom controller" section in the README.
 
-### Deprecated
+### Planned for 3.0
 
-- `MagicLink::getMagicLinkByToken()` does not check expiration or visit limits. Use
-  `getValidMagicLinkByToken()` instead, unless you intend to bypass those checks yourself.
-
-### Upgrade notes
-
-- If you replaced `MagiclinkMiddleware` with your own, or extended it without calling
-  `parent::handle()`, you must now set the `MagiclinkMiddleware::REQUEST_ATTRIBUTE` request
-  attribute yourself once the link is validated. Otherwise the default controller will treat
-  every link as invalid.
+- `MagicLinkController::access()` will reject any request without a `MagicLink` resolved by
+  `MagiclinkMiddleware`, instead of falling back to an unchecked token lookup. Concretely, that
+  removes the current fallback's gaps: without the middleware, `max_visits` and the access code
+  are still not enforced today (only expiration and unknown tokens are, since this release).
+- `access()`'s signature may change to receive the `Request` explicitly, now that the
+  fallback lookup (its only reason for reading the token on its own) is going away.
 
 ## [2.28.1] - 2026-09-23
 

@@ -534,6 +534,12 @@ Route::get('my-magiclink/{token}', function (Request $request) {
 })->middleware(MagiclinkMiddleware::class);
 ```
 
+> [!WARNING]
+> If your route (or a custom/extended `MagiclinkMiddleware`) doesn't set that request
+> attribute, `MagicLinkController::access()` currently falls back to looking the token up
+> itself — but that fallback is deprecated and will be removed in 3.0. See the
+> [CHANGELOG](CHANGELOG.md) for details.
+
 ### Migrations
 
 To customize the migration files of this package you need to publish the migration files:

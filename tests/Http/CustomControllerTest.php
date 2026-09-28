@@ -8,6 +8,7 @@ use MagicLink\Actions\ResponseAction;
 use MagicLink\MagicLink;
 use MagicLink\Middlewares\MagiclinkMiddleware;
 use MagicLink\Test\TestCase;
+use MagicLink\Test\TestSupport\CustomMagicLinkController;
 
 class CustomControllerTest extends TestCase
 {
@@ -29,6 +30,9 @@ class CustomControllerTest extends TestCase
 
             return $magicLink->run();
         })->middleware(MagiclinkMiddleware::class);
+
+        Route::get('custom-magiclink-subclass/{token}', [CustomMagicLinkController::class, 'access'])
+            ->middleware(MagiclinkMiddleware::class);
     }
 
     public function test_custom_controller_runs_a_valid_magiclink_read_from_the_request_attribute()
@@ -58,5 +62,18 @@ class CustomControllerTest extends TestCase
         $this->get("custom-magiclink/{$token}")
             ->assertStatus(403)
             ->assertDontSeeText('private content');
+    }
+
+    public function test_subclass_overriding_access_with_the_original_signature_still_works()
+    {
+        $magiclink = MagicLink::create(new ResponseAction(function () {
+            return 'private content';
+        }));
+
+        $token = basename(parse_url($magiclink->url, PHP_URL_PATH));
+
+        $this->get("custom-magiclink-subclass/{$token}")
+            ->assertStatus(200)
+            ->assertSeeText('private content');
     }
 }
