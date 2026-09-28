@@ -9,6 +9,8 @@ For versions before 2.24.2, see the [GitHub releases](https://github.com/cesargb
 
 ## [Unreleased]
 
+## [2.29.0] - 2026-09-28
+
 `MagicLinkController` now prefers the `MagicLink` that `MagiclinkMiddleware` already validated
 and stored on the request, under `MagiclinkMiddleware::REQUEST_ATTRIBUTE`, instead of looking
 the token up itself. When that attribute is missing — a custom route, a replaced or extended
@@ -210,7 +212,8 @@ deprecated: it will be removed in 3.0, where every request will require
 
 - Dropped Laravel 10 support; added tests on PHP 8.5 (#137).
 
-[Unreleased]: https://github.com/cesargb/laravel-magiclink/compare/v2.28.1...HEAD
+[Unreleased]: https://github.com/cesargb/laravel-magiclink/compare/v2.29.0...HEAD
+[2.29.0]: https://github.com/cesargb/laravel-magiclink/compare/v2.28.1...v2.29.0
 [2.28.1]: https://github.com/cesargb/laravel-magiclink/compare/v2.28.0...v2.28.1
 [2.28.0]: https://github.com/cesargb/laravel-magiclink/compare/v2.27.1...v2.28.0
 [2.27.1]: https://github.com/cesargb/laravel-magiclink/compare/v2.27.0...v2.27.1
