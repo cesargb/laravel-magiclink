@@ -514,6 +514,27 @@ MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=false
 > [!TIP]
 > If you disable automatic cleanup on creation, consider using Laravel's [Model Pruning](#automatic-pruning-of-expired-magiclinks) to periodically clean up expired links.
 
+### Custom controller
+
+If you set `disable_default_route` to `true`, you're responsible for registering your own
+route, guarded by `MagicLink\Middlewares\MagiclinkMiddleware`. That middleware already
+validates the token (expiration, visit limits, access code) and stores the resolved
+`MagicLink` on the request, under `MagiclinkMiddleware::REQUEST_ATTRIBUTE`. Read it from
+there instead of looking the token up again yourself, otherwise you'd lose those checks.
+
+```php
+use MagicLink\MagicLink;
+use MagicLink\Middlewares\MagiclinkMiddleware;
+
+Route::get('my-magiclink/{token}', function (Request $request) {
+    $magicLink = $request->attributes->get(MagiclinkMiddleware::REQUEST_ATTRIBUTE);
+
+    abort_unless($magicLink instanceof MagicLink, 403);
+
+    return $magicLink->run();
+})->middleware(MagiclinkMiddleware::class);
+```
+
 ### Migrations
 
 To customize the migration files of this package you need to publish the migration files:

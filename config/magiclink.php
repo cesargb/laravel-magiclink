@@ -64,6 +64,11 @@ return [
     | and add your custom route with the middleware:
     | MagicLink\Middlewares\MagiclinkMiddleware
     |
+    | That middleware already validates the token (expiration, visit limits,
+    | access code) and leaves the resolved MagicLink in the request, under
+    | MagiclinkMiddleware::REQUEST_ATTRIBUTE. Read it from there in your
+    | controller instead of looking the token up again yourself.
+    |
     */
     'disable_default_route' => false,
 
