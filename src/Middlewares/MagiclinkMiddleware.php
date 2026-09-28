@@ -5,10 +5,14 @@ namespace MagicLink\Middlewares;
 use Closure;
 use Illuminate\Http\Request;
 use MagicLink\MagicLink;
-use MagicLink\Responses\Response;
+use MagicLink\Responses\Concerns\HandlesInvalidResponse;
 
 class MagiclinkMiddleware
 {
+    use HandlesInvalidResponse;
+
+    public const REQUEST_ATTRIBUTE = 'magiclink';
+
     public function handle(Request $request, Closure $next)
     {
         $token = (string) $request->route('token');
@@ -37,15 +41,8 @@ class MagiclinkMiddleware
             return $this->badResponse();
         }
 
+        $request->attributes->set(self::REQUEST_ATTRIBUTE, $magicLink);
+
         return $next($request);
-    }
-
-    protected function badResponse()
-    {
-        $responseClass = config('magiclink.invalid_response.class', Response::class);
-
-        $response = new $responseClass;
-
-        return $response(config('magiclink.invalid_response.options', []));
     }
 }

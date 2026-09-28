@@ -16,8 +16,8 @@ being visited will perform certain actions, which will allow us
 offer secure content and even log in to the application.
 
 
-> [!WARNING]
-> Migrate actions is required if you are upgrading from version 2.24.2 or earlier. Please see the [Migrate actions](#migrate-actions) section for detailed instructions.
+> [!TIP]
+> Upgrading? See the [CHANGELOG](CHANGELOG.md) for what changed and any required migration steps.
 
 ## Contents
 
@@ -42,6 +42,7 @@ offer secure content and even log in to the application.
 - [Migrate actions](#migrate-actions)
 - [Testing](#testing)
 - [Contributing](#contributing)
+- [Changelog](CHANGELOG.md)
 
 ## Installation
 
@@ -94,8 +95,7 @@ once the link is visited.
 - [Inline file Action](#inline-file-action)
 - [View Action](#view-action)
 - [Http Response Action](#http-response-action)
-- [Http Response](#http-response-action)
-- [Controller](#controller-action)
+- [Controller Action](#controller-action)
 - [Custom Action](#custom-action)
 - [Custom Base URL](#custom-base-url)
 
@@ -404,8 +404,7 @@ never throttled or counted, so a locked link never blocks its own already-verifi
 ],
 ```
 
-Set `max_attempts` to `0` or `'none'` to disable the limiter and restore the previous,
-unlimited-attempts behavior.
+Set `max_attempts` to `0` or `'none'` to disable the limiter.
 
 Note this limiter uses your application's default cache store. If that store isn't shared
 across all the processes serving your app (for example, the `array` driver, which is
@@ -498,21 +497,50 @@ php artisan vendor:publish --provider="MagicLink\MagicLinkServiceProvider" --tag
 
 And edit the file `config/magiclink.php`
 
-By default, when creating a new MagicLink, the system automatically deletes expired magic links from the database. You can disable this behavior by setting the `delete_expired_when_created` configuration to `false`:
+By default, creating a new MagicLink does **not** delete expired magic links from the database.
+You can enable that cleanup by setting the `delete_expired_when_created` configuration to `true`:
 
 ```php
 // config/magiclink.php
-'delete_expired_when_created' => env('MAGICLINK_DELETE_EXPIRED_WHEN_CREATED', true),
+'delete_expired_when_created' => env('MAGICLINK_DELETE_EXPIRED_WHEN_CREATED', false),
 ```
 
 Or in your `.env` file:
 
 ```bash
-MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=false
+MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=true
 ```
 
 > [!TIP]
-> If you disable automatic cleanup on creation, consider using Laravel's [Model Pruning](#automatic-pruning-of-expired-magiclinks) to periodically clean up expired links.
+> Whether or not you enable cleanup on creation, consider using Laravel's [Model Pruning](#delete-expired-magiclinks) to periodically clean up expired links.
+
+### Custom controller
+
+If you set `disable_default_route` to `true`, you're responsible for registering your own
+route, guarded by `MagicLink\Middlewares\MagiclinkMiddleware`. That middleware already
+validates the token (expiration, visit limits, access code) and stores the resolved
+`MagicLink` on the request, under `MagiclinkMiddleware::REQUEST_ATTRIBUTE`. Read it from
+there instead of looking the token up again yourself, otherwise you'd lose those checks.
+
+```php
+use Illuminate\Http\Request;
+use MagicLink\MagicLink;
+use MagicLink\Middlewares\MagiclinkMiddleware;
+
+Route::get('my-magiclink/{token}', function (Request $request) {
+    $magicLink = $request->attributes->get(MagiclinkMiddleware::REQUEST_ATTRIBUTE);
+
+    abort_unless($magicLink instanceof MagicLink, 403);
+
+    return $magicLink->run();
+})->middleware(MagiclinkMiddleware::class);
+```
+
+> [!WARNING]
+> If your route (or a custom/extended `MagiclinkMiddleware`) doesn't set that request
+> attribute, `MagicLinkController::access()` currently falls back to looking the token up
+> itself — but that fallback is deprecated and will be removed in 3.0. See the
+> [CHANGELOG](CHANGELOG.md) for details.
 
 ### Migrations
 
@@ -633,9 +661,9 @@ MAGICLINK_DELETE_EXPIRED_WHEN_CREATED=true
 
 ## Migrate actions
 
-> [!WARNING]
-> The action storage mechanism changed from PHP serialization to HMAC-signed JSON format for improved security.
-> If you're upgrading from version 2.24.2, you need to migrate existing MagicLinks.
+If you have magic links created with a version prior to 2.24.2 (see the
+[CHANGELOG](CHANGELOG.md#2242---2026-01-28)), their actions are stored in a legacy serialized
+format and need to be migrated.
 
 To migrate legacy serialized actions to the new format, run:
 
