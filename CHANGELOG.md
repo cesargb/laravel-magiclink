@@ -25,15 +25,29 @@ deprecated: it will be removed in 3.0, where every request will require
 ### Changed
 
 - On a route not guarded by `MagiclinkMiddleware`, an expired magic link is now rejected. It
-  used to run regardless of `available_at`.
+  used to run regardless of `available_at`. This also applies if you replaced
+  `MagiclinkMiddleware` with your own middleware (in `magiclink.middlewares` or on a custom
+  route): even if your middleware allows a grace period or has its own `badResponse()`, the
+  controller will now reject an expired link with the configured `invalid_response`. Make
+  sure `MagiclinkMiddleware` runs, or set its `REQUEST_ATTRIBUTE` yourself, if you need
+  different behavior.
+- `MagicLinkController` now uses the `HandlesInvalidResponse` trait, which declares a
+  `protected function badResponse()`. If you extend `MagicLinkController` and already declare
+  a `badResponse()` method that isn't compatible (`private`, `static`, or with required
+  parameters), this will cause a fatal error when the class is loaded. Rename your method or
+  make it compatible (`protected`/`public`, no required parameters).
 
 ### Deprecated
 
 - Reaching `MagicLinkController::access()` without a `MagicLink` resolved by
-  `MagiclinkMiddleware` is deprecated (triggers `E_USER_DEPRECATED`). In 3.0 this will be
-  rejected outright, with no fallback lookup. If you use a custom route or a custom/extended
-  middleware, make sure `MagiclinkMiddleware` runs and sets its request attribute — see
-  "Custom controller" in the README.
+  `MagiclinkMiddleware` is deprecated (triggers `E_USER_DEPRECATED`). This fires on every
+  request that takes the fallback path, and Laravel routes it to your deprecations log
+  channel (`LOG_DEPRECATIONS_CHANNEL`, `null` by default). If your test suite fails on
+  deprecations (`withoutDeprecationHandling()`, PHPUnit's `failOnDeprecation`), this may
+  start failing tests that exercise a route without `MagiclinkMiddleware`. In 3.0 this will
+  be rejected outright, with no fallback lookup. If you use a custom route or a
+  custom/extended middleware, make sure `MagiclinkMiddleware` runs and sets its request
+  attribute — see "Custom controller" in the README.
 - `MagicLink::getMagicLinkByToken()` does not check expiration or visit limits. Use
   `getValidMagicLinkByToken()` instead, unless you intend to bypass those checks yourself.
 

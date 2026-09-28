@@ -97,6 +97,7 @@ once the link is visited.
 - [Http Response Action](#http-response-action)
 - [Controller Action](#controller-action)
 - [Custom Action](#custom-action)
+- [Custom Base URL](#custom-base-url)
 
 ### Login Action
 
@@ -522,6 +523,7 @@ validates the token (expiration, visit limits, access code) and stores the resol
 there instead of looking the token up again yourself, otherwise you'd lose those checks.
 
 ```php
+use Illuminate\Http\Request;
 use MagicLink\MagicLink;
 use MagicLink\Middlewares\MagiclinkMiddleware;
 
