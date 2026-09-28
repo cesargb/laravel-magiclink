@@ -2,18 +2,28 @@
 
 namespace MagicLink\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use MagicLink\Exceptions\LegacyActionFormatException;
 use MagicLink\MagicLink;
+use MagicLink\Responses\Concerns\HandlesInvalidResponse;
 use TypeError;
 
 class MagicLinkController extends Controller
 {
-    public function access($token)
+    use HandlesInvalidResponse;
+
+    public function access(Request $request, $token)
     {
+        $magicLink = $request->attributes->get('magiclink');
+
+        if (! $magicLink instanceof MagicLink) {
+            return $this->badResponse();
+        }
+
         try {
-            return MagicLink::getMagicLinkByToken($token)->run();
+            return $magicLink->run();
         } catch (LegacyActionFormatException $e) {
             Log::error('Legacy action format detected for token: '.$token.'. Error: '.$e->getMessage());
 
